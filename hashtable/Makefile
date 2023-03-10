@@ -1,6 +1,8 @@
+CFLAGS = -Wall -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast
+
 build:
 	make object
-	gcc main.c libhashtable.a -o hashtable -Wall -Wno-pointer-to-int-cast
+	gcc main.c libhashtable.a -o hashtable $(CFLAGS)
 
 run:
 	make build
@@ -8,7 +10,7 @@ run:
 	make clean
 
 object:
-	gcc -c hashtable.c -o libhashtable.o -Wall -Wno-pointer-to-int-cast
+	gcc -c hashtable.c -o libhashtable.o $(CFLAGS) 
 	ar rcs libhashtable.a libhashtable.o
 
 clean:
