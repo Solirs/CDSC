@@ -98,11 +98,11 @@ void* getindexfromtail(struct DoubleLinkedList *list, int index){
 }
 
 // Create and init double linked list
-struct DoubleLinkedList make_dll(){
-    struct DoubleLinkedList ret;
-    ret.size = 0;
-    ret.head = NULL;
-    ret.tail = NULL;
+struct DoubleLinkedList *make_dll(){
+    struct DoubleLinkedList *ret = malloc(sizeof(struct DoubleLinkedList));
+    ret->size = 0;
+    ret->head = NULL;
+    ret->tail = NULL;
     return ret;
 }
 

@@ -5,7 +5,7 @@
 
 int main(){
     // Test driver code
-    struct DoubleLinkedList Nodelist = make_dll();
+    struct DoubleLinkedList Nodelist = *make_dll();
     char* c = malloc(6 * sizeof(char));
     strcpy(c, "Hello");
     c = realloc(c, sizeof(c) + 1);
