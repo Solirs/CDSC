@@ -4,7 +4,7 @@
 #include<stdlib.h>
 #include"../doublylinkedlist/doublylinkedlist.h"
 
-
+#define QUEUE_EMPTY queue->size == 0
 
 struct queue{
     struct DoubleLinkedList list;
@@ -16,4 +16,7 @@ struct queue make_queue();
 void enqueue(struct queue *queue, void* data);
 void* dequeue(struct queue *queue);
 
+void queue_nuke(struct queue* queue);
+void* getfront(struct queue *queue);
+void* getrear(struct queue *queue);
 #endif

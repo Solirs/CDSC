@@ -5,9 +5,8 @@ int main(){
 
     struct queue queue;
     enqueue(&queue, "Hello World");
-    enqueue(&queue, "Bye World");
 
-    printf("%s\n", dequeue(&queue));
-    printf("%s\n", dequeue(&queue));
+    printf("%s\n", getrear(&queue));
+    printf("%s\n", getfront(&queue));
 
 }
