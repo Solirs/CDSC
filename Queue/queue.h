@@ -7,12 +7,12 @@
 #define QUEUE_EMPTY queue->size == 0
 
 struct queue{
-    struct DoubleLinkedList list;
+    struct DoubleLinkedList *list;
     int capacity;
     int size;
 };
 
-struct queue make_queue();
+struct queue *make_queue();
 void enqueue(struct queue *queue, void* data);
 void* dequeue(struct queue *queue);
 

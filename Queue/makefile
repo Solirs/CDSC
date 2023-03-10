@@ -14,3 +14,7 @@ object:
 clean:
 	-rm *.a
 	-rm *.o
+
+run: 
+	make build
+	./queue

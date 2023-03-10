@@ -3,10 +3,10 @@
 
 int main(){
 
-    struct queue queue;
-    enqueue(&queue, "Hello World");
+    struct queue *queue = make_queue();
+    enqueue(queue, "Hello World");
 
-    printf("%s\n", getrear(&queue));
-    printf("%s\n", getfront(&queue));
+    printf("%s\n", getrear(queue));
+    printf("%s\n", getfront(queue));
 
 }
