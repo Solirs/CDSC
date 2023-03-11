@@ -85,16 +85,24 @@ void* getindexfromhead(struct LinkedList *list, int index){
 // Get data by index starting at the tail
 void* getindexfromtail(struct LinkedList *list, int index){
     int i;
-    struct node* cur = list->tail;
-    index = list->size - index;
-    for (i = 0; i<index; i++){
-        cur = cur->next;
-        if (cur == NULL){
-            return NULL;
+    struct node* cur = list->head;
+    if (index == 0){
+        return list->tail->data;
+    }
+    else{
+        index = (list->size - index - 1);
+        for (i = 0; i<index; i++){
+            cur = cur->next;
+            if (cur == NULL){
+                return NULL;
+            }
         }
+
+        return cur->data;
+
     }
 
-    return cur->data;
+
 }
 
 // Create and init double linked list
@@ -167,6 +175,8 @@ bool is_empty(struct LinkedList *list) {
 }
 void reverse(struct LinkedList *list) { //Non functionning, to fix.
 	struct node* prev = NULL;
+    struct node* formerhead = list->head;
+    list->tail = formerhead;
 	struct node* current = list->head;
 	struct node* next;
  
@@ -176,5 +186,5 @@ void reverse(struct LinkedList *list) { //Non functionning, to fix.
 		prev = current;
 		current = next;
 	}
-	current = prev;
+	list->head = prev;
 }

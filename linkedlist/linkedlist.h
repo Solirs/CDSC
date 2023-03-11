@@ -21,6 +21,7 @@ void* poptail(struct LinkedList *list);
 void* pophead(struct LinkedList *list);
 
 void* getindexfromhead(struct LinkedList *list, int index);
+void* getindexfromtail(struct LinkedList *list, int index);
 
 struct LinkedList *make_ll();
 void nuke(struct LinkedList *list);

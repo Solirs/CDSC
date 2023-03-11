@@ -17,8 +17,7 @@ int main(){
 
     inserthead(&Nodelist, "Bye world!");
     reverse(&Nodelist);
-
-    printf("Data: %s\n", getindexfromhead(&Nodelist, 0));
+    printf("Data: %s\n", getindexfromtail(&Nodelist, 2));
 
 
     /*pophead(&Nodelist);
@@ -38,7 +37,7 @@ int main(){
 
     //free(c);
     //free(i);
-    nuke(&Nodelist);
+    //nuke(&Nodelist);
 
     return 0;
 }
