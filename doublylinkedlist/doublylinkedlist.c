@@ -37,9 +37,9 @@ void inserttail(struct DoubleLinkedList *list, void* data){
 }
 
 // Remove the list's tail replacing it by the node before it
-void poptail(struct DoubleLinkedList *list){
+void* poptail(struct DoubleLinkedList *list){
     struct node *newtail = list->tail->previous;
-
+    void* ret = list->tail->data;
     //We need to free the node struct that was allocated in inserttail or inserthead
     free(list->tail);
     list->tail = NULL;
@@ -51,9 +51,9 @@ void poptail(struct DoubleLinkedList *list){
 
 }
 // Remove the list's head replacing it with the next node
-void pophead(struct DoubleLinkedList *list){
+void* pophead(struct DoubleLinkedList *list){
     struct node *newhead = list->head->next;
-
+    void* ret = list->head->data;
     //We need to free the node struct that was allocated in inserttail or inserthead
     free(list->head);
     list->head = NULL;
@@ -63,6 +63,7 @@ void pophead(struct DoubleLinkedList *list){
         list->head = newhead;
     }
     list->size--;
+    return ret;
 
 }
 
