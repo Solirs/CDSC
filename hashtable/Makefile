@@ -16,3 +16,4 @@ object:
 clean:
 	-rm *.a
 	-rm *.o
+	rm hashtable
