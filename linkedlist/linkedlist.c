@@ -206,3 +206,44 @@ void reverse(struct LinkedList *list) {
 	}
 	list->head = prev;
 }
+
+void remove_node_if_contains(struct LinkedList *list, void* key){
+    int i;
+    struct node* cur = list->head;
+    struct node* prev = NULL;
+    for (i = 0; i<list->size; i++){
+        if (cur->data == key){
+            if (cur == list->head){
+                pophead(list);
+            }else{
+                prev->next = cur->next;
+                free(cur);
+            }
+        }else{;
+            prev = cur;
+            cur = cur->next;
+        }
+
+    }
+}
+
+void appendnode(struct LinkedList *list, struct node* node){
+    if (list->size == 0){
+        list->head = node;
+        list->tail = node;
+    }else{
+        list->tail->next = node;
+        list->tail = node;
+    }
+
+}
+
+void mergeattail(struct LinkedList *list1, struct LinkedList *list2){
+    int i;
+    struct node* cur = list2->head;
+    for (i = 0; i<list2->size; i++){
+        appendnode(list1, cur);
+        cur = cur->next;
+    }
+}
+
