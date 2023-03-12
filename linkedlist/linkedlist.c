@@ -48,6 +48,7 @@ void* poptail(struct LinkedList *list){
         list->tail = newtail;
     }
     list->size--;
+    return ret;
 
 }
 // Remove the list's head replacing it with the next node
@@ -170,7 +171,7 @@ struct node* find(struct LinkedList *list, void* key) {
 	return current;
 }
 
-struct node* findindex(struct LinkedList *list, void* key) {
+int findindex(struct LinkedList *list, void* key) {
 	struct node* current = list->head;
     int i = 0;
 	if (list->head == NULL) {

@@ -27,6 +27,7 @@ struct LinkedList *make_ll();
 void nuke(struct LinkedList *list);
 void setdata(struct LinkedList *list, void* data, int index);
 struct node* find(struct LinkedList *list, void* key);
+int findindex(struct LinkedList *list, void* key);
 bool is_empty(struct LinkedList *list);
 void reverse(struct LinkedList *list);
 void mergeattail(struct LinkedList *list1, struct LinkedList *list2);
