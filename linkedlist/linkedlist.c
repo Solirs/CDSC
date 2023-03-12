@@ -170,10 +170,28 @@ struct node* find(struct LinkedList *list, void* key) {
 	return current;
 }
 
+struct node* findindex(struct LinkedList *list, void* key) {
+	struct node* current = list->head;
+    int i = 0;
+	if (list->head == NULL) {
+		return NULL;
+	}
+	while (current->data != key){
+		if (current->next == NULL) {
+			return NULL;
+		}
+		else {
+			current = current->next;
+            i++;
+		}
+	}
+	return i;
+}
+
 bool is_empty(struct LinkedList *list) {
 	return list->head == NULL;
 }
-void reverse(struct LinkedList *list) { //Non functionning, to fix.
+void reverse(struct LinkedList *list) { 
 	struct node* prev = NULL;
     struct node* formerhead = list->head;
     list->tail = formerhead;
