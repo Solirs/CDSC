@@ -18,4 +18,7 @@ struct tree{
 struct tree_node* add_child(struct tree_node* node, void* data);
 struct tree_node* remove_node(struct tree_node* node);
 struct tree* make_tree();
+struct tree_node* get_root_node(struct tree_node* node);
+void prune_node(struct tree_node* node);
+
 #endif

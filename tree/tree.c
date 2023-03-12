@@ -31,6 +31,9 @@ struct tree_node* remove_node(struct tree_node* node){
 
     free(node);
 }
+void prune_node(struct tree_node* node){
+    
+}
 
 struct tree *make_tree(){
     struct tree* newtree = malloc(sizeof(struct tree));
