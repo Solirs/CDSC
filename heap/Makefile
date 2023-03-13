@@ -7,7 +7,6 @@ build:
 run:
 	make build
 	./heap
-	make clean
 
 object:
 	gcc -c heap.c -o libheap.o $(CFLAGS) 
