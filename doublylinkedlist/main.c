@@ -5,24 +5,24 @@
 
 int main(){
     // Test driver code
-    struct DoubleLinkedList Nodelist = *make_dll();
+    struct DoubleLinkedList *Nodelist = make_dll();
     char* c = malloc(6 * sizeof(char));
     strcpy(c, "Hello");
     c = realloc(c, sizeof(c) + 1);
     int* i = (int*)malloc(sizeof(int));
     *i = 11892;
-    inserttail(&Nodelist, "ABC");
-    inserttail(&Nodelist, i);
-    inserttail(&Nodelist, c);
-    inserthead(&Nodelist, "Bye world!");
+    inserttail(  Nodelist, "ABC");
+    inserttail(  Nodelist, i);
+    inserttail(  Nodelist, c);
+    inserthead(  Nodelist, "Bye world!");
     
 
-    pophead(&Nodelist);
+    pophead(  Nodelist);
 
-    printf("Data: %s\n", getindexfromhead(&Nodelist, 0));
-    printf("Data: %d\n", *(int*)getindexfromhead(&Nodelist, 1));
+    printf("Data: %s\n", getindexfromhead(  Nodelist, 0));
+    printf("Data: %d\n", *(int*)getindexfromhead(  Nodelist, 1));
 
-    printf("Length: %d\n", Nodelist.size);
+    printf("Length: %d\n", Nodelist->size);
 
     /*
     Expected output:
@@ -34,7 +34,9 @@ int main(){
 
     free(c);
     free(i);
-    nuke(&Nodelist);
+    nuke(  Nodelist);
+    free(Nodelist);
+    
 
     return 0;
 }
