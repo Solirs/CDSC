@@ -2,13 +2,12 @@
 #include <stdio.h>
 #include "heap.h"
 #include <string.h>
-#include <stdbool.h>
 #include <assert.h>
 #define MAX_SIZE 1000
 
 // Initialize new structure of type heap and allocate memory for it
 struct heap *init() {
-    struct heap *h = malloc(sizeof(struct heap));
+    struct heap *h = (struct heap*)malloc(sizeof(struct heap));
     h->max_len =  MAX_SIZE;
     h->len = 0;
     h->list = (int*)malloc(sizeof(int*) *(h->max_len+1));
@@ -17,14 +16,15 @@ struct heap *init() {
 }
 
 // Helper function for swapping two neighboring elements on the heap
-void swap(struct heap *h, int a, int b) {
-    int tmp = a;
-    a = b;
-    b = tmp;
+static void swap(struct heap *h, int a, int b) {
+    assert(h && a >= 1 && a <= h->len && b>= 1 && b <= h->len);
+    int tmp = h->list[a];
+    h->list[a] = h->list[b];
+    h->list[b] = tmp;
 }
 
 // Double the size of the initial array if current lenght hits the max
-void double_cap(struct heap *h) {
+static void double_cap(struct heap *h) {
     int updated_max_len = h->max_len * 2;
     int *updated_list = (int*) malloc(sizeof(int)*(updated_max_len+1));
     for (int i = 0; i < h->len; i++) {
@@ -38,13 +38,14 @@ void double_cap(struct heap *h) {
 }
 
 // Switch values of two neighbours as long as they dont fit
-void bubble_up(struct heap *h) {
-    int size = h->len;
-    while(size > 1 && h->list[size] && size <= h->len)
-        swap(h, size/2, size);
+static void bubble_up(struct heap *h, int x) {
+    while(x > 1 && h->list[x] < h->list[x/2]) {
+        swap(h, x/2, x);
+        x /= 2;
+    }
 }
 
-void bubble_down(struct heap *h, int x) {
+static void bubble_down(struct heap *h, int x) {
     while (x * 2 <= h->len) {
         int j = x *2;
         if (j < h->len && h->list[j+1] < h->list[j]) {j++;}
@@ -62,13 +63,15 @@ void insert(struct heap *h, int value) {
         double_cap(h);
 
     // Insert the element and bubble up if needed
-    h->list[h->len++] = value;
-    bubble_up(h);
+    h->list[++h->len] = value;
+    bubble_up(h, h->len);
 }
 
 // Return the root element
 int find_min(struct heap *h) {
-    return h->list[0];
+    if (is_empty(h))
+        abort();
+    return h->list[1];
 }
 
 // Delete the smallest element (root)
@@ -81,10 +84,10 @@ void delete_min(struct heap *h) {
     bubble_down(h, 1);
 }
 
-bool is_empty(struct heap *h) {
+int is_empty(struct heap *h) {
     if (h->len == 0) 
-        return true;
-    return false;
+        return 1;
+    return 0;
 }
 
 int len(struct heap *h) {
@@ -93,5 +96,6 @@ int len(struct heap *h) {
 
 // Destroy the passed structure
 void nuke(struct heap *h) {
+    free(h->list);
     free(h);
 }

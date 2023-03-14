@@ -1,6 +1,5 @@
 #ifndef HEAP
 #define HEAP
-#include<stdbool.h>
 
 struct heap {
     int *list;
@@ -13,7 +12,7 @@ struct heap *init();
 void nuke(struct heap*);
 
 // Helper functions
-bool is_empty(struct heap*);
+int is_empty(struct heap*);
 int len(struct heap*);
 
 // Heap operations

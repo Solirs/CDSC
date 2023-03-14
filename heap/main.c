@@ -1,39 +1,19 @@
 #include <stdio.h>
-#include<stdlib.h>
+#include <stdlib.h>
 #include "heap.h"
-#include <time.h>
 
-/*
 int main() {
+    int values[] = {476, 1968, 1066, 20023, 1618, 1789, 1993, 1871};
     struct heap *h = init();
-    printf("%i", is_empty(h));
-    
-    int values[] = {14, 88, 420, 69, 3, 12, 4};
-    for (int i = 0; i < sizeof(values); i++) {
+
+    for(int i = 0; i < sizeof(values)/sizeof(int); i++)
         insert(h, values[i]);
-        printf("%i", h->list[i]);
-    }
-    printf("%i", len(h));
+
     while(!is_empty(h)) {
         printf("%i\n", find_min(h));
         delete_min(h);
     }
 
-    nuke(h);
-    return 0;
-}
-*/
-
-int main() {
-    int i;
-    srand(time(NULL));
-    struct heap *h = init();
-    for(i = 0; i < 10; i++)
-        insert(h, rand() % 1000);
-    while(!is_empty(h)) {
-        printf("%i\n", find_min(h));
-        delete_min(h);
-    }
     nuke(h);
     return 0;
 }
