@@ -16,7 +16,7 @@ struct heap *init() {
 }
 
 // Helper function for swapping two neighboring elements on the heap
-static void swap(struct heap *h, int a, int b) {
+void swap(struct heap *h, int a, int b) {
     assert(h && a >= 1 && a <= h->len && b>= 1 && b <= h->len);
     int tmp = h->list[a];
     h->list[a] = h->list[b];
@@ -24,7 +24,7 @@ static void swap(struct heap *h, int a, int b) {
 }
 
 // Double the size of the initial array if current lenght hits the max
-static void double_cap(struct heap *h) {
+void double_cap(struct heap *h) {
     int updated_max_len = h->max_len * 2;
     int *updated_list = (int*) malloc(sizeof(int)*(updated_max_len+1));
     for (int i = 0; i < h->len; i++) {
@@ -38,14 +38,15 @@ static void double_cap(struct heap *h) {
 }
 
 // Switch values of two neighbours as long as they dont fit
-static void bubble_up(struct heap *h, int x) {
+void bubble_up(struct heap *h, int x) {
     while(x > 1 && h->list[x] < h->list[x/2]) {
         swap(h, x/2, x);
         x /= 2;
     }
 }
 
-static void bubble_down(struct heap *h, int x) {
+// Switch two neighboiring elements as long as they don't fit in the opposite direction
+void bubble_down(struct heap *h, int x) {
     while (x * 2 <= h->len) {
         int j = x *2;
         if (j < h->len && h->list[j+1] < h->list[j]) {j++;}
@@ -56,13 +57,13 @@ static void bubble_down(struct heap *h, int x) {
     }
 }
 
+// Insert new element and bubble it upwards if needed
 void insert(struct heap *h, int value) {
     assert(h);
-    // We only insert one element at a time
+    // Inserting one element at a time
     if (h->len == h-> max_len)
         double_cap(h);
 
-    // Insert the element and bubble up if needed
     h->list[++h->len] = value;
     bubble_up(h, h->len);
 }
@@ -74,7 +75,7 @@ int find_min(struct heap *h) {
     return h->list[1];
 }
 
-// Delete the smallest element (root)
+// Delete the smallest element (root) and replace it with next one
 void delete_min(struct heap *h) {
     if (is_empty(h))
         abort();
@@ -84,12 +85,14 @@ void delete_min(struct heap *h) {
     bubble_down(h, 1);
 }
 
+// See if heap contains any elements
 int is_empty(struct heap *h) {
     if (h->len == 0) 
         return 1;
     return 0;
 }
 
+// Number of elements in the heap array
 int len(struct heap *h) {
     return h->len;
 }
