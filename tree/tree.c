@@ -27,12 +27,24 @@ struct tree_node* remove_node(struct tree_node* node){
         struct tree_node* child = (struct tree_node*)getindexfromhead(node->children, i);
         child->parent = node->parent;
     }
-    node->parent->children = node->children;
-
-    free(node);
+    mergeattail(node->parent->children, node->children);
+    purge_node(node);
 }
-void prune_node(struct tree_node* node){
-    
+
+//WARNING: Only used internally by the implementation, do NOT call unless you know what you're doing!
+void purge_node(struct tree_node* nod){
+	nuke(nod->children);
+	free(nod->children);
+	free(nod);
+}
+
+void prune_node(struct tree_node* nod){
+	int i;
+	for (i = 0; i<nod->children->size; i++){
+			prune_node(getindexfromhead(nod->children, i));
+	}
+	remove_node_if_contains(nod->parent->children, nod);
+	purge_node(nod);
 }
 
 struct tree *make_tree(){
@@ -44,4 +56,5 @@ struct tree *make_tree(){
 
     newtree->root = newnode;
     newtree->number_of_nodes = 1;
+	return newtree;
 }  
