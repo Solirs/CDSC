@@ -12,6 +12,8 @@ int main(){
     graft(child, child2);
     struct tree_node* tn = ((struct tree_node*)getindexfromhead(rootnode->children, 0));
     printf("%s\n", (((struct tree_node*)getindexfromhead(tn->children, 0))->data));
+    printf("%d\n", get_depth(child2));
+
 	prune_node(child2);
 
 

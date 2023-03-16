@@ -53,6 +53,19 @@ void graft(struct tree_node* nod, struct tree_node* parent){
 	nod->parent = parent;
 	
 }
+int get_depth(struct tree_node *nod){
+	int i = 0;
+	struct tree_node *cur = nod;
+	while(cur->parent != NULL){
+		i++;
+		cur = cur->parent;
+	}
+	return i;
+	
+}
+struct tree_node* naive_lca(struct tree_node* nod1, struct tree_node* nod2){
+	
+}
 struct tree *make_tree(){
     struct tree* newtree = malloc(sizeof(struct tree));
     struct tree_node* newnode = malloc(sizeof(struct tree_node));
