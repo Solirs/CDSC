@@ -20,5 +20,6 @@ struct tree_node* remove_node(struct tree_node* node);
 struct tree* make_tree();
 struct tree_node* get_root_node(struct tree_node* node);
 void prune_node(struct tree_node* node);
+void purge_node(struct tree_node* node);
 
 #endif
