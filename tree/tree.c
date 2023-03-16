@@ -47,6 +47,12 @@ void prune_node(struct tree_node* nod){
 	purge_node(nod);
 }
 
+void graft(struct tree_node* nod, struct tree_node* parent){
+	remove_node_if_contains(nod->parent->children, nod);
+	inserttail(parent->children, nod);
+	nod->parent = parent;
+	
+}
 struct tree *make_tree(){
     struct tree* newtree = malloc(sizeof(struct tree));
     struct tree_node* newnode = malloc(sizeof(struct tree_node));

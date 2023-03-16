@@ -8,10 +8,11 @@ int main(){
     struct tree_node* rootnode = get_root_node(child);
     struct tree_node *child3 = add_child(child, "bye");
     //remove_node(child);
-    prune_node(child);
-    struct tree_node* tn = (struct tree_node*)getindexfromhead(rootnode->children, 0);
-    printf("%s\n", tn->data);
-	purge_node(child2);
+    //prune_node(child);
+    graft(child, child2);
+    struct tree_node* tn = ((struct tree_node*)getindexfromhead(rootnode->children, 0));
+    printf("%s\n", (((struct tree_node*)getindexfromhead(tn->children, 0))->data));
+	prune_node(child2);
 
 
 	nuke(rootnode->children);
