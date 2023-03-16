@@ -21,6 +21,7 @@ int main(){
     reverse( Nodelist);
     //remove_node_if_contains( Nodelist, "ABC");
     printf("Data: %s\n", getindexfromhead( Nodelist, 0));
+    printf("Contains: %d\n", contains( Nodelist, c));
 
 
 

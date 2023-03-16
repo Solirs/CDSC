@@ -248,3 +248,16 @@ void mergeattail(struct LinkedList *list1, struct LinkedList *list2){
     }
 }
 
+bool contains(struct LinkedList* list, void* data){
+    int i;
+    struct node* cur = list->head;
+    for (i = 0; i<list->size; i++){
+        if (cur->data == data){
+			return true;
+        }else{;
+            cur = cur->next;
+        }
+
+    }
+    return false;
+}
