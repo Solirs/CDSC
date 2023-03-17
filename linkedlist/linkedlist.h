@@ -3,6 +3,10 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+
+#define prepend(list, data) inserthead(list, data)
+#define append(list, data) inserttail(list, data)
+
 struct node{
     void* data;
     struct node* next;
