@@ -123,12 +123,14 @@ void nuke(struct LinkedList *list){
     }
     if (list->head == list->tail){
         free(list->head);
+        list->head = NULL;
     }else{
         cur = list->head;
         while(1){
             struct node *nxt = cur->next;
             if (cur == list->tail){
                 free(cur);
+                cur = NULL;
                 break;
             } else{
                 free(cur);
@@ -226,6 +228,7 @@ void remove_node_if_contains(struct LinkedList *list, void* key){
         }
 
     }
+    cur = NULL;
 }
 
 void appendnode(struct LinkedList *list, struct node* node){
