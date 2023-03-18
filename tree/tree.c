@@ -39,12 +39,8 @@ void purge_node(struct tree_node* nod){
 }
 
 void prune_node(struct tree_node* nod){
-	int i;
-	for (i = 0; i<nod->children->size; i++){
-			prune_node(getindexfromhead(nod->children, i));
-	}
-	remove_node_if_contains(nod->parent->children, nod);
-	purge_node(nod);
+
+	cdsc_tree_foreach(nod, purge_node);
 }
 
 void graft(struct tree_node* nod, struct tree_node* parent){
@@ -122,8 +118,15 @@ struct tree *make_tree(){
 void cdsc_tree_foreach(struct tree_node* nod, void (*action)()){
 	int i;
 	for (i = 0; i<nod->children->size; i++){
-			action(getindexfromhead(nod->children, i));
 			cdsc_tree_foreach(getindexfromhead(nod->children, i), action);
+			action(getindexfromhead(nod->children, i));
 
 	}
+}
+
+// Zero a tree
+void cdsc_tree_nuke(struct tree* tree){
+	prune_node(tree->root);
+	purge_node(tree->root);
+	tree->root = NULL;
 }
