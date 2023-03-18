@@ -25,6 +25,7 @@ void graft(struct tree_node* nod, struct tree_node* parent);
 struct tree_node* cdsc_tree_naive_lca(struct tree_node* nod1, struct tree_node* nod2);
 int get_depth(struct tree_node *nod);
 //int cdsc_tree_count(struct tree* tree);
-void cdsc_tree_foreach(struct tree_node* nod, void(*action)());
+void cdsc_tree_foreach_pre_order(struct tree_node* nod, void(*action)());
+void cdsc_tree_foreach_post_order(struct tree_node* nod, void (*action)());
 void cdsc_tree_nuke(struct tree* tree);
 #endif

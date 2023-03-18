@@ -40,7 +40,7 @@ void purge_node(struct tree_node* nod){
 
 void prune_node(struct tree_node* nod){
 
-	cdsc_tree_foreach(nod, purge_node);
+	cdsc_tree_foreach_post_order(nod, purge_node);
 }
 
 void graft(struct tree_node* nod, struct tree_node* parent){
@@ -114,16 +114,22 @@ struct tree *make_tree(){
 	return newtree;
 }  
 
-//TODO: Make more methods for other orders
-void cdsc_tree_foreach(struct tree_node* nod, void (*action)()){
+//TODO: Wrap those functions so the root node can also be affected
+void cdsc_tree_foreach_post_order(struct tree_node* nod, void (*action)()){
 	int i;
 	for (i = 0; i<nod->children->size; i++){
-			cdsc_tree_foreach(getindexfromhead(nod->children, i), action);
+			cdsc_tree_foreach_post_order(getindexfromhead(nod->children, i), action);
 			action(getindexfromhead(nod->children, i));
 
 	}
 }
-
+void cdsc_tree_foreach_pre_order(struct tree_node* nod, void (*action)()){
+	int i;
+	for (i = 0; i<nod->children->size; i++){
+			action(getindexfromhead(nod->children, i));
+			cdsc_tree_foreach_pre_order(getindexfromhead(nod->children, i), action);
+	}
+}
 // Zero a tree
 void cdsc_tree_nuke(struct tree* tree){
 	prune_node(tree->root);
