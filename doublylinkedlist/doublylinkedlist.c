@@ -1,5 +1,23 @@
 #include "doublylinkedlist.h"
 
+// Create and init double linked list
+struct DoubleLinkedList *make_dll(){
+    struct DoubleLinkedList *ret = malloc(sizeof(struct DoubleLinkedList));
+    ret->size = 0;
+    ret->head = NULL;
+    ret->tail = NULL;
+    return ret;
+}
+
+
+// Zeroes a doublelinkedlist, mainly used internally.
+void doublelinkedlist_zero(struct DoubleLinkedList* ll){
+	ll->head = NULL;
+	ll->tail = NULL;
+	ll->size = 0;
+		
+}
+
 // Add new node at the head, replacing it.
 void inserthead(struct DoubleLinkedList *list, void* data){
     struct node* ins = malloc(sizeof(struct node));
@@ -42,12 +60,14 @@ void* poptail(struct DoubleLinkedList *list){
     void* ret = list->tail->data;
     //We need to free the node struct that was allocated in inserttail or inserthead
     free(list->tail);
-    list->tail = NULL;
     if (list->size > 1){
         newtail->next = NULL;
         list->tail = newtail;
-    }
-    list->size--;
+        list->size--;
+    }else{
+		doublelinkedlist_zero(list);
+	}
+    return ret;
 
 }
 // Remove the list's head replacing it with the next node
@@ -56,13 +76,15 @@ void* pophead(struct DoubleLinkedList *list){
     void* ret = list->head->data;
     //We need to free the node struct that was allocated in inserttail or inserthead
     free(list->head);
-    list->head = NULL;
 
     if (list->size > 1){
         newhead->previous = NULL;
         list->head = newhead;
-    }
-    list->size--;
+        list->size--;
+
+    }else{
+		doublelinkedlist_zero(list);
+	}
     return ret;
 
 }
@@ -98,25 +120,18 @@ void* getindexfromtail(struct DoubleLinkedList *list, int index){
     return cur->data;
 }
 
-// Create and init double linked list
-struct DoubleLinkedList *make_dll(){
-    struct DoubleLinkedList *ret = malloc(sizeof(struct DoubleLinkedList));
-    ret->size = 0;
-    ret->head = NULL;
-    ret->tail = NULL;
-    return ret;
-}
 
 // Completely wipe a doubly linked list
 void nuke(struct DoubleLinkedList *list){
     struct node *cur;
+    cur = list->head;
     if (list->size == 0){
         return NULL;
     }
     if (list->head == list->tail){
         free(list->head);
+
     }else{
-        cur = list->head;
         while(1){
             struct node *nxt = cur->next;
             if (cur == list->tail){
@@ -128,9 +143,9 @@ void nuke(struct DoubleLinkedList *list){
             }
 
         }
-    }  
-    list->size = 0;
 
+	}
+	doublelinkedlist_zero(list);
 }
 
 // Sets the data of a DoublyLinkedList's certain index, starting from the head.
@@ -143,6 +158,5 @@ void setdata(struct DoubleLinkedList *list, void* data, int index){
             return NULL;
         }
     }
-        cur->data = data;
-
+    cur->data = data;
 }
