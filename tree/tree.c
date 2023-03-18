@@ -72,21 +72,24 @@ struct tree_node* cdsc_tree_naive_lca(struct tree_node* nod1, struct tree_node* 
 	struct tree_node* higher;
 
 	int diff = 0;
-	if (dpt1 > dpt2){
-		diff = (dpt1-dpt2);
-		lower = nod1;
-		higher = nod2;
-	}else if(dpt1 < dpt2){
-		diff = (dpt2-dpt1);
-		lower = nod2;
-		higher = nod1;
+	if (dpt1 != dpt2){
+		if (dpt1 > dpt2){
+			diff = (dpt1-dpt2);
+			lower = nod1;
+			higher = nod2;
+		}else if(dpt1 < dpt2){
+			diff = (dpt2-dpt1);
+			lower = nod2;
+			higher = nod1;
+		}
+		int i = 0;
+		for (i = 0;i<diff; i++){
+			lower = lower->parent;
+		}
 
 	}else{
-		lower = NULL;
-	}
-	int i = 0;
-	for (i = 0;i<diff; i++){
-		lower = lower->parent;
+		lower = nod1;
+		higher = nod2;
 	}
 
 	while (1){
