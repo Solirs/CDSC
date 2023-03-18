@@ -22,6 +22,6 @@ struct tree_node* get_root_node(struct tree_node* node);
 void prune_node(struct tree_node* node);
 void purge_node(struct tree_node* node);
 void graft(struct tree_node* nod, struct tree_node* parent);
-struct tree_node* naive_lca(struct tree_node* nod1, struct tree_node* nod2);
+struct tree_node* cdsc_tree_naive_lca(struct tree_node* nod1, struct tree_node* nod2);
 int get_depth(struct tree_node *nod);
 #endif

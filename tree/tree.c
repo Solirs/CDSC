@@ -63,8 +63,43 @@ int get_depth(struct tree_node *nod){
 	return i;
 	
 }
-struct tree_node* naive_lca(struct tree_node* nod1, struct tree_node* nod2){
-	
+// A decent O(n) algorithm to get the last common ancestor between two nodes.
+struct tree_node* cdsc_tree_naive_lca(struct tree_node* nod1, struct tree_node* nod2){
+	int dpt1 = get_depth(nod1);
+	int dpt2 = get_depth(nod2);
+
+	struct tree_node* lower;
+	struct tree_node* higher;
+
+	int diff = 0;
+	if (dpt1 > dpt2){
+		diff = (dpt1-dpt2);
+		lower = nod1;
+		higher = nod2;
+	}else if(dpt1 < dpt2){
+		diff = (dpt2-dpt1);
+		lower = nod2;
+		higher = nod1;
+
+	}else{
+		lower = NULL;
+	}
+	int i = 0;
+	for (i = 0;i<diff; i++){
+		lower = lower->parent;
+	}
+
+	while (1){
+		if (higher->parent == lower->parent){ // Last common ancestor found
+			return higher->parent;
+			
+		}else if (higher->parent == NULL || lower->parent == NULL){ // One of the cursors reached the root, it is the LCA.
+			return higher;
+		}else{ // Keep going
+			higher = higher->parent;
+			lower = lower->parent;
+		}
+	}
 }
 struct tree *make_tree(){
     struct tree* newtree = malloc(sizeof(struct tree));
