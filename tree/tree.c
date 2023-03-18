@@ -110,7 +110,6 @@ struct tree *make_tree(){
     newnode->data = NULL;
 
     newtree->root = newnode;
-    newtree->number_of_nodes = 1;
 	return newtree;
 }  
 
@@ -125,7 +124,7 @@ void cdsc_tree_foreach_post_order(struct tree_node* nod, void (*action)()){
 }
 void cdsc_tree_foreach_pre_order(struct tree_node* nod, void (*action)()){
 	int i;
-	for (i = 0; i<nod->children->size; i++){
+	for (i = 0; i<nod->childnren->size; i++){
 			action(getindexfromhead(nod->children, i));
 			cdsc_tree_foreach_pre_order(getindexfromhead(nod->children, i), action);
 	}

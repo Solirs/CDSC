@@ -12,7 +12,6 @@ struct tree_node{
 
 struct tree{
     struct tree_node* root;
-    int number_of_nodes;
 };
 
 struct tree_node* add_child(struct tree_node* node, void* data);
