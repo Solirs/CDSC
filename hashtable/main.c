@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 int main() {
-    printf("Hello world");
+    struct cdsc_ht_hash_table *table = cdsc_ht_init();
+    cdsc_ht_nuke(table);
     return 0;
 }

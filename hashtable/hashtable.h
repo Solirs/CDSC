@@ -5,24 +5,24 @@
 #include<stdbool.h>
 #include<stdint.h>
 
-struct item {
+struct cdsc_ht_item {
     const char *key;
     void *value;
 };
 
-struct hash_table {
-    struct item *entries;
+struct cdsc_ht_hash_table {
+    struct cdsc_ht_item *entries;
     size_t cap;
     size_t len;
 };
 
-unsigned long hash_fn(const char *key);
-struct hash_table *init(void);
-void nuke(struct hash_table *table);
+unsigned long cdsc_ht_hash(const char *key);
+struct cdsc_ht_hash_table *cdsc_ht_init(void);
+void cdsc_ht_nuke(struct cdsc_ht_hash_table *table);
 
-void *get(struct hash_table *table, const char *key);
+void *cdsc_ht_get(struct cdsc_ht_hash_table *table, const char *key);
 
-const char *set_table_entry(struct item *entries, size_t cap, const char* key, void* value);
-bool expand_table(struct hash_table *table);
-const char *set(struct hash_table *table, const char *key, void *value);
+const char *cdsc_ht_set_table_entry(struct cdsc_ht_item *entries, size_t cap, const char* key, void* value);
+bool cdsc_ht_expand_table(struct cdsc_ht_hash_table *table);
+const char *cdsc_ht_set(struct cdsc_ht_hash_table *table, const char *key, void *value);
 #endif

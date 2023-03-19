@@ -9,7 +9,7 @@
 
 
 // FNV-1A hashing algorithm, inspired by {https://create.stephan-brumme.com/fnv-hash/}
-unsigned long hash_fn(const char *key) {
+unsigned long cdsc_ht_hash(const char *key) {
     unsigned long hash = OFFSET;
     for (const char *p = key; *p; p++) {
         hash ^= (unsigned long)(unsigned char)(*p);
@@ -17,11 +17,10 @@ unsigned long hash_fn(const char *key) {
     }
     return hash;
 }
-// See {https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function} for more detail
 
 // Initialize new hash-table structure
-struct hash_table *init(void) {
-    struct hash_table *table = malloc(sizeof(struct hash_table));
+struct cdsc_ht_hash_table *cdsc_ht_init(void) {
+    struct cdsc_ht_hash_table *table = malloc(sizeof(struct cdsc_ht_hash_table));
     if (table == NULL)
         return NULL;
 
@@ -29,7 +28,7 @@ struct hash_table *init(void) {
     table->cap = CAPACITY;
     
     // Space for buckets is NULL-ed
-    table->entries = calloc(table->cap, sizeof(struct item));
+    table->entries = calloc(table->cap, sizeof(struct cdsc_ht_item));
     // Destroy table if no entries are present
     if (table->entries == NULL) {
         free(table);
@@ -39,8 +38,8 @@ struct hash_table *init(void) {
 }
 
 // See if element is in boundaries, if so return the value
-void *get(struct hash_table *table, const char* key) {
-    unsigned long hash = hash_fn(key);
+void *cdsc_ht_get(struct cdsc_ht_hash_table *table, const char* key) {
+    unsigned long hash = cdsc_ht_hash(key);
     size_t index = (size_t)(hash & (unsigned long)(table->cap - 1));
 
     while (table->entries[index].key != NULL) {
@@ -55,9 +54,9 @@ void *get(struct hash_table *table, const char* key) {
 }
 
 // Utility for set function, if key isn't present, create it and extend lenght
-const char *set_table_entry(struct item *entries, size_t cap, const char* key, void* value) {
+const char *cdsc_ht_set_table_entry(struct cdsc_ht_item *entries, size_t cap, const char* key, void* value) {
     size_t *len = NULL;
-    unsigned long hash = hash_fn(key);
+    unsigned long hash = cdsc_ht_hash(key);
     size_t index = (size_t)(hash & (unsigned long)(cap - 1));
 
     while (entries[index].key != NULL) {
@@ -82,20 +81,20 @@ const char *set_table_entry(struct item *entries, size_t cap, const char* key, v
 }
 
 // Allocate memory for new entries in the hashtable
-bool expand_table(struct hash_table *table) {
+bool cdsc_ht_expand_table(struct cdsc_ht_hash_table *table) {
     size_t updated_cap = table->cap * 2;
     if (updated_cap < table->cap)
         return false;
 
-    struct item *updated_entries = calloc(updated_cap, sizeof(struct item));
+    struct cdsc_ht_item *updated_entries = calloc(updated_cap, sizeof(struct cdsc_ht_item));
     if (updated_entries == NULL)
         return false;
         // out of memory
 
     for (size_t i = 0; i < table->cap; i++) {
-        struct item entry = table->entries[i];
+        struct cdsc_ht_item entry = table->entries[i];
         if (entry.key != NULL)
-            set_table_entry(updated_entries, updated_cap, entry.key, entry.value);
+            cdsc_ht_set_table_entry(updated_entries, updated_cap, entry.key, entry.value);
     }
 
     free(table->entries);
@@ -105,18 +104,18 @@ bool expand_table(struct hash_table *table) {
 }
 
 // Insert new element into the hash table if it fits, return the key
-const char *set(struct hash_table *table, const char* key, void* value) {
+const char *cdsc_ht_set(struct cdsc_ht_hash_table *table, const char* key, void* value) {
     if (value == NULL)
         return NULL;
     if (table->len >= table->cap / 2)
-        if (expand_table(table) == false)
+        if (cdsc_ht_expand_table(table) == false)
             return NULL;
 
-    return set_table_entry(table->entries, table->cap, key, value);
+    return cdsc_ht_set_table_entry(table->entries, table->cap, key, value);
 }
 
 // Hash table destruction
-void nuke(struct hash_table *table) {
+void cdsc_ht_nuke(struct cdsc_ht_hash_table *table) {
     for (size_t i = 0; i < table->cap; i++)
         free((void*)table->entries[i].key);
     free(table->entries);
