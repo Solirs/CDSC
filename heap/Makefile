@@ -13,6 +13,6 @@ object:
 	ar rcs libheap.a libheap.o
 
 clean:
-	-rm *.a
-	-rm *.o
+	rm *.a
+	rm *.o
 	rm heap
