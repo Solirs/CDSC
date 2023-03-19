@@ -1,14 +1,14 @@
 build:
-	make object
 	make objectlist
-	gcc main.c queue.h ../doublylinkedlist/doublylinkedlist.h libqueue.a libdoublylinkedlist.a  -o queue 
+	make object
+	gcc main.c queue.h ../linkedlist/linkedlist.h libqueue.a liblinkedlist.a  -o queue 
 
 objectlist:
-	gcc -c ../doublylinkedlist/doublylinkedlist.c -Wall -Wextra -o libdoublylinkedlist.o
-	ar rcs libdoublylinkedlist.a libdoublylinkedlist.o
+	gcc -c ../linkedlist/linkedlist.c -Wall -Wextra -o liblinkedlist.o
+	ar rcs liblinkedlist.a liblinkedlist.o
 
 object:
-	gcc -c queue.c libdoublylinkedlist.a -Wall -Wextra -o libqueue.o  
+	gcc -c queue.c liblinkedlist.a -Wall -Wextra -o libqueue.o  
 	ar rcs libqueue.a libqueue.o
 
 clean:

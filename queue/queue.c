@@ -6,7 +6,7 @@ struct queue *make_queue(){
     struct queue* ret = malloc(sizeof(struct queue));
     ret->capacity = 0; // Capacity to 0 = infinite
     ret->size = 0;
-    ret->list = make_dll();
+    ret->list = make_ll();
     return ret;
 }  
 
@@ -56,6 +56,6 @@ void* getrear(struct queue *queue){
     return data;
 }
 
-int is_empty(struct queue *queue){
+int cdsc_queue_is_empty(struct queue *queue){
     return (queue->size == 0);
 }

@@ -19,4 +19,5 @@ void* dequeue(struct queue *queue);
 void queue_nuke(struct queue* queue);
 void* getfront(struct queue *queue);
 void* getrear(struct queue *queue);
+int cdsc_queue_is_empty(struct queue *queue);
 #endif
