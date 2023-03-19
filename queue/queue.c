@@ -35,6 +35,8 @@ void queue_nuke(struct queue* queue){
         return NULL;
     }
     nuke(queue->list);
+    free(queue->list);
+    queue->list = NULL;
     queue->size = 0;
 }
 
