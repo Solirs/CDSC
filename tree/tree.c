@@ -1,5 +1,5 @@
 #include "tree.h"
-
+#include <stdio.h>
 struct tree_node* add_child(struct tree_node* node, void* data){
     struct tree_node* newnode = malloc(sizeof(struct tree_node));
     newnode->parent = node;
@@ -40,7 +40,7 @@ void purge_node(struct tree_node* nod){
 
 void prune_node(struct tree_node* nod){
 
-	cdsc_tree_foreach_post_order(nod, purge_node);
+	cdsc_tree_foreach_post_order(nod, purge_node, NULL);
 }
 
 void graft(struct tree_node* nod, struct tree_node* parent){
@@ -114,19 +114,19 @@ struct tree *make_tree(){
 }  
 
 //TODO: Wrap those functions so the root node can also be affected
-void cdsc_tree_foreach_post_order(struct tree_node* nod, void (*action)()){
+void cdsc_tree_foreach_post_order(struct tree_node* nod, void (*action)(), void* param){
 	int i;
 	for (i = 0; i<nod->children->size; i++){
-			cdsc_tree_foreach_post_order(getindexfromhead(nod->children, i), action);
-			action(getindexfromhead(nod->children, i));
+			cdsc_tree_foreach_post_order(getindexfromhead(nod->children, i), action, param);
+			action(getindexfromhead(nod->children, i), param);
 
 	}
 }
-void cdsc_tree_foreach_pre_order(struct tree_node* nod, void (*action)()){
+void cdsc_tree_foreach_pre_order(struct tree_node* nod, void (*action)(), void* param){
 	int i;
-	for (i = 0; i<nod->childnren->size; i++){
-			action(getindexfromhead(nod->children, i));
-			cdsc_tree_foreach_pre_order(getindexfromhead(nod->children, i), action);
+	for (i = 0; i<nod->children->size; i++){
+			action(getindexfromhead(nod->children, i), param);
+			cdsc_tree_foreach_pre_order(getindexfromhead(nod->children, i), action, param);
 	}
 }
 // Zero a tree
@@ -134,4 +134,15 @@ void cdsc_tree_nuke(struct tree* tree){
 	prune_node(tree->root);
 	purge_node(tree->root);
 	tree->root = NULL;
+}
+
+// Increment passed integer, used in cdsc_tree_count
+void _intplusplus(struct tree_node *nod, int* in){
+	*in = *in + 1;
+
+}
+int cdsc_tree_count(struct tree* tree){
+	int num = 1; // Start at 1 because of root node
+	cdsc_tree_foreach_pre_order(tree->root, _intplusplus, &num); // Increment for each node in the tree
+	return num;
 }
