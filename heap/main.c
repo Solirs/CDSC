@@ -4,16 +4,16 @@
 
 int main() {
     int values[] = {476, 1968, 1066, 20023, 1618, 1789, 1993, 1871};
-    struct heap *h = init();
+    struct heap *h = cdsc_heap_init();
 
     for(int i = 0; i < sizeof(values)/sizeof(int); i++)
-        insert(h, values[i]);
+        cdsc_heap_insert(h, values[i]);
 
-    while(!is_empty(h)) {
-        printf("%i\n", find_min(h));
-        delete_min(h);
+    while(!cdsc_heap_is_empty(h)) {
+        printf("%i\n", cdsc_heap_find_min(h));
+        cdsc_heap_delete_min(h);
     }
 
-    nuke(h);
+    cdsc_heap_nuke(h);
     return 0;
 }
