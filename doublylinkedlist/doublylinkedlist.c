@@ -160,3 +160,86 @@ void setdata(struct DoubleLinkedList *list, void* data, int index){
     }
     cur->data = data;
 }
+
+void cdsc_doublylinkedlist_reverse(struct DoubleLinkedList *list) { 
+	if (list->size < 2){
+		return NULL;
+	}
+	struct node* prev = NULL;
+    struct node* formerhead = list->head;
+    list->tail = formerhead;
+	struct node* current = list->head;
+	struct node* next;
+ 
+	while (current != NULL) {
+		next = current->next;
+		current->next = prev;
+		prev = current;
+		current = next;
+	}
+	list->head = prev;
+}
+void cdsc_doublylinkedlist_appendnode(struct DoubleLinkedList *list, struct node* node){
+    if (list->size == 0){
+        list->head = node;
+        list->tail = node;
+    }else{
+        list->tail->next = node;
+        list->tail = node;
+    }
+
+}
+
+void cdsc_doublylinkedlist_merge(struct DoubleLinkedList *list1, struct DoubleLinkedList *list2){
+    list1->tail->next = list2->head;
+    list2->head->previous = list1->tail;
+    list1->size += list2->size;
+}
+
+bool cdsc_doublylinkedlist_contains(struct DoubleLinkedList* list, void* data){
+    int i;
+    struct node* cur = list->head;
+    for (i = 0; i<list->size; i++){
+        if (cur->data == data){
+			return true;
+        }else{;
+            cur = cur->next;
+        }
+
+    }
+    return false;
+}
+
+struct node* cdsc_doublylinkedlist_find(struct DoubleLinkedList *list, void* key) {
+	if (list->head == NULL) {
+		return NULL;
+	}
+	struct node* current = list->head;
+	while (current->data != key){
+		if (current->next == NULL) {
+			return NULL;
+		}
+		else {
+			current = current->next;
+		}
+	}
+	return current;
+}
+
+int cdsc_doublylinkedlist_findindex(struct DoubleLinkedList *list, void* key) {
+	if (list->head == NULL) {
+		return NULL;
+	}
+	struct node* current = list->head;
+    int i = 0;
+	while (current->data != key){
+		if (current->next == NULL) {
+			return NULL;
+		}
+		else {
+			current = current->next;
+            i++;
+		}
+	}
+	return i;
+}

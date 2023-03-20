@@ -2,9 +2,10 @@
 #define DOUBLE_LL_
 
 #include <stdlib.h>
+#include <stdbool.h>
 
-#define doublylinkedlist_prepend(list, data) inserthead(list, data)
-#define doublylinkedlistlinkedlist_append(list, data) inserttail(list, data)
+#define cdsc_doublylinkedlist_prepend(list, data) inserthead(list, data)
+#define cdsc_doublylinkedlist_append(list, data) inserttail(list, data)
 
 struct node{
     struct node* previous;
@@ -34,4 +35,11 @@ void nuke(struct DoubleLinkedList *list);
 void setdata(struct DoubleLinkedList *list, void* data, int index);
 
 void doublelinkedlist_zero(struct DoubleLinkedList *ll);
+void cdsc_doublylinkedlist_reverse(struct DoubleLinkedList *list);
+void cdsc_doublylinkedlist_merge(struct DoubleLinkedList *list1, struct DoubleLinkedList *list2);
+void cdsc_doublylinkedlist_appendnode(struct DoubleLinkedList *list, struct node* node);
+bool cdsc_doublylinkedlist_contains(struct DoubleLinkedList* list, void* data);
+struct node* cdsc_doublylinkedlist_find(struct DoubleLinkedList *list, void* key);
+int cdsc_doublylinkedlist_findindex(struct DoubleLinkedList *list, void* key);
+
 #endif
