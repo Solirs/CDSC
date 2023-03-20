@@ -260,3 +260,12 @@ bool contains(struct LinkedList* list, void* data){
     }
     return false;
 }
+
+// Run a function for each member of a linkedlist.
+void cdsc_linkedlist_foreach(struct LinkedList *list, void (*action)(), void* param){
+		struct node* cur = list->head;
+		while (cur != NULL){
+			action(cur, param);
+			cur = cur->next;
+		}		
+}

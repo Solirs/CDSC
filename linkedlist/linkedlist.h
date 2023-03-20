@@ -38,5 +38,6 @@ void cdsc_linkedlist_merge(struct LinkedList *list1, struct LinkedList *list2);
 void appendnode(struct LinkedList *list, struct node* node);
 void remove_node_if_contains(struct LinkedList *list, void* key);
 bool contains(struct LinkedList* list, void* data);
+void cdsc_linkedlist_foreach(struct LinkedList *list, void (*action)(), void* param);
 
 #endif
