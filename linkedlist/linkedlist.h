@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define prepend(list, data) inserthead(list, data)
-#define append(list, data) inserttail(list, data)
+#define cdsc_linkedlist_prepend(list, data) inserthead(list, data)
+#define cdsc_linkedlist_append(list, data) inserttail(list, data)
 
 struct node{
     void* data;
@@ -34,7 +34,7 @@ struct node* find(struct LinkedList *list, void* key);
 int findindex(struct LinkedList *list, void* key);
 bool is_empty(struct LinkedList *list);
 void reverse(struct LinkedList *list);
-void mergeattail(struct LinkedList *list1, struct LinkedList *list2);
+void cdsc_linkedlist_merge(struct LinkedList *list1, struct LinkedList *list2);
 void appendnode(struct LinkedList *list, struct node* node);
 void remove_node_if_contains(struct LinkedList *list, void* key);
 bool contains(struct LinkedList* list, void* data);
