@@ -41,5 +41,6 @@ void cdsc_doublylinkedlist_appendnode(struct DoubleLinkedList *list, struct node
 bool cdsc_doublylinkedlist_contains(struct DoubleLinkedList* list, void* data);
 struct node* cdsc_doublylinkedlist_find(struct DoubleLinkedList *list, void* key);
 int cdsc_doublylinkedlist_findindex(struct DoubleLinkedList *list, void* key);
+void cdsc_doublylinkedlist_foreach(struct DoubleLinkedList *list, void (*action)(), void* param);
 
 #endif

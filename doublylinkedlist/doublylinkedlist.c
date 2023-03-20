@@ -243,3 +243,12 @@ int cdsc_doublylinkedlist_findindex(struct DoubleLinkedList *list, void* key) {
 	}
 	return i;
 }
+
+// Run a function for each member of a doublylinkedlist.
+void cdsc_doublylinkedlist_foreach(struct DoubleLinkedList *list, void (*action)(), void* param){
+		struct node* cur = list->head;
+		while (cur != NULL){
+			action(cur, param);
+			cur = cur->next;
+		}		
+}
