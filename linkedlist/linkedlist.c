@@ -242,13 +242,9 @@ void appendnode(struct LinkedList *list, struct node* node){
 
 }
 
-void mergeattail(struct LinkedList *list1, struct LinkedList *list2){
-    int i;
-    struct node* cur = list2->head;
-    for (i = 0; i<list2->size; i++){
-        appendnode(list1, cur);
-        cur = cur->next;
-    }
+void cdsc_linkedlist_merge(struct LinkedList *list1, struct LinkedList *list2){
+    list1->tail->next = list2->head;
+    list1->size += list2->size;
 }
 
 bool contains(struct LinkedList* list, void* data){
