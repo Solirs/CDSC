@@ -1,123 +1,97 @@
 #include "hashtable.h"
 #include <stdio.h>
 #include <math.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 
-#define CAPACITY 1000
-#define OFFSET 14695981039346656037UL
-#define PRIME 1099511628211UL
+typedef struct item {
+    char *key;
+    void *val;
+    struct item *next;
+    size_t key_len;
+}item;
 
-
-// FNV-1A hashing algorithm, inspired by {https://create.stephan-brumme.com/fnv-hash/}
-unsigned long cdsc_ht_hash(const char *key) {
-    unsigned long hash = OFFSET;
-    for (const char *p = key; *p; p++) {
-        hash ^= (unsigned long)(unsigned char)(*p);
-        hash *= PRIME;
-    }
-    return hash;
-}
+typedef struct _hash_table {
+    hash_fn *hash;
+    item **entries;
+    size_t len;
+} hash_table;
 
 // Initialize new hash-table structure
-struct cdsc_ht_hash_table *cdsc_ht_init(void) {
-    struct cdsc_ht_hash_table *table = malloc(sizeof(struct cdsc_ht_hash_table));
-    if (table == NULL)
-        return NULL;
+hash_table *cdsc_ht_init(size_t len, hash_fn *hf) {
+    hash_table *table = malloc(sizeof(*table));
+    table->len = len;
+    table->hash = hf;
+    table->entries = calloc(sizeof(item*), table->len);
 
-    table->len = 0;
-    table->cap = CAPACITY;
-    
-    // Space for buckets is NULL-ed
-    table->entries = calloc(table->cap, sizeof(struct cdsc_ht_item));
-    // Destroy table if no entries are present
-    if (table->entries == NULL) {
-        free(table);
-        return NULL;
-    }
     return table;
 }
 
-// See if element is in boundaries, if so return the value
-void *cdsc_ht_get(struct cdsc_ht_hash_table *table, const char* key) {
-    unsigned long hash = cdsc_ht_hash(key);
-    size_t index = (size_t)(hash & (unsigned long)(table->cap - 1));
-
-    while (table->entries[index].key != NULL) {
-        if (!strcmp(table->entries[index].key, key))
-            return table->entries[index].value;
-        index++;
-
-        if (index >= table->cap)
-            index = 0;
-    }
-    return NULL;
+size_t cdsc_ht_index(hash_table *table, const char* key) {
+    return(table->hash(key) % table->len);
 }
 
-// Utility for set function, if key isn't present, create it and extend lenght
-const char *cdsc_ht_set_table_entry(struct cdsc_ht_item *entries, size_t cap, const char* key, void* value) {
-    size_t *len = NULL;
-    unsigned long hash = cdsc_ht_hash(key);
-    size_t index = (size_t)(hash & (unsigned long)(cap - 1));
-
-    while (entries[index].key != NULL) {
-        if (strcmp(key, entries[index].key) == 0) {
-            entries[index].value = value;
-            return entries[index].key;
-        }
-        index++;
-        if (index >= cap)
-            index = 0;
-    }
-    if (len != NULL) {
-        key = strdup(key);
-        if (key == NULL)
-            return NULL;
-
-        (*len)++;
-    }
-    entries[index].key = (char*)key;
-    entries[index].value = value;
-    return key;
-}
-
-// Allocate memory for new entries in the hashtable
-bool cdsc_ht_expand_table(struct cdsc_ht_hash_table *table) {
-    size_t updated_cap = table->cap * 2;
-    if (updated_cap < table->cap)
+bool cdsc_ht_insert(hash_table *table, const char* key, void *val) {
+    if (key == NULL || val == NULL)
         return false;
 
-    struct cdsc_ht_item *updated_entries = calloc(updated_cap, sizeof(struct cdsc_ht_item));
-    if (updated_entries == NULL)
+    size_t i = cdsc_ht_index(table, key);
+    if (cdsc_ht_lookup(table, key) != NULL)
         return false;
-        // out of memory
+    
+    item* entry = malloc(sizeof(*entry));
+    entry->val = val;
+    entry->key = malloc(strlen(key)+1); 
+    strcpy(entry->key, key);
 
-    for (size_t i = 0; i < table->cap; i++) {
-        struct cdsc_ht_item entry = table->entries[i];
-        if (entry.key != NULL)
-            cdsc_ht_set_table_entry(updated_entries, updated_cap, entry.key, entry.value);
-    }
-
-    free(table->entries);
-    table->entries = updated_entries;
-    table->cap = updated_cap;
+    entry->next = table->entries[i];
+    table->entries[i] = entry;
     return true;
 }
 
-// Insert new element into the hash table if it fits, return the key
-const char *cdsc_ht_set(struct cdsc_ht_hash_table *table, const char* key, void* value) {
-    if (value == NULL)
-        return NULL;
-    if (table->len >= table->cap / 2)
-        if (cdsc_ht_expand_table(table) == false)
-            return NULL;
+void *cdsc_ht_lookup(hash_table *table, const char *key) {
+    if (key == NULL || table == NULL)
+        return false;
 
-    return cdsc_ht_set_table_entry(table->entries, table->cap, key, value);
+    size_t i = cdsc_ht_index(table, key);
+    item *tmp = table->entries[i];
+    while (tmp != NULL && strcmp(tmp->key, key) != 0)
+        tmp = tmp->next;
+
+    if(tmp == NULL)
+        return tmp;
+    return tmp->val;
+}
+
+void *cdsc_ht_delete(hash_table *table, const char *key) {
+    if(key == NULL || table == NULL)
+        return false;
+    
+    size_t i = cdsc_ht_index(table, key);
+    item *tmp = table->entries[i];
+    item *parent = NULL;
+
+    while(tmp != NULL && strcmp(tmp->key, key) != 0) {
+        parent = tmp;
+        tmp = tmp->next;
+    }
+
+    if(tmp == NULL)
+        return tmp;
+    if(parent == NULL)
+        table->entries[i] = tmp->next;
+    else
+        parent->next = tmp->next;
+    
+    void *res = tmp->val;
+    free(tmp);
+    return res;
 }
 
 // Hash table destruction
-void cdsc_ht_nuke(struct cdsc_ht_hash_table *table) {
-    for (size_t i = 0; i < table->cap; i++)
-        free((void*)table->entries[i].key);
+void cdsc_ht_nuke(hash_table *table) {
     free(table->entries);
     free(table);
 }
