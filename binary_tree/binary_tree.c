@@ -110,7 +110,6 @@ void cdsc_btree_foreach_post_order(struct cdsc_btree_node* nod, void (*action)()
 
 }
 void _cdsc_btree_foreach_post_order(struct cdsc_btree_node* nod, void (*action)(), void* param){
-	printf("a\n");
 	if (nod->rchild != NULL){
 		_cdsc_btree_foreach_post_order(nod->rchild, action, param);
 		action(nod->rchild, param);
@@ -119,7 +118,6 @@ void _cdsc_btree_foreach_post_order(struct cdsc_btree_node* nod, void (*action)(
 		_cdsc_btree_foreach_post_order(nod->lchild, action, param);
 		action(nod->lchild, param);
 	}
-	printf("b\n");
 
 }
 
@@ -148,12 +146,13 @@ void cdsc_btree_graft_rchild(struct cdsc_btree_node* nod, struct cdsc_btree_node
 	nod->parent = parent;
 	
 }
-int get_depth(struct cdsc_btree_node *nod){
+int cdsc_btree_get_depth(struct cdsc_btree_node *nod){
 	int i = 0;
 	struct cdsc_btree_node *cur = nod;
 	while(cur->parent != NULL){
-		i++;
 		cur = cur->parent;
+		i++;
+
 	}
 	return i;
 	
@@ -161,8 +160,8 @@ int get_depth(struct cdsc_btree_node *nod){
 
 // A decent O(n) algorithm to get the last common ancestor between two nodes.
 struct cdsc_btree_node* cdsc_btree_naive_lca(struct cdsc_btree_node* nod1, struct cdsc_btree_node* nod2){
-	int dpt1 = get_depth(nod1);
-	int dpt2 = get_depth(nod2);
+	int dpt1 = cdsc_btree_get_depth(nod1);
+	int dpt2 = cdsc_btree_get_depth(nod2);
 
 	struct cdsc_btree_node* lower;
 	struct cdsc_btree_node* higher;
@@ -207,6 +206,7 @@ struct cdsc_btree *cdsc_btree_make_btree(){
     struct cdsc_btree* newtree = malloc(sizeof(struct cdsc_btree));
     struct cdsc_btree_node* newnode = cdsc_btree_makenode(newtree);
     newtree->root = newnode;
+    newtree->root->parent = NULL;
 	return newtree;
 }  
 
