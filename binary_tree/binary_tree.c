@@ -90,7 +90,6 @@ void cdsc_btree_purge_node(struct cdsc_btree_node* node){
 
 // Gracefully remove a node
 void cdsc_btree_remove_node(struct cdsc_btree_node* node){
-    int i;
 	int childnum = cdsc_btree_getchildnum(node);
 	struct cdsc_btree_node* childdir = cdsc_btree_get_child_direction(node);
 	
@@ -215,7 +214,7 @@ struct cdsc_btree_node* cdsc_btree_naive_lca(struct cdsc_btree_node* nod1, struc
 
 struct cdsc_btree *cdsc_btree_make_btree(){
     struct cdsc_btree* newtree = malloc(sizeof(struct cdsc_btree));
-    struct cdsc_btree_node* newnode = cdsc_btree_makenode(newtree);
+    struct cdsc_btree_node* newnode = cdsc_btree_makenode(NULL);
     newtree->root = newnode;
     newtree->root->parent = NULL;
 	return newtree;
@@ -230,7 +229,6 @@ void cdsc_btree_foreach_pre_order(struct cdsc_btree_node* nod, void (*action)(),
 
 }
 void _cdsc_btree_foreach_pre_order(struct cdsc_btree_node* nod, void (*action)(), void* param){
-	int i;
 	if (nod->rchild != NULL){
 		action(nod->rchild, param);
 		_cdsc_btree_foreach_pre_order(nod->rchild, action, param);	
