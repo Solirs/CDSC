@@ -89,7 +89,7 @@ void cdsc_btree_purge_node(struct cdsc_btree_node* node){
 }
 
 // Gracefully remove a node
-struct cdsc_btree_node* cdsc_btree_remove_node(struct cdsc_btree_node* node){
+void cdsc_btree_remove_node(struct cdsc_btree_node* node){
     int i;
 	int childnum = cdsc_btree_getchildnum(node);
 	struct cdsc_btree_node* childdir = cdsc_btree_get_child_direction(node);
