@@ -37,7 +37,7 @@ struct cdsc_btree_node* cdsc_btree_insert_rchild(struct cdsc_btree_node* node, v
 }
 
 //TODO: Actually implement
-struct cdsc_btree_node* cdsc_btree_insert_leaf(struct cdsc_btree* tree, void* data){
+/*struct cdsc_btree_node* cdsc_btree_insert_leaf(struct cdsc_btree* tree, void* data){
 	struct cdsc_btree_node* nod = tree->root;
 	struct cdsc_btree_node *newnode = cdsc_btree_makenode(nod);
 	newnode->rchild = nod->rchild;
@@ -47,7 +47,7 @@ struct cdsc_btree_node* cdsc_btree_insert_leaf(struct cdsc_btree* tree, void* da
     nod->rchild = newnode;
 
     return newnode;
-}
+}*/
 
 struct cdsc_btree_node* cdsc_btree_get_root_node(struct cdsc_btree_node* node){
     while (true){
