@@ -9,6 +9,8 @@ struct cdsc_btree_node* cdsc_btree_makenode(struct cdsc_btree_node* parent){
     newnode->lchild = NULL;
     return newnode;
 }
+
+// Implements https://en.wikipedia.org/wiki/Binary_tree#Internal_nodes
 struct cdsc_btree_node* cdsc_btree_insert_lchild(struct cdsc_btree_node* node, void* data){
 	struct cdsc_btree_node *newnode = cdsc_btree_makenode(node);
 	newnode->lchild = node->lchild;
@@ -22,6 +24,7 @@ struct cdsc_btree_node* cdsc_btree_insert_lchild(struct cdsc_btree_node* node, v
     return newnode;
 }
 
+// Implements https://en.wikipedia.org/wiki/Binary_tree#Internal_nodes
 struct cdsc_btree_node* cdsc_btree_insert_rchild(struct cdsc_btree_node* node, void* data){
 	struct cdsc_btree_node *newnode = cdsc_btree_makenode(node);
 	newnode->rchild = node->rchild;
@@ -89,6 +92,7 @@ void cdsc_btree_purge_node(struct cdsc_btree_node* node){
 }
 
 // Gracefully remove a node
+// Implements https://en.wikipedia.org/wiki/Binary_tree#Deletion
 void cdsc_btree_remove_node(struct cdsc_btree_node* node){
 	int childnum = cdsc_btree_getchildnum(node);
 	struct cdsc_btree_node* childdir = cdsc_btree_get_child_direction(node);
@@ -143,13 +147,14 @@ void cdsc_btree_orphan(struct cdsc_btree_node* nod){
 	
 	
 }
-
+// Implements https://en.wikipedia.org/wiki/Binary_tree#Internal_nodes
 void cdsc_btree_graft_lchild(struct cdsc_btree_node* nod, struct cdsc_btree_node* parent){
 	cdsc_btree_orphan(nod);
 	parent->lchild = nod;
 	nod->parent = parent;
 	
 }
+// Implements https://en.wikipedia.org/wiki/Binary_tree#Internal_nodes
 void cdsc_btree_graft_rchild(struct cdsc_btree_node* nod, struct cdsc_btree_node* parent){
 	cdsc_btree_orphan(nod);
 	parent->rchild = nod;
