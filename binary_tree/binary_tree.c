@@ -150,6 +150,9 @@ void cdsc_btree_orphan(struct cdsc_btree_node* nod){
 // Implements https://en.wikipedia.org/wiki/Binary_tree#Internal_nodes
 void cdsc_btree_graft_lchild(struct cdsc_btree_node* nod, struct cdsc_btree_node* parent){
 	cdsc_btree_orphan(nod);
+	if (parent->lchild){
+		cdsc_btree_prune_node(parent->lchild);
+	}
 	parent->lchild = nod;
 	nod->parent = parent;
 	
@@ -157,6 +160,9 @@ void cdsc_btree_graft_lchild(struct cdsc_btree_node* nod, struct cdsc_btree_node
 // Implements https://en.wikipedia.org/wiki/Binary_tree#Internal_nodes
 void cdsc_btree_graft_rchild(struct cdsc_btree_node* nod, struct cdsc_btree_node* parent){
 	cdsc_btree_orphan(nod);
+	if (parent->rchild){
+		cdsc_btree_prune_node(parent->rchild);
+	}
 	parent->rchild = nod;
 	nod->parent = parent;
 	
