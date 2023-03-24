@@ -236,7 +236,7 @@ void _cdsc_btree_foreach_pre_order(struct cdsc_btree_node* nod, void (*action)()
 }
 // Zero a tree
 void cdsc_btree_nuke(struct cdsc_btree_node* nod){
-	cdsc_btree_prune_node(nod);
+	cdsc_btree_prune_node(cdsc_btree_get_root_node(nod));
 }
 
 // Increment passed integer, used in cdsc_tree_count
