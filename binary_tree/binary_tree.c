@@ -92,15 +92,19 @@ void cdsc_btree_purge_node(struct cdsc_btree_node* node){
 struct cdsc_btree_node* cdsc_btree_remove_node(struct cdsc_btree_node* node){
     int i;
 	int childnum = cdsc_btree_getchildnum(node);
+	struct cdsc_btree_node* childdir = cdsc_btree_get_child_direction(node);
 	
 	if (node->parent->rchild == node){
-			node->parent->rchild = cdsc_btree_get_child_direction(node);
+			node->parent->rchild = childdir;
 	}else if (node->parent->lchild == node){
-			node->parent->lchild = cdsc_btree_get_child_direction(node);
+			node->parent->lchild = childdir;
 	}
 	if (childnum == 2){
 		cdsc_btree_prune_node(node);
 	}else{
+		if (childdir != NULL){
+			childdir->parent = node->parent;
+		}
 		cdsc_btree_purge_node(node);
 	}
 }
