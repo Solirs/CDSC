@@ -9,6 +9,8 @@ object:
 clean:
 	-rm *.a
 	-rm *.o
+	-rm ./binary_tree
+	-rm valgrind*
 
 run: 
 	make build
