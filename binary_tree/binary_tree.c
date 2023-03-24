@@ -36,6 +36,7 @@ struct cdsc_btree_node* cdsc_btree_insert_rchild(struct cdsc_btree_node* node, v
     return newnode;
 }
 
+//TODO: Actually implement
 struct cdsc_btree_node* cdsc_btree_insert_leaf(struct cdsc_btree* tree, void* data){
 	struct cdsc_btree_node* nod = tree->root;
 	struct cdsc_btree_node *newnode = cdsc_btree_makenode(nod);
@@ -98,7 +99,7 @@ struct cdsc_btree_node* cdsc_btree_remove_node(struct cdsc_btree_node* node){
 	}
 }
 
-
+// Purges/frees a node and all of its children.
 void cdsc_btree_prune_node(struct cdsc_btree_node* nod){
 	cdsc_btree_foreach_post_order(nod, cdsc_btree_purge_node, NULL);
 }
