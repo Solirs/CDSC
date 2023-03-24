@@ -35,5 +35,5 @@ void _cdsc_btree_foreach_post_order(struct cdsc_btree_node* nod, void (*action)(
 void cdsc_btree_graft_rchild(struct cdsc_btree_node* nod, struct cdsc_btree_node* parent);
 void cdsc_btree_graft_lchild(struct cdsc_btree_node* nod, struct cdsc_btree_node* parent);
 void cdsc_btree_orphan(struct cdsc_btree_node* nod);
-//void cdsc_btree_nuke(struct tree* tree);
+void cdsc_btree_nuke(struct cdsc_btree_node* nod);
 #endif
