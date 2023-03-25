@@ -2,17 +2,21 @@
 #include "stack.h"
 
 int main(){
-    struct stack* stack = make_stack();
-    push(stack, "Hello Worldie!");
-    push(stack, "Bye Worldie!");
-    push(stack, "Hello Worldie!");
-    push(stack, "Hello Worldie!");
+    struct cdsc_stack* stack = cdsc_stack_make_stack();
+    cdsc_stack_push(stack, "Hello Worldie!");
+    cdsc_stack_push(stack, "Bye Worldie!");
+    cdsc_stack_push(stack, "Hello Worldie!");
+    cdsc_stack_push(stack, "Hello Worldie!");
 
-    printf("%s\n",pop(stack));
-    printf("%s\n",pop(stack));
-    printf("%s\n",peek(stack));
+    printf("%s\n",cdsc_stack_pop(stack));
+    printf("%s\n",cdsc_stack_pop(stack));
+    printf("%s\n",cdsc_stack_pop(stack));
+    printf("%s\n",cdsc_stack_pop(stack));
+
     printf("%d\n", stack->size);
-
+	
+	cdsc_stack_nuke(stack);
+	free(stack);
     return 0;
 
 }

@@ -1,14 +1,14 @@
 build:
 	make objectlist
 	make object
-	gcc main.c stack.h ../doublylinkedlist/doublylinkedlist.h libstack.a libdoublylinkedlist.a  -o stack
+	gcc main.c stack.h ../linkedlist/linkedlist.h libstack.a liblinkedlist.a  -o stack
 
 objectlist:
-	gcc -c ../doublylinkedlist/doublylinkedlist.c -Wall -Wextra -o libdoublylinkedlist.o
-	ar rcs libdoublylinkedlist.a libdoublylinkedlist.o
+	gcc -c ../linkedlist/linkedlist.c -Wall -Wextra -o liblinkedlist.o
+	ar rcs liblinkedlist.a liblinkedlist.o
 
 object:
-	gcc -c stack.c libdoublylinkedlist.a -Wall -Wextra -o libstack.o  
+	gcc -c stack.c liblinkedlist.a -Wall -Wextra -o libstack.o  
 	ar rcs libstack.a libstack.o
 
 clean:
@@ -18,3 +18,6 @@ clean:
 run: 
 	make build
 	./stack
+valgrind:
+	make build
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./stack

@@ -2,17 +2,17 @@
 #define STACK_
 
 #include<stdlib.h>
-#include"../doublylinkedlist/doublylinkedlist.h"
+#include"../linkedlist/linkedlist.h"
 
 
-struct stack{
+struct cdsc_stack{
     int size;
-    struct DoubleLinkedList *content;
+    struct LinkedList *content;
 };
 
-struct stack* make_stack();
-void push(struct stack* stack, void* data);
-void* pop(struct stack* stack);
-void* peek(struct stack* stack);
+struct cdsc_stack* cdsc_stack_make_stack();
+void cdsc_stack_push(struct cdsc_stack* cdsc_stack, void* data);
+void* cdsc_stack_pop(struct cdsc_stack* cdsc_stack);
+void* cdsc_stack_peek(struct cdsc_stack* cdsc_stack);
 
 #endif
