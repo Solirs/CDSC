@@ -27,7 +27,7 @@ struct tree_node* remove_node(struct tree_node* node){
         struct tree_node* child = (struct tree_node*)getindexfromhead(node->children, i);
         child->parent = node->parent;
     }
-    mergeattail(node->parent->children, node->children);
+    cdsc_linkedlist_merge(node->parent->children, node->children);
     purge_node(node);
 }
 
