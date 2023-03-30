@@ -1,6 +1,5 @@
 build:
-	make objectstack
-	make objectlist
+
 	make object
 	gcc main.c tree.h libtree.a -o tree
 
@@ -9,6 +8,8 @@ objectlist:
 objectstack:
 	gcc -c ../stack/stack.c -Wall -Wextra -o libstack.o
 object:
+	make objectstack
+	make objectlist
 	gcc -c tree.c liblinkedlist.a libstack.a -Wall -Wextra -o libtree.o  
 	ar ruv libtree.a libtree.o libstack.o liblinkedlist.o
 

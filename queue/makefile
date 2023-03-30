@@ -1,5 +1,4 @@
 build:
-	make objectlist
 	make object
 	gcc main.c queue.h libqueue.a -o queue 
 
@@ -7,6 +6,7 @@ objectlist:
 	gcc -c ../linkedlist/linkedlist.c -Wall -Wextra -o liblinkedlist.o
 
 object:
+	make objectlist
 	gcc -c queue.c -Wall -Wextra -o libqueue.o  
 	ar ruv libqueue.a libqueue.o liblinkedlist.o
 

@@ -1,5 +1,4 @@
 build:
-	make objectlist
 	make object
 	gcc main.c deque.h libdeque.a -o deque
 
@@ -7,6 +6,7 @@ objectlist:
 	gcc -c ../linkedlist/linkedlist.c -Wall -Wextra -o liblinkedlist.o
 
 object:
+	make objectlist
 	gcc -c deque.c -Wall -Wextra -o libdeque.o  
 	ar ruv libdeque.a libdeque.o liblinkedlist.o
 
