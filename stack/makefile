@@ -1,6 +1,6 @@
 build:
 	make object
-	gcc main.c stack.h ../linkedlist/linkedlist.h libstack.a liblinkedlist.a  -o stack
+	gcc main.c stack.h ../linkedlist/linkedlist.h libstack.a  -o stack
 
 objectlist:
 	gcc -c ../linkedlist/linkedlist.c -Wall -Wextra -o liblinkedlist.o
