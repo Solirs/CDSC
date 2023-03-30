@@ -31,17 +31,6 @@ struct tree_node* remove_node(struct tree_node* node){
     purge_node(node);
 }
 
-//WARNING: Only used internally by the implementation, do NOT call unless you know what you're doing!
-void purge_node(struct tree_node* nod){
-	nuke(nod->children);
-	free(nod->children);
-	free(nod);
-}
-
-void prune_node(struct tree_node* nod){
-
-	cdsc_tree_foreach_post_order_recursive(nod, purge_node, NULL);
-}
 
 void graft(struct tree_node* nod, struct tree_node* parent){
 	remove_node_if_contains(nod->parent->children, nod);
@@ -133,6 +122,8 @@ void cdsc_tree_foreach_pre_order(struct tree_node* nod, void (*action)(), void* 
 
 		}
 	}
+	cdsc_stack_nuke(stack);
+	free(stack);
 	
 }
 
@@ -146,7 +137,7 @@ void cdsc_tree_foreach_in_order(struct tree_node* nod, void (*action)(), void* p
 //TODO: Comment
 void cdsc_tree_foreach_post_order(struct tree_node* nod, void (*action)(), void* param){
 	struct cdsc_stack* stack = cdsc_stack_make_stack();
-
+	struct cdsc_stack* tempstack = cdsc_stack_make_stack();
 	struct tree_node* lastnode = NULL;
 	struct tree_node* nodde = NULL;
 	cdsc_stack_push(stack, nod);
@@ -157,15 +148,20 @@ void cdsc_tree_foreach_post_order(struct tree_node* nod, void (*action)(), void*
 			cdsc_stack_pop(stack);
 			lastnode = nodde;
 		}else{
-			struct cdsc_stack* tempstack = cdsc_stack_make_stack();
+			
 			cdsc_linkedlist_foreach(nodde->children, stackadd, tempstack);
 			while (tempstack->size != 0){
 				cdsc_stack_push(stack, cdsc_stack_pop(tempstack));
 			}
+			nuke(tempstack->content);
 			
 		}
 
 	}
+	cdsc_stack_nuke(stack);
+	free(stack);
+	cdsc_stack_nuke(tempstack);
+	free(tempstack);
 	
 }
 
@@ -186,10 +182,21 @@ void cdsc_tree_foreach_pre_order_recursive(struct tree_node* nod, void (*action)
 			cdsc_tree_foreach_pre_order_recursive(getindexfromhead(nod->children, i), action, param);
 	}
 }
+//WARNING: Only used internally by the implementation, do NOT call unless you know what you're doing!
+void purge_node(struct tree_node* nod){
+	nuke(nod->children);
+	free(nod->children);
+	free(nod);
+}
+
+void prune_node(struct tree_node* nod){
+	cdsc_tree_foreach_post_order(nod, purge_node, NULL);
+}
+
 // Zero a tree
 void cdsc_tree_nuke(struct tree* tree){
 	prune_node(tree->root);
-	purge_node(tree->root);
+	//purge_node(tree->root);
 	tree->root = NULL;
 }
 
