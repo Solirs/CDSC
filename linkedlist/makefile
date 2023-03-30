@@ -1,13 +1,12 @@
 build:
 	make object
 	gcc main.c liblinkedlist.a -Wall -Wextra -o linkedlist
-
-
+	
 run:
 	make build
 	./linkedlist
 	make clean
-
+	
 object:
 	gcc -c linkedlist.c -Wall -Wextra -o liblinkedlist.o
 	ar rcs liblinkedlist.a liblinkedlist.o
