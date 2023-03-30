@@ -5,11 +5,10 @@ build:
 
 objectlist:
 	gcc -c ../linkedlist/linkedlist.c -Wall -Wextra -o liblinkedlist.o
-	ar rcs liblinkedlist.a liblinkedlist.o
 
 object:
 	gcc -c stack.c liblinkedlist.a -Wall -Wextra -o libstack.o  
-	ar rcs libstack.a libstack.o
+	ar rcs libstack.a libstack.o liblinkedlist.o
 
 clean:
 	-rm *.a
