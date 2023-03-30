@@ -5,11 +5,10 @@ build:
 
 objectlist:
 	gcc -c ../linkedlist/linkedlist.c -Wall -Wextra -o liblinkedlist.o
-	ar rcs liblinkedlist.a liblinkedlist.o
 
 object:
 	gcc -c queue.c liblinkedlist.a -Wall -Wextra -o libqueue.o  
-	ar rcs libqueue.a libqueue.o
+	ar ruv libqueue.a libqueue.o liblinkedlist.o
 
 clean:
 	-rm *.a
