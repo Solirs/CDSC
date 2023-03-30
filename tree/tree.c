@@ -40,7 +40,7 @@ void purge_node(struct tree_node* nod){
 
 void prune_node(struct tree_node* nod){
 
-	cdsc_tree_foreach_post_order(nod, purge_node, NULL);
+	cdsc_tree_foreach_post_order_recursive(nod, purge_node, NULL);
 }
 
 void graft(struct tree_node* nod, struct tree_node* parent){
@@ -113,20 +113,77 @@ struct tree *make_tree(){
 	return newtree;
 }  
 
-//TODO: Wrap those functions so the root node can also be affected
+
+void _stackpushnode(struct node *nod, struct cdsc_stack* stack){
+	
+	if (nod->data != NULL){
+		cdsc_stack_push(stack,(struct tree_node*)nod->data);	
+	}
+}
+// Iterative pre order traversal using a stack
+// Implements https://en.wikipedia.org/wiki/Tree_traversal#Pre-order_implementation
+void cdsc_tree_foreach_pre_order(struct tree_node* nod, void (*action)(), void* param){
+	struct cdsc_stack* stack = cdsc_stack_make_stack();
+	cdsc_stack_push(stack, nod);
+	while (stack->size != 0){
+		struct tree_node* nn = (struct tree_node*)cdsc_stack_pop(stack);
+		action(nod, param);
+		if (nn->children->size != 0){
+			cdsc_linkedlist_foreach(nn->children, _stackpushnode, stack);
+
+		}
+	}
+	
+}
+
+void stackadd(struct node* nd, struct cdsc_stack* stack){
+	cdsc_stack_push(stack, nd->data);
+	
+}
+void cdsc_tree_foreach_in_order(struct tree_node* nod, void (*action)(), void* param){
+	// TODO
+}
+//TODO: Comment
 void cdsc_tree_foreach_post_order(struct tree_node* nod, void (*action)(), void* param){
+	struct cdsc_stack* stack = cdsc_stack_make_stack();
+
+	struct tree_node* lastnode = NULL;
+	struct tree_node* nodde = NULL;
+	cdsc_stack_push(stack, nod);
+	while (stack->size != 0){
+		nodde = (struct tree_node*)cdsc_stack_peek(stack);
+		if (nodde->children->size == 0 || lastnode != NULL && find(nodde->children, lastnode) != NULL){
+			action(nodde, param);
+			cdsc_stack_pop(stack);
+			lastnode = nodde;
+		}else{
+			struct cdsc_stack* tempstack = cdsc_stack_make_stack();
+			cdsc_linkedlist_foreach(nodde->children, stackadd, tempstack);
+			while (tempstack->size != 0){
+				cdsc_stack_push(stack, cdsc_stack_pop(tempstack));
+			}
+			
+		}
+
+	}
+	
+}
+
+
+//TODO: Wrap those functions so the root node can also be affected
+void cdsc_tree_foreach_post_order_recursive(struct tree_node* nod, void (*action)(), void* param){
 	int i;
 	for (i = 0; i<nod->children->size; i++){
-			cdsc_tree_foreach_post_order(getindexfromhead(nod->children, i), action, param);
+			cdsc_tree_foreach_post_order_recursive(getindexfromhead(nod->children, i), action, param);
 			action(getindexfromhead(nod->children, i), param);
 
 	}
 }
-void cdsc_tree_foreach_pre_order(struct tree_node* nod, void (*action)(), void* param){
+void cdsc_tree_foreach_pre_order_recursive(struct tree_node* nod, void (*action)(), void* param){
 	int i;
 	for (i = 0; i<nod->children->size; i++){
 			action(getindexfromhead(nod->children, i), param);
-			cdsc_tree_foreach_pre_order(getindexfromhead(nod->children, i), action, param);
+			cdsc_tree_foreach_pre_order_recursive(getindexfromhead(nod->children, i), action, param);
 	}
 }
 // Zero a tree
@@ -141,8 +198,9 @@ void _intplusplus(struct tree_node *nod, int* in){
 	*in = *in + 1;
 
 }
+
 int cdsc_tree_count(struct tree* tree){
 	int num = 1; // Start at 1 because of root node
-	cdsc_tree_foreach_pre_order(tree->root, _intplusplus, &num); // Increment for each node in the tree
+	cdsc_tree_foreach_pre_order_recursive(tree->root, _intplusplus, &num); // Increment for each node in the tree
 	return num;
 }

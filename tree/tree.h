@@ -3,6 +3,8 @@
 
 #include<stdlib.h>
 #include"../linkedlist/linkedlist.h"
+#include"../stack/stack.h"
+
 
 struct tree_node{
     struct tree_node* parent;
