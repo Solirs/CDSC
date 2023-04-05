@@ -308,7 +308,7 @@ void _intplusplus(struct cdsc_btree_node *nod, int* in){
 }
 int cdsc_btree_count(struct cdsc_btree* tree){
 	int num = 0;
-	cdsc_btree_foreach_pre_order_recursive(tree->root, _intplusplus, &num); // Increment for each node in the tree
+	cdsc_btree_foreach_pre_order(tree->root, _intplusplus, &num); // Increment for each node in the tree
 	return num;
 }
 
