@@ -117,19 +117,45 @@ void cdsc_btree_prune_node(struct cdsc_btree_node* nod){
 	cdsc_btree_foreach_post_order(nod, cdsc_btree_purge_node, NULL);
 }
 
-
+// Iterative post order binary tree traversal algorithm, implements https://en.wikipedia.org/wiki/Tree_traversal#Post-order_implementation
 void cdsc_btree_foreach_post_order(struct cdsc_btree_node* nod, void (*action)(), void* param){
-	_cdsc_btree_foreach_post_order(nod, action, param);
+	struct cdsc_stack* stack = cdsc_stack_make_stack();
+	struct cdsc_btree_node* node = nod;
+	struct cdsc_btree_node* lastnodevisited = NULL;
+	
+	while (stack->size != 0 || node != NULL){
+		if (node != NULL){
+			cdsc_stack_push(stack, node);
+			node = node->lchild;
+		}
+		else{
+			struct cdsc_btree_node* pnode = cdsc_stack_peek(stack);
+			if (pnode->rchild != NULL && lastnodevisited != pnode->rchild){
+				node = pnode->rchild;
+			}else{
+				action(pnode, param);
+				lastnodevisited = cdsc_stack_pop(stack);
+			}
+
+		}
+	}
+	cdsc_stack_nuke(stack);
+	free(stack);
+	
+}
+
+void cdsc_btree_foreach_post_order_recursive(struct cdsc_btree_node* nod, void (*action)(), void* param){
+	_cdsc_btree_foreach_post_order_recursive(nod, action, param);
 	action(nod, param);
 
 }
-void _cdsc_btree_foreach_post_order(struct cdsc_btree_node* nod, void (*action)(), void* param){
+void _cdsc_btree_foreach_post_order_recursive(struct cdsc_btree_node* nod, void (*action)(), void* param){
 	if (nod->rchild != NULL){
-		_cdsc_btree_foreach_post_order(nod->rchild, action, param);
+		_cdsc_btree_foreach_post_order_recursive(nod->rchild, action, param);
 		action(nod->rchild, param);
 	}
 	if (nod->lchild != NULL){
-		_cdsc_btree_foreach_post_order(nod->lchild, action, param);
+		_cdsc_btree_foreach_post_order_recursive(nod->lchild, action, param);
 		action(nod->lchild, param);
 	}
 
@@ -233,21 +259,23 @@ struct cdsc_btree *cdsc_btree_make_btree(){
 
 
 void cdsc_btree_foreach_pre_order(struct cdsc_btree_node* nod, void (*action)(), void* param){
+}
+void cdsc_btree_foreach_pre_order_recursive(struct cdsc_btree_node* nod, void (*action)(), void* param){
 	action(nod, param);
-	_cdsc_btree_foreach_pre_order(nod, action, param);
+	_cdsc_btree_foreach_pre_order_recursive(nod, action, param);
 
 
 
 }
-void _cdsc_btree_foreach_pre_order(struct cdsc_btree_node* nod, void (*action)(), void* param){
+void _cdsc_btree_foreach_pre_order_recursive(struct cdsc_btree_node* nod, void (*action)(), void* param){
 	if (nod->rchild != NULL){
 		action(nod->rchild, param);
-		_cdsc_btree_foreach_pre_order(nod->rchild, action, param);	
+		_cdsc_btree_foreach_pre_order_recursive(nod->rchild, action, param);	
 	}
 
 	if (nod->lchild != NULL){
 		action(nod->lchild, param);
-		_cdsc_btree_foreach_pre_order(nod->lchild, action, param);	
+		_cdsc_btree_foreach_pre_order_recursive(nod->lchild, action, param);	
 	}
 
 
@@ -265,7 +293,7 @@ void _intplusplus(struct cdsc_btree_node *nod, int* in){
 }
 int cdsc_btree_count(struct cdsc_btree* tree){
 	int num = 0;
-	cdsc_btree_foreach_pre_order(tree->root, _intplusplus, &num); // Increment for each node in the tree
+	cdsc_btree_foreach_pre_order_recursive(tree->root, _intplusplus, &num); // Increment for each node in the tree
 	return num;
 }
 

@@ -3,6 +3,7 @@
 
 #include<stdlib.h>
 #include <stdbool.h>
+#include "../stack/stack.h"
 
 struct cdsc_btree_node{
     struct cdsc_btree_node* parent;
