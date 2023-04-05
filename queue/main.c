@@ -3,10 +3,13 @@
 
 int main(){
 
-    struct queue *queue = make_queue();
-    enqueue(queue, "Hello World");
+    struct cdsc_queue *queue = cdsc_queue_make_queue();
+    cdsc_queue_enqueue(queue, "Hello World");
 
-    printf("%s\n", getrear(queue));
-    printf("%s\n", getfront(queue));
+    printf("%s\n", cdsc_queue_getrear(queue));
+    printf("%s\n", cdsc_queue_getfront(queue));
+    
+    cdsc_queue_nuke(queue);
+    free(queue);
 
 }
