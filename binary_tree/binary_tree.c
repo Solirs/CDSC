@@ -258,7 +258,22 @@ struct cdsc_btree *cdsc_btree_make_btree(){
 }  
 
 
+// Implements https://en.wikipedia.org/wiki/Tree_traversal#Pre-order_implementation
 void cdsc_btree_foreach_pre_order(struct cdsc_btree_node* nod, void (*action)(), void* param){
+	struct cdsc_stack* stack = cdsc_stack_make_stack();
+	cdsc_stack_push(stack, nod);
+	while (stack->size != 0){
+		struct cdsc_btree_node* node = cdsc_stack_pop(stack);
+		action(node, param);
+		if (node->rchild != NULL){
+			cdsc_stack_push(stack, node->rchild);
+		}
+		if (node->lchild != NULL){
+			cdsc_stack_push(stack, node->lchild);
+		}
+	}
+	cdsc_stack_nuke(stack);
+	free(stack);
 }
 void cdsc_btree_foreach_pre_order_recursive(struct cdsc_btree_node* nod, void (*action)(), void* param){
 	action(nod, param);
