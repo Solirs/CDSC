@@ -1,13 +1,17 @@
 build:
 	make object
-	gcc main.c binary_tree.h libbtree.a -o binary_tree
+	gcc main.c libbtree.a -o binary_tree
 
+objectlist:
+	gcc -c ../linkedlist/linkedlist.c -Wall -Wextra -o liblinkedlist.o
+	ar rcs liblinkedlist.a liblinkedlist.o
 objectstack:
+	make objectlist
 	gcc -c ../stack/stack.c -Wall -Wextra -o libstack.o
 object:
 	make objectstack
-	gcc -c binary_tree.c libstack.a -Wall -Wextra -o libbtree.o 
-	ar ruv libbtree.a libbtree.o libstack.o
+	gcc -c binary_tree.c -Wall -Wextra -o libbtree.o 
+	ar ruv libbtree.a libbtree.o libstack.o liblinkedlist.o
 
 clean:
 	-rm *.a
