@@ -33,8 +33,10 @@ int cdsc_btree_count(struct cdsc_btree* tree);
 
 void cdsc_btree_foreach_pre_order(struct cdsc_btree_node* nod, void(*action)(), void* param);
 void cdsc_btree_foreach_post_order(struct cdsc_btree_node* nod, void (*action)(), void* param);
-void _cdsc_btree_foreach_pre_order(struct cdsc_btree_node* nod, void(*action)(), void* param);
-void _cdsc_btree_foreach_post_order(struct cdsc_btree_node* nod, void (*action)(), void* param);
+void _cdsc_btree_foreach_pre_order_recursive(struct cdsc_btree_node* nod, void(*action)(), void* param);
+void _cdsc_btree_foreach_post_order_recursive(struct cdsc_btree_node* nod, void (*action)(), void* param);
+void cdsc_btree_foreach_pre_order_recursive(struct cdsc_btree_node* nod, void(*action)(), void* param);
+void cdsc_btree_foreach_post_order_recursive(struct cdsc_btree_node* nod, void (*action)(), void* param);
 
 void cdsc_btree_graft_rchild(struct cdsc_btree_node* nod, struct cdsc_btree_node* parent);
 void cdsc_btree_graft_lchild(struct cdsc_btree_node* nod, struct cdsc_btree_node* parent);
