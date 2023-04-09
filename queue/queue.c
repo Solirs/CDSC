@@ -2,15 +2,15 @@
 
 
 
-struct queue *make_queue(){
-    struct queue* ret = malloc(sizeof(struct queue));
+struct cdsc_queue *cdsc_queue_make_queue(){
+    struct cdsc_queue* ret = malloc(sizeof(struct cdsc_queue));
     ret->capacity = 0; // Capacity to 0 = infinite
     ret->size = 0;
     ret->list = make_ll();
     return ret;
 }  
 
-void enqueue(struct queue *queue, void* data){
+void cdsc_queue_enqueue(struct cdsc_queue *queue, void* data){
     if (queue->size == queue->capacity && queue->capacity != 0){
         return NULL;
     }else{
@@ -19,7 +19,7 @@ void enqueue(struct queue *queue, void* data){
     }
 }
 
-void* dequeue(struct queue *queue){
+void* cdsc_queue_dequeue(struct cdsc_queue *queue){
     if (QUEUE_EMPTY){
         return NULL;
     }else{
@@ -30,7 +30,7 @@ void* dequeue(struct queue *queue){
 
 }
 
-void queue_nuke(struct queue* queue){
+void cdsc_queue_nuke(struct cdsc_queue* queue){
     if (QUEUE_EMPTY){
         return NULL;
     }
@@ -40,7 +40,7 @@ void queue_nuke(struct queue* queue){
     queue->size = 0;
 }
 
-void* getfront(struct queue *queue){
+void* cdsc_queue_getfront(struct cdsc_queue *queue){
     if (QUEUE_EMPTY){
         return NULL;
     }
@@ -48,7 +48,7 @@ void* getfront(struct queue *queue){
     return data;
 }
 
-void* getrear(struct queue *queue){
+void* cdsc_queue_getrear(struct cdsc_queue *queue){
     if (QUEUE_EMPTY){
         return NULL;
     }
@@ -56,6 +56,6 @@ void* getrear(struct queue *queue){
     return data;
 }
 
-int cdsc_queue_is_empty(struct queue *queue){
+int cdsc_queue_is_empty(struct cdsc_queue *queue){
     return (queue->size == 0);
 }

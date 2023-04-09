@@ -6,18 +6,18 @@
 
 #define QUEUE_EMPTY queue->size == 0
 
-struct queue{
+struct cdsc_queue{
     struct DoubleLinkedList *list;
     int capacity;
     int size;
 };
 
-struct queue *make_queue();
-void enqueue(struct queue *queue, void* data);
-void* dequeue(struct queue *queue);
+struct cdsc_queue *make_queue();
+void cdsc_queue_enqueue(struct cdsc_queue *queue, void* data);
+void* cdsc_queue_dequeue(struct cdsc_queue *queue);
 
-void queue_nuke(struct queue* queue);
-void* getfront(struct queue *queue);
-void* getrear(struct queue *queue);
-int cdsc_queue_is_empty(struct queue *queue);
+void cdsc_queue_nuke(struct cdsc_queue* queue);
+void* cdsc_queue_getfront(struct cdsc_queue *queue);
+void* cdsc_queue_getrear(struct cdsc_queue *queue);
+int cdsc_queue_is_empty(struct cdsc_queue *queue);
 #endif
