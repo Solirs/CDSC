@@ -5,5 +5,6 @@ This project is still in early development and not released yet, it's mostly usa
 See the "TODO" issue for progress.
 
 # Credits
-[lukakralik](https://github.com/lukakralik).  
-[Solirs](https://github.com/Solirs).  
+## Main developers and maintainers
+- [lukakralik](https://github.com/lukakralik)
+- [Solirs](https://github.com/Solirs)
