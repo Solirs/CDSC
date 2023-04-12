@@ -194,10 +194,10 @@ void cdsc_tree_prune_node(struct cdsc_tree_node* nod){
 }
 
 // Zero a cdsc_tree
-void cdsc_tree_nuke(struct cdsc_tree* cdsc_tree){
-	cdsc_tree_prune_node(cdsc_tree->root);
+void cdsc_tree_nuke(struct cdsc_tree* tree){
+	cdsc_tree_prune_node(tree->root);
 	//cdsc_tree_purge_node(cdsc_tree->root);
-	cdsc_tree->root = NULL;
+	tree->root = NULL;
 }
 
 // Increment passed integer, used in cdsc_tree_count
@@ -206,8 +206,8 @@ void _intplusplus(struct cdsc_tree_node *nod, int* in){
 
 }
 
-int cdsc_tree_count(struct cdsc_tree* cdsc_tree){
+int cdsc_tree_count(struct cdsc_tree* tree){
 	int num = 1; // Start at 1 because of root node
-	cdsc_tree_foreach_pre_order_recursive(cdsc_tree->root, _intplusplus, &num); // Increment for each node in the cdsc_tree
+	cdsc_tree_foreach_pre_order_recursive(tree->root, _intplusplus, &num); // Increment for each node in the cdsc_tree
 	return num;
 }

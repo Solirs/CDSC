@@ -25,8 +25,8 @@ void cdsc_tree_purge_node(struct cdsc_tree_node* node);
 void cdsc_tree_graft(struct cdsc_tree_node* nod, struct cdsc_tree_node* parent);
 struct cdsc_tree_node* cdsc_tree_naive_lca(struct cdsc_tree_node* nod1, struct cdsc_tree_node* nod2);
 int cdsc_tree_get_depth(struct cdsc_tree_node *nod);
-int cdsc_tree_count(struct cdsc_tree* cdsc_tree);
+int cdsc_tree_count(struct cdsc_tree* tree);
 void cdsc_tree_foreach_pre_order(struct cdsc_tree_node* nod, void(*action)(), void* param);
 void cdsc_tree_foreach_post_order(struct cdsc_tree_node* nod, void (*action)(), void* param);
-void cdsc_tree_nuke(struct cdsc_tree* cdsc_tree);
+void cdsc_tree_nuke(struct cdsc_tree* tree);
 #endif
