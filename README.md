@@ -7,4 +7,4 @@ See the "TODO" issue for progress.
 # Credits
 ## Main developers and maintainers
 - [lukakralik](https://github.com/lukakralik)
-- [Solirs](https://github.com/Solirs)
+- [Solirs](https://github.com/Solirs) iusegentoobtw@protonmail.com
