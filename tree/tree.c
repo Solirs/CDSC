@@ -127,7 +127,8 @@ void cdsc_tree_foreach_pre_order(struct cdsc_tree_node* nod, void (*action)(), v
 	
 }
 
-void stackadd(struct cdsc_tree_node* nd, struct cdsc_stack* stack){
+void stackadd(struct cdsc_linkedlist_node* nd, struct cdsc_stack* stack){
+
 	cdsc_stack_push(stack, nd->data);
 	
 }
@@ -141,13 +142,14 @@ void cdsc_tree_foreach_post_order(struct cdsc_tree_node* nod, void (*action)(), 
 	struct cdsc_tree_node* lastnode = NULL;
 	struct cdsc_tree_node* nodde = NULL;
 	cdsc_stack_push(stack, nod);
+	struct cdsc_tree_node* ctn =  (struct cdsc_tree_node*)cdsc_linkedlist_getindexfromhead(nod->children, 0);
 	while (stack->size != 0){
-		if (nodde->children->size == 0 || lastnode != NULL && cdsc_linkedlist_contains(nodde->children, lastnode) != false){
+		nodde = (struct cdsc_tree_node*)cdsc_stack_peek(stack);
+		if (nodde->children->size == 0 || lastnode != NULL && cdsc_linkedlist_find(nodde->children, lastnode) != NULL){
 			action(nodde, param);
 			cdsc_stack_pop(stack);
 			lastnode = nodde;
 		}else{
-			
 			cdsc_linkedlist_foreach(nodde->children, stackadd, tempstack);
 			while (tempstack->size != 0){
 				cdsc_stack_push(stack, cdsc_stack_pop(tempstack));
