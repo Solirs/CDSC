@@ -10,7 +10,7 @@ objectstack:
 object:
 	make objectstack
 	make objectlist
-	gcc -c tree.c liblinkedlist.a libstack.a -Wall -Wextra -o libtree.o  
+	gcc -c tree.c liblinkedlist.o libstack.o -Wall -Wextra -o libtree.o  
 	ar ruv libtree.a libtree.o libstack.o liblinkedlist.o
 
 clean:

@@ -7,37 +7,37 @@
 #define cdsc_linkedlist_prepend(list, data) inserthead(list, data)
 #define cdsc_linkedlist_append(list, data) inserttail(list, data)
 
-struct node{
+struct cdsc_linkedlist_node{
     void* data;
-    struct node* next;
+    struct cdsc_linkedlist_node* next;
 };
 
-struct LinkedList{
+struct cdsc_linkedlist{
     int size;
-    struct node* head;
-    struct node* tail;
+    struct cdsc_linkedlist_node* head;
+    struct cdsc_linkedlist_node* tail;
 };
 
-void inserthead(struct LinkedList *list, void* data);
-void inserttail(struct LinkedList *list, void* data);
+void cdsc_linkedlist_inserthead(struct cdsc_linkedlist *list, void* data);
+void cdsc_linkedlist_inserttail(struct cdsc_linkedlist *list, void* data);
 
-void* poptail(struct LinkedList *list);
-void* pophead(struct LinkedList *list);
+void* cdsc_linkedlist_poptail(struct cdsc_linkedlist *list);
+void* cdsc_linkedlist_pophead(struct cdsc_linkedlist *list);
 
-void* getindexfromhead(struct LinkedList *list, int index);
-void* getindexfromtail(struct LinkedList *list, int index);
+void* cdsc_linkedlist_getindexfromhead(struct cdsc_linkedlist *list, int index);
+void* cdsc_linkedlist_getindexfromtail(struct cdsc_linkedlist *list, int index);
 
-struct LinkedList *make_ll();
-void nuke(struct LinkedList *list);
-void setdata(struct LinkedList *list, void* data, int index);
-struct node* find(struct LinkedList *list, void* key);
-int findindex(struct LinkedList *list, void* key);
-bool is_empty(struct LinkedList *list);
-void reverse(struct LinkedList *list);
-void cdsc_linkedlist_merge(struct LinkedList *list1, struct LinkedList *list2);
-void appendnode(struct LinkedList *list, struct node* node);
-void remove_node_if_contains(struct LinkedList *list, void* key);
-bool contains(struct LinkedList* list, void* data);
-void cdsc_linkedlist_foreach(struct LinkedList *list, void (*action)(), void* param);
+struct cdsc_linkedlist *cdsc_linkedlist_make_ll();
+void cdsc_linkedlist_nuke(struct cdsc_linkedlist *list);
+void cdsc_linkedlist_setdata(struct cdsc_linkedlist *list, void* data, int index);
+struct cdsc_linkedlist_node* cdsc_linkedlist_find(struct cdsc_linkedlist *list, void* key);
+int cdsc_linkedlist_findindex(struct cdsc_linkedlist *list, void* key);
+bool cdsc_linkedlist_is_empty(struct cdsc_linkedlist *list);
+void cdsc_linkedlist_reverse(struct cdsc_linkedlist *list);
+void cdsc_linkedlist_merge(struct cdsc_linkedlist *list1, struct cdsc_linkedlist *list2);
+void cdsc_linkedlist_appendnode(struct cdsc_linkedlist *list, struct cdsc_linkedlist_node* cdsc_linkedlist_node);
+void cdsc_linkedlist_remove_node_if_contains(struct cdsc_linkedlist *list, void* key);
+bool cdsc_linkedlist_contains(struct cdsc_linkedlist* list, void* data);
+void cdsc_linkedlist_foreach(struct cdsc_linkedlist *list, void (*action)(), void* param);
 
 #endif
