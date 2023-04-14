@@ -9,7 +9,7 @@
 struct cdsc_tree_node{
     struct cdsc_tree_node* parent;
     void* data;
-    struct LinkedList* children;
+    struct cdsc_linkedlist* children;
 };
 
 struct cdsc_tree{
