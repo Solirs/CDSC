@@ -12,11 +12,13 @@ struct cdsc_deque{
     int size;
 };
 
-struct cdsc_deque *make_deque();
+struct cdsc_deque *cdsc_deque_make_deque();
 void cdsc_deque_push_back(struct cdsc_deque *queue, void* data);
 void* cdsc_deque_pop_front(struct cdsc_deque *queue);
 
 void cdsc_deque_nuke(struct cdsc_deque* queue);
 void* cdsc_deque_peek_front(struct cdsc_deque *queue);
 void* cdsc_deque_peek_rear(struct cdsc_deque *queue);
+void cdsc_deque_push_front(struct cdsc_deque *queue, void* data);
+void cdsc_deque_push_back(struct cdsc_deque *queue, void* data);
 #endif
