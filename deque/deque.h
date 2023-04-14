@@ -2,12 +2,12 @@
 #define DEQUEUE_
 
 #include<stdlib.h>
-#include"../linkedlist/linkedlist.h"
+#include"../doublylinkedlist/doublylinkedlist.h"
 
 #define QUEUE_EMPTY queue->size == 0
 
 struct cdsc_deque{
-    struct LinkedList *list;
+    struct cdsc_doublylinkedlist *list;
     int capacity;
     int size;
 };

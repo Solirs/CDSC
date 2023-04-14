@@ -3,7 +3,7 @@
 
 int main(){
 
-    struct cdsc_deque *deque = make_deque();
+    struct cdsc_deque *deque = cdsc_deque_make_deque();
     cdsc_deque_push_back(deque, "Hello world");
     cdsc_deque_push_front(deque, "Goodbye world");
 
