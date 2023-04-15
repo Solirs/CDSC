@@ -1,5 +1,7 @@
 #include "tree.h"
 #include <stdio.h>
+
+// Append child to a tree node.
 struct cdsc_tree_node* cdsc_tree_add_child(struct cdsc_tree_node* node, void* data){
     struct cdsc_tree_node* newnode = malloc(sizeof(struct cdsc_tree_node));
     newnode->parent = node;
@@ -11,6 +13,7 @@ struct cdsc_tree_node* cdsc_tree_add_child(struct cdsc_tree_node* node, void* da
     return newnode;
 }
 
+// Get the root node of a tree using any node inside it.
 struct cdsc_tree_node* cdsc_tree_get_root_node(struct cdsc_tree_node* node){
     while (true){
         if (node->parent == NULL){
@@ -20,6 +23,9 @@ struct cdsc_tree_node* cdsc_tree_get_root_node(struct cdsc_tree_node* node){
         }
     }
 }
+
+// Remove a node from the tree
+// Its children are adopted by the parent node
 struct cdsc_tree_node* cdsc_tree_remove_node(struct cdsc_tree_node* node){
     int i;
 
@@ -31,13 +37,16 @@ struct cdsc_tree_node* cdsc_tree_remove_node(struct cdsc_tree_node* node){
     cdsc_tree_purge_node(node);
 }
 
-
+// Graft a node and all its children to another
+// This will make this node a child of the parent node.
 void cdsc_tree_graft(struct cdsc_tree_node* nod, struct cdsc_tree_node* parent){
 	cdsc_linkedlist_remove_node_if_contains(nod->parent->children, nod);
 	cdsc_linkedlist_inserttail(parent->children, nod);
 	nod->parent = parent;
 	
 }
+
+// Get how deep a node is in the tree
 int cdsc_tree_get_depth(struct cdsc_tree_node *nod){
 	int i = 0;
 	struct cdsc_tree_node *cur = nod;
@@ -91,6 +100,8 @@ struct cdsc_tree_node* cdsc_tree_naive_lca(struct cdsc_tree_node* nod1, struct c
 		}
 	}
 }
+
+// Create and initialize a tree
 struct cdsc_tree *cdsc_tree_make_tree(){
     struct cdsc_tree* newtree = malloc(sizeof(struct cdsc_tree));
     struct cdsc_tree_node* newnode = malloc(sizeof(struct cdsc_tree_node));
@@ -102,8 +113,8 @@ struct cdsc_tree *cdsc_tree_make_tree(){
 	return newtree;
 }  
 
-
-void _stackpushnode(struct cdsc_tree_node *nod, struct cdsc_stack* stack){
+// Internal function used by the iterative post order traversal
+void _stackpushnode(struct cdsc_linkedlist_node *nod, struct cdsc_stack* stack){
 	
 	if (nod->data != NULL){
 		cdsc_stack_push(stack,(struct cdsc_tree_node*)nod->data);	
@@ -127,30 +138,32 @@ void cdsc_tree_foreach_pre_order(struct cdsc_tree_node* nod, void (*action)(), v
 	
 }
 
-void stackadd(struct cdsc_linkedlist_node* nd, struct cdsc_stack* stack){
-
-	cdsc_stack_push(stack, nd->data);
-	
-}
 void cdsc_tree_foreach_in_order(struct cdsc_tree_node* nod, void (*action)(), void* param){
 	// TODO
 }
-//TODO: Comment
+// Implementation of post order tree traversal for n-ary trees.
 void cdsc_tree_foreach_post_order(struct cdsc_tree_node* nod, void (*action)(), void* param){
+	// Our main stack
 	struct cdsc_stack* stack = cdsc_stack_make_stack();
 	struct cdsc_stack* tempstack = cdsc_stack_make_stack();
 	struct cdsc_tree_node* lastnode = NULL;
+	
+	// Current node to process
 	struct cdsc_tree_node* nodde = NULL;
+	
+	// Push our root node to the stack
 	cdsc_stack_push(stack, nod);
-	struct cdsc_tree_node* ctn =  (struct cdsc_tree_node*)cdsc_linkedlist_getindexfromhead(nod->children, 0);
 	while (stack->size != 0){
-		nodde = (struct cdsc_tree_node*)cdsc_stack_peek(stack);
+		nodde = (struct cdsc_tree_node*)cdsc_stack_peek(stack); // Get the root node of our traversal
 		if (nodde->children->size == 0 || lastnode != NULL && cdsc_linkedlist_find(nodde->children, lastnode) != NULL){
-			action(nodde, param);
-			cdsc_stack_pop(stack);
-			lastnode = nodde;
-		}else{
-			cdsc_linkedlist_foreach(nodde->children, stackadd, tempstack);
+			// If node is a leaf or  last node is a child of the node
+			action(nodde, param); // Run the passed function on that node.
+			cdsc_stack_pop(stack); // Remove it from the stack as we go up
+			lastnode = nodde; // Now this node is the last node visited
+		}else{ // If the node is'nt a leaf and the last node visited isn't a child of the node
+			// Add its children to the stack in reverse order to be processed.
+			// TODO: use a deque or doubly linked list for that
+			cdsc_linkedlist_foreach(nodde->children,_stackpushnode, tempstack);
 			while (tempstack->size != 0){
 				cdsc_stack_push(stack, cdsc_stack_pop(tempstack));
 			}
@@ -159,6 +172,7 @@ void cdsc_tree_foreach_post_order(struct cdsc_tree_node* nod, void (*action)(), 
 		}
 
 	}
+	// Free all those data structures we allocated.
 	cdsc_stack_nuke(stack);
 	free(stack);
 	cdsc_stack_nuke(tempstack);
@@ -194,7 +208,7 @@ void cdsc_tree_prune_node(struct cdsc_tree_node* nod){
 	cdsc_tree_foreach_post_order(nod, cdsc_tree_purge_node, NULL);
 }
 
-// Zero a cdsc_tree
+// Zero a cdsc_tree, for this we post-order traverse it to free every node.
 void cdsc_tree_nuke(struct cdsc_tree* tree){
 	cdsc_tree_prune_node(tree->root);
 	tree->root = NULL;
@@ -205,9 +219,10 @@ void _intplusplus(struct cdsc_tree_node *nod, int* in){
 	*in = *in + 1;
 
 }
-
+// Return the amount of nodes in a tree, for this we pre order traverse the tree and implement an int
+// Which we then return
 int cdsc_tree_count(struct cdsc_tree* tree){
 	int num = 1; // Start at 1 because of root node
-	cdsc_tree_foreach_pre_order_recursive(tree->root, _intplusplus, &num); // Increment for each node in the cdsc_tree
+	cdsc_tree_foreach_pre_order(tree->root, _intplusplus, &num); // Increment for each node in the cdsc_tree
 	return num;
 }

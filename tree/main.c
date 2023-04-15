@@ -11,6 +11,7 @@ void printnode(struct cdsc_tree_node* nod){
 	}
 }
 int main(){
+	int i;
     struct cdsc_tree* tree = cdsc_tree_make_tree();
     struct cdsc_tree_node* child = cdsc_tree_add_child(tree->root, "Hello1");
     struct cdsc_tree_node* child2 = cdsc_tree_add_child(tree->root, "Hello2");
@@ -23,7 +24,7 @@ int main(){
 	//cdsc_tree_add_child(ch4, "ByeBB2");
 	//cdsc_tree_add_child(child2, "Hello21");
 	//cdsc_tree_add_child(child3, "Hello31");
-
+	
 
     struct cdsc_tree_node* rootnode = cdsc_tree_get_root_node(child);
     //struct cdsc_tree_node *child3 = cdsc_tree_add_child(child, "bye");
@@ -35,9 +36,9 @@ int main(){
     ///printf("%d\n", get_depth(child));
 
 	//prune_node(child2);
-	cdsc_tree_foreach_post_order(rootnode, printnode, NULL);
+	//cdsc_tree_foreach_post_order(rootnode, printnode, NULL);
 
-	//cdsc_tree_nuke(tree);
+	cdsc_tree_nuke(tree);
 	//nuke(rootnode->children);
 	//free(rootnode->children);
 
