@@ -6,6 +6,8 @@
 int main(){
     // Test driver code
     struct cdsc_linkedlist *Nodelist = cdsc_linkedlist_make_ll();
+    struct cdsc_linkedlist *Nodelist2 = cdsc_linkedlist_make_ll();
+
     //struct LinkedList Nodelist2 = *make_ll();
     char* c = malloc(6 * sizeof(char));
     strcpy(c, "Hello");
@@ -14,7 +16,9 @@ int main(){
     *i = 11892;
     cdsc_linkedlist_inserttail( Nodelist, i);
     cdsc_linkedlist_inserttail( Nodelist, c);
-    cdsc_linkedlist_inserttail( Nodelist, "ABC");
+    cdsc_linkedlist_inserttail( Nodelist2, "ABC");
+    
+    struct cdsc_linkedlist* Nodelist3 = cdsc_linkedlist_merge(Nodelist, Nodelist2);
 
     cdsc_linkedlist_inserthead( Nodelist, "Bye world!");
     //mergeattail( Nodelist,  Nodelist2);
@@ -28,8 +32,13 @@ int main(){
     free(c);
     free(i);
     cdsc_linkedlist_nuke( Nodelist);
+    cdsc_linkedlist_nuke( Nodelist2);
+    cdsc_linkedlist_nuke( Nodelist3);
+
+
     free(Nodelist);
-    //nuke( Nodelist2);
+    free(Nodelist2);
+    free(Nodelist3);
 
     return 0;
 }
