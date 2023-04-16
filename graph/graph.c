@@ -64,4 +64,3 @@ bool cdsc_graph_is_emtpy(graph *g) {
 		return false;
 	}
 }
-
