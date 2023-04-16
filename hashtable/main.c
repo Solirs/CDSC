@@ -10,8 +10,8 @@
 unsigned long cdsc_ht_hash(const char *key) {
     unsigned long hash = OFFSET;
     for (const char *p = key; *p; p++) {
-        hash ^= (unsigned long)(*p);
-        hash *= PRIME;
+	hash ^= (unsigned long) (*p);
+	hash *= PRIME;
     }
     return hash;
 }
@@ -23,7 +23,7 @@ int main() {
     bool inserted = cdsc_ht_insert(table, "Amo", "gus");
     printf("%i\n", inserted);
 
-    printf("%s\n", (char*) cdsc_ht_lookup(table, "Amo"));
+    printf("%s\n", (char *) cdsc_ht_lookup(table, "Amo"));
 
     inserted = cdsc_ht_insert(table, "Amo", "gus");
     printf("%i\n", inserted);
