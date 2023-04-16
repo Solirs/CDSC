@@ -7,7 +7,7 @@ objectlist:
 
 object:
 	make objectlist
-	gcc -c stack.c liblinkedlist.a -Wall -Wextra -o libstack.o  
+	gcc -c stack.c -Wall -Wextra -o libstack.o  
 	ar rcs libstack.a libstack.o liblinkedlist.o
 
 clean:

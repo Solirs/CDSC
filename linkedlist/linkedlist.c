@@ -121,10 +121,10 @@ struct cdsc_linkedlist *cdsc_linkedlist_make_ll(){
 }
 
 // Completely wipe a linked list
-void cdsc_linkedlist_nuke(struct cdsc_linkedlist *list){
+int cdsc_linkedlist_nuke(struct cdsc_linkedlist *list){
     struct cdsc_linkedlist_node *cur;
     if (list->size == 0){
-        return NULL;
+        return 1;
     }
     if (list->head == list->tail){
         free(list->head);
@@ -145,20 +145,22 @@ void cdsc_linkedlist_nuke(struct cdsc_linkedlist *list){
         }
     }  
     list->size = 0;
+    return 0;
 
 }
 
 // Sets the data of a LinkedList's certain index, starting from the head.
-void cdsc_linkedlist_setdata(struct cdsc_linkedlist *list, void* data, int index){
+int cdsc_linkedlist_setdata(struct cdsc_linkedlist *list, void* data, int index){
     int i;
     struct cdsc_linkedlist_node* cur = list->head;
     for (i = 0; i<index; i++){
         cur = cur->next;
         if (cur == NULL){
-            return NULL;
+            return 1;
         }
     }
         cur->data = data;
+    return 0;
 
 }
 
@@ -185,11 +187,11 @@ int cdsc_linkedlist_findindex(struct cdsc_linkedlist *list, void* key) {
 	struct cdsc_linkedlist_node* current = list->head;
     int i = 0;
 	if (list->head == NULL) {
-		return NULL;
+		return 1;
 	}
 	while (current->data != key){
 		if (current->next == NULL) {
-			return NULL;
+			return 1;
 		}
 		else {
 			current = current->next;
@@ -255,13 +257,47 @@ void cdsc_linkedlist_appendnode(struct cdsc_linkedlist *list, struct cdsc_linked
 
 }
 
-// Merge two linked lists at the first linked list's tail
-void cdsc_linkedlist_merge(struct cdsc_linkedlist *list1, struct cdsc_linkedlist *list2){
+// Merge two linked lists at the first linked list's tail by changing the des
+void cdsc_linkedlist_fastconcat(struct cdsc_linkedlist *list1, struct cdsc_linkedlist *list2){
     list1->tail->next = list2->head;
     list1->size += list2->size;
+    list2->tail = list2->tail;
+    list2->head = NULL;
+    list2->tail = NULL;
+    list2->size = 0;
 }
 
-// Check if a linked listt contains a piece of data, returns true if so, otherwise false.
+// Concat two lists by copying and appending the data of list2 to list1.
+void cdsc_linkedlist_concat(struct cdsc_linkedlist *list1, struct cdsc_linkedlist *list2){
+	struct cdsc_linkedlist_node* cur = list2->head;
+	while (cur != NULL){
+		cdsc_linkedlist_append(list1, cur->data);
+		cur = cur->next;
+	}
+}
+
+// Merge two lists by copying and appending the data of list2 and list1 to a new one.
+struct cdsc_linkedlist* cdsc_linkedlist_merge(struct cdsc_linkedlist *list1, struct cdsc_linkedlist *list2){
+	struct cdsc_linkedlist* dest = cdsc_linkedlist_make_ll();
+	struct cdsc_linkedlist_node* cur = list1->head;
+	while (cur != NULL){
+		cdsc_linkedlist_append(dest, cur->data);
+		cur = cur->next;
+
+	}
+	cur = list2->head;
+	while (cur != NULL){
+		cdsc_linkedlist_append(dest, cur->data);
+		cur = cur->next;
+
+	}
+	
+	return dest;
+	
+}
+
+
+// Check if a linked list contains a piece of data, returns true if so, otherwise false.
 bool cdsc_linkedlist_contains(struct cdsc_linkedlist* list, void* data){
     int i;
     struct cdsc_linkedlist_node* cur = list->head;
