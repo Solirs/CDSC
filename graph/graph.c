@@ -36,13 +36,14 @@ void cdsc_graph_insert(graph *g, int source, int target) {
 	g->adj_list[target] = new_node;
 }
 
+// Free all nodes of the graph and the graph itself
 void cdsc_graph_nuke(graph *g) {
 	for (int i = 0; i < g->nodes; i++) {
 		node *current = g->adj_list[i];
 		while (current != NULL) {
 			node *next = current->next;
 			free(current);
-			current = next;	
+			current = next;
 		}
 	}
 	free(g->adj_list);
@@ -52,10 +53,12 @@ void cdsc_graph_nuke(graph *g) {
 void *cdsc_graph_delete(graph *g, void *node);
 bool cdsc_graph_search(graph *g, void* node1, void* node2);
 
+// Return number of nodes in the graph
 size_t cdsc_graph_len(graph *g) {
 	return g->nodes;
 }
 
+// Check if there are any nodes present in the graph
 bool cdsc_graph_is_emtpy(graph *g) {
 	if (!g->nodes) {
 		return true;
