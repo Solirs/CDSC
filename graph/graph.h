@@ -18,7 +18,7 @@ graph *cdsc_graph_init(size_t nodes);
 void cdsc_graph_nuke(graph *g);
 
 void cdsc_graph_insert(graph *g, int source, int target);
-void *cdsc_graph_delete(graph *g, void *node);
+void cdsc_graph_delete(graph *g, int source, int target);
 bool cdsc_graph_search(graph *g, void* node1, void* node2);
 
 size_t cdsc_graph_len(graph *g);

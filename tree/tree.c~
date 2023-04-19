@@ -31,7 +31,8 @@ struct cdsc_tree_node *cdsc_tree_remove_node(struct cdsc_tree_node *node) {
     int i;
 
     for (i = 0; i < node->children->size; i++) {
-	struct cdsc_tree_node *child = (struct cdsc_tree_node *)
+	struct cdsc_tree_node *child =
+	    (struct cdsc_tree_node *)
 	    cdsc_linkedlist_getindexfromhead(node->children, i);
 	child->parent = node->parent;
     }
@@ -154,7 +155,7 @@ void cdsc_tree_foreach_in_order(struct cdsc_tree_node *nod,
 
 // Implementation of post order tree traversal for n-ary trees.
 void cdsc_tree_foreach_post_order(struct cdsc_tree_node *nod,
-				  void (*action)(), void *param) {
+				  void(*action)(), void *param) {
     // Our main stack
     struct cdsc_stack *stack = cdsc_stack_make_stack();
     struct cdsc_stack *tempstack = cdsc_stack_make_stack();
