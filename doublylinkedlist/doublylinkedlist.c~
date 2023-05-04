@@ -188,8 +188,8 @@ void cdsc_doublylinkedlist_reverse(struct cdsc_doublylinkedlist *list) {
     }
     list->head = prev;
 }
-void cdsc_doublylinkedlist_appendnode(struct cdsc_doublylinkedlist *list,
-				      struct cdsc_doublylinkedlist_node
+
+void cdsc_doublylinkedlist_appendnode(struct cdsc_doublylinkedlist *list, struct cdsc_doublylinkedlist_node
 				      *node) {
     if (list->size == 0) {
 	list->head = node;

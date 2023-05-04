@@ -251,8 +251,7 @@ void cdsc_linkedlist_remove_node_if_contains(struct cdsc_linkedlist *list,
 }
 
 // Appends a premade node struct to a linked list.
-void cdsc_linkedlist_appendnode(struct cdsc_linkedlist *list,
-				struct cdsc_linkedlist_node
+void cdsc_linkedlist_appendnode(struct cdsc_linkedlist *list, struct cdsc_linkedlist_node
 				*cdsc_linkedlist_node) {
     if (list->size == 0) {
 	list->head = cdsc_linkedlist_node;
@@ -287,8 +286,7 @@ void cdsc_linkedlist_concat(struct cdsc_linkedlist *list1,
 
 // Merge two lists by copying and appending the data of list2 and list1 to a new one.
 struct cdsc_linkedlist *cdsc_linkedlist_merge(struct cdsc_linkedlist
-					      *list1,
-					      struct cdsc_linkedlist
+					      *list1, struct cdsc_linkedlist
 					      *list2) {
     struct cdsc_linkedlist *dest = cdsc_linkedlist_make_ll();
     struct cdsc_linkedlist_node *cur = list1->head;
