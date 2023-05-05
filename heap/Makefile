@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast
+
 
 build:
 	make object

@@ -1,6 +1,6 @@
 build:
 	make object
-	$(CC) main.c queue.h libqueue.a -o queue 
+	$(CC) $(CFLAGS) main.c queue.h libqueue.a -o queue 
 
 objectlist:
 	$(MAKE) -C ../linkedlist object

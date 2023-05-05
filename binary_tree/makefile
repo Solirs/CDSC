@@ -1,6 +1,6 @@
 build:
 	make object
-	$(CC) main.c libbtree.a -o binary_tree
+	$(CC) $(CFLAGS) main.c libbtree.a -o binary_tree 
 
 objectlist:
 	$(MAKE) -C ../linkedlist object
@@ -11,7 +11,7 @@ objectstack:
 object:
 	make objectstack
 	make objectlist
-	$(CC) -c binary_tree.c -Wall -Wextra -o libbtree.o 
+	$(CC)  $(CFLAGS) -c binary_tree.c -Wall -Wextra -o libbtree.o 
 	ar ruv libbtree.a libbtree.o libstack.o liblinkedlist.o
 
 clean:

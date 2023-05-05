@@ -1,5 +1,3 @@
-CFLAGS = -Wall -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast
-
 build:
 	make object
 	$(CC) main.c libgraph.a -o graph $(CFLAGS)

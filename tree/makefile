@@ -1,6 +1,6 @@
 build:
 	make object
-	$(CC) main.c libtree.a -o tree
+	$(CC) $(CFLAGS) main.c libtree.a -o tree
 
 objectlist:
 	$(MAKE) -C ../linkedlist object
@@ -11,7 +11,7 @@ objectstack:
 object:
 	make objectstack
 	make objectlist
-	$(CC) -c tree.c liblinkedlist.o libstack.o -Wall -Wextra -o libtree.o  
+	$(CC) $(CFLAGS) -c tree.c liblinkedlist.o libstack.o -Wall -Wextra -o libtree.o  
 	ar ruv libtree.a libtree.o libstack.o liblinkedlist.o
 
 clean:

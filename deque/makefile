@@ -1,6 +1,6 @@
 build:
 	make object
-	$(CC) main.c libdeque.a -o deque
+	$(CC) $(CFLAGS) main.c libdeque.a -o deque
 
 objectlist:
 	$(MAKE) -C ../linkedlist object
@@ -8,7 +8,7 @@ objectlist:
 
 object:
 	make objectlist
-	$(CC) -c deque.c -Wall -Wextra -o libdeque.o  
+	$(CC) $(CFLAGS) -c deque.c -Wall -Wextra -o libdeque.o  
 	ar ruv libdeque.a libdeque.o libdoublylinkedlist.o
 
 clean:

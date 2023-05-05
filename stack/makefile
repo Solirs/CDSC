@@ -1,6 +1,6 @@
 build:
 	make object
-	$(CC) main.c libstack.a  -o stack
+	$(CC) $(CFLAGS) main.c libstack.a  -o stack
 
 objectlist:
 	$(MAKE) -C ../linkedlist object
@@ -8,7 +8,7 @@ objectlist:
 
 object:
 	make objectlist
-	$(CC) -c stack.c -Wall -Wextra -o libstack.o  
+	$(CC) $(CFLAGS) -c stack.c -Wall -Wextra -o libstack.o  
 	ar rcs libstack.a libstack.o liblinkedlist.o
 
 clean:
