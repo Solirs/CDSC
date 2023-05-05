@@ -4,6 +4,7 @@
 int main() {
 
     struct cdsc_queue *queue = cdsc_queue_make_queue();
+    queue->capacity = 1;
     cdsc_queue_enqueue(queue, "Hello World");
 
     printf("%s\n", cdsc_queue_getrear(queue));

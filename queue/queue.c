@@ -11,7 +11,7 @@ struct cdsc_queue *cdsc_queue_make_queue() {
 }
 
 void cdsc_queue_enqueue(struct cdsc_queue *queue, void *data) {
-    if (queue->size == queue->capacity && queue->capacity != 0) {
+    if (QUEUE_FULL) {
 	return NULL;
     } else {
 	cdsc_doublylinkedlist_inserttail(queue->list, data);
@@ -57,5 +57,5 @@ void *cdsc_queue_getrear(struct cdsc_queue *queue) {
 }
 
 int cdsc_queue_is_empty(struct cdsc_queue *queue) {
-    return (queue->size == 0);
+    return (QUEUE_EMPTY);
 }

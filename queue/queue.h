@@ -5,7 +5,7 @@
 #include"../doublylinkedlist/doublylinkedlist.h"
 
 #define QUEUE_EMPTY queue->size == 0
-
+#define QUEUE_FULL queue->size == queue->capacity && queue->capacity != 0
 struct cdsc_queue{
     struct DoubleLinkedList *list;
     int capacity;
