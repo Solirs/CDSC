@@ -1,15 +1,15 @@
 build:
 	make object
-	$(CC) $(CFLAGS) main.c queue.h libqueue.a -o queue 
+	$(CC) $(CFLAGS) main.c libqueue.a -o queue 
 
 objectlist:
-	$(MAKE) -C ../linkedlist object
-	mv ../linkedlist/liblinkedlist.o .
+	$(MAKE) -C ../doublylinkedlist object
+	mv ../doublylinkedlist/libdoublylinkedlist.o .
 
 object:
 	make objectlist
 	$(CC) -c queue.c -Wall -Wextra -o libqueue.o  
-	ar ruv libqueue.a libqueue.o liblinkedlist.o
+	ar ruv libqueue.a libqueue.o libdoublylinkedlist.o
 
 clean:
 	-rm *.a
