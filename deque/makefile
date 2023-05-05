@@ -1,13 +1,14 @@
 build:
 	make object
-	gcc main.c deque.h libdeque.a -o deque
+	$(CC) $(CFLAGS) main.c libdeque.a -o deque
 
 objectlist:
-	gcc -c ../doublylinkedlist/doublylinkedlist.c -Wall -Wextra -o libdoublylinkedlist.o
+	$(MAKE) -C ../linkedlist object
+	mv ../linkedlist/liblinkedlist.o .
 
 object:
 	make objectlist
-	gcc -c deque.c -Wall -Wextra -o libdeque.o  
+	$(CC) $(CFLAGS) -c deque.c -Wall -Wextra -o libdeque.o  
 	ar ruv libdeque.a libdeque.o libdoublylinkedlist.o
 
 clean:

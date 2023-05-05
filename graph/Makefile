@@ -1,8 +1,6 @@
-CFLAGS = -Wall -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast
-
 build:
 	make object
-	gcc main.c libgraph.a -o graph $(CFLAGS)
+	$(CC) main.c libgraph.a -o graph $(CFLAGS)
 
 run:
 	make build
@@ -10,7 +8,7 @@ run:
 	make clean
 
 object:
-	gcc -c graph.c -o libgraph.o $(CFLAGS) 
+	$(CC) -c graph.c -o libgraph.o $(CFLAGS) 
 	ar rcs libgraph.a libgraph.o
 
 clean:
