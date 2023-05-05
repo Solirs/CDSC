@@ -1,13 +1,14 @@
 build:
 	make object
-	gcc main.c stack.h ../linkedlist/linkedlist.h libstack.a  -o stack
+	$(CC) main.c libstack.a  -o stack
 
 objectlist:
-	gcc -c ../linkedlist/linkedlist.c -Wall -Wextra -o liblinkedlist.o
+	$(MAKE) -C ../linkedlist object
+	mv ../linkedlist/liblinkedlist.o .
 
 object:
 	make objectlist
-	gcc -c stack.c -Wall -Wextra -o libstack.o  
+	$(CC) -c stack.c -Wall -Wextra -o libstack.o  
 	ar rcs libstack.a libstack.o liblinkedlist.o
 
 clean:

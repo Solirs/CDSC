@@ -1,6 +1,6 @@
 build:
 	make object
-	gcc main.c libdoublylinkedlist.a -Wall -Wextra -o doublylinkedlist
+	$(CC) main.c libdoublylinkedlist.a -Wall -Wextra -o doublylinkedlist
 
 
 run:
@@ -9,7 +9,7 @@ run:
 	make clean
 
 object:
-	gcc -c doublylinkedlist.c -Wall -Wextra -o libdoublylinkedlist.o
+	$(CC) -c doublylinkedlist.c -Wall -Wextra -o libdoublylinkedlist.o
 	ar rcs libdoublylinkedlist.a libdoublylinkedlist.o
 
 clean:
