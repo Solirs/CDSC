@@ -23,7 +23,8 @@ void *cdsc_queue_dequeue(struct cdsc_queue *queue) {
     if (QUEUE_EMPTY) {
 	return NULL;
     } else {
-	void *data = cdsc_doublylinkedlist_getindexfromhead(queue->list, 0);
+	void *data =
+	    cdsc_doublylinkedlist_getindexfromhead(queue->list, 0);
 	cdsc_doublylinkedlist_pophead(queue->list);
 	return data;
     }
