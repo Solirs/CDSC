@@ -11,7 +11,7 @@ objectstack:
 object:
 	make objectstack
 	make objectlist
-	$(CC) $(CFLAGS) -c tree.c liblinkedlist.o libstack.o -Wall -Wextra -o libtree.o  
+	$(CC) $(CFLAGS) -c tree.c -Wall -Wextra -o libtree.o  
 	ar ruv libtree.a libtree.o libstack.o liblinkedlist.o
 
 clean:
