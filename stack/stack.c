@@ -54,9 +54,6 @@ struct cdsc_stack *cdsc_stack_merge(struct cdsc_stack *stack1,
 
 // Zero stack
 int cdsc_stack_nuke(struct cdsc_stack *stack) {
-    if (cdsc_linkedlist_nuke(stack->content) < 0){
-		return -1;
-	}
     free(stack->content);
 
     stack->size = 0;

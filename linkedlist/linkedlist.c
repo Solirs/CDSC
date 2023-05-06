@@ -136,7 +136,7 @@ struct cdsc_linkedlist *cdsc_linkedlist_make_ll() {
 int cdsc_linkedlist_nuke(struct cdsc_linkedlist *list) {
     struct cdsc_linkedlist_node *cur;
     if (list->size == 0) {
-	return -1;
+	return 1; // Nothing to do!
     }
     if (list->head == list->tail) {
 	free(list->head);
