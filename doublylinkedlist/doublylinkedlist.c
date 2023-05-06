@@ -1,5 +1,7 @@
 #include "doublylinkedlist.h"
 
+#define LIST_EMPTY list->size == 0
+
 // Create and init double linked list
 struct cdsc_doublylinkedlist *cdsc_doublylinkedlist_make_dll() {
     struct cdsc_doublylinkedlist *ret =
@@ -12,18 +14,22 @@ struct cdsc_doublylinkedlist *cdsc_doublylinkedlist_make_dll() {
 
 
 // Zeroes a cdsc_doublylinkedlist, mainly used internally.
-void cdsc_doublylinkedlist_zero(struct cdsc_doublylinkedlist *ll) {
+int cdsc_doublylinkedlist_zero(struct cdsc_doublylinkedlist *ll) {
     ll->head = NULL;
     ll->tail = NULL;
     ll->size = 0;
+    return 1;
 
 }
 
 // Add new node at the head, replacing it.
-void cdsc_doublylinkedlist_inserthead(struct cdsc_doublylinkedlist *list,
+int cdsc_doublylinkedlist_inserthead(struct cdsc_doublylinkedlist *list,
 				      void *data) {
     struct cdsc_doublylinkedlist_node *ins =
 	malloc(sizeof(struct cdsc_doublylinkedlist_node));
+	if (ins == NULL){
+		return -1; // malloc went wrong.
+	}
     ins->data = data;
     ins->previous = NULL;
     if (list->size == 0) {
@@ -36,13 +42,17 @@ void cdsc_doublylinkedlist_inserthead(struct cdsc_doublylinkedlist *list,
     }
     list->head = ins;
     list->size++;
+    return 1;
 }
 
 // Add new node at the tail, replacing it.
-void cdsc_doublylinkedlist_inserttail(struct cdsc_doublylinkedlist *list,
+int cdsc_doublylinkedlist_inserttail(struct cdsc_doublylinkedlist *list,
 				      void *data) {
     struct cdsc_doublylinkedlist_node *ins =
 	malloc(sizeof(struct cdsc_doublylinkedlist_node));
+	if (ins == NULL){
+		return -1; // malloc went wrong.
+	}
     ins->data = data;
     ins->next = NULL;
     if (list->size == 0) {
@@ -55,12 +65,16 @@ void cdsc_doublylinkedlist_inserttail(struct cdsc_doublylinkedlist *list,
     }
     list->tail = ins;
     list->size++;
+    return 1;
 
 
 }
 
 // Remove the list's tail replacing it by the node before it
 void *cdsc_doublylinkedlist_poptail(struct cdsc_doublylinkedlist *list) {
+	if (LIST_EMPTY){
+		return NULL;
+	}
     struct cdsc_doublylinkedlist_node *newtail = list->tail->previous;
     void *ret = list->tail->data;
     //We need to free the node struct that was allocated in inserttail or inserthead
@@ -78,6 +92,9 @@ void *cdsc_doublylinkedlist_poptail(struct cdsc_doublylinkedlist *list) {
 
 // Remove the list's head replacing it with the next node
 void *cdsc_doublylinkedlist_pophead(struct cdsc_doublylinkedlist *list) {
+	if (LIST_EMPTY){
+		return NULL;
+	}
     struct cdsc_doublylinkedlist_node *newhead = list->head->next;
     void *ret = list->head->data;
     //We need to free the node struct that was allocated in inserttail or inserthead
@@ -98,6 +115,9 @@ void *cdsc_doublylinkedlist_pophead(struct cdsc_doublylinkedlist *list) {
 // Get data by index starting at the heazd
 void *cdsc_doublylinkedlist_getindexfromhead(struct cdsc_doublylinkedlist
 					     *list, int index) {
+	if (LIST_EMPTY){
+		return NULL;
+	}
 
     int i;
     struct cdsc_doublylinkedlist_node *cur = list->head;
@@ -115,6 +135,9 @@ void *cdsc_doublylinkedlist_getindexfromhead(struct cdsc_doublylinkedlist
 // Get data by index starting at the tail
 void *cdsc_doublylinkedlist_getindexfromtail(struct cdsc_doublylinkedlist
 					     *list, int index) {
+	if (LIST_EMPTY){
+		return NULL;
+	}
     int i;
     struct cdsc_doublylinkedlist_node *cur = list->tail;
 
@@ -130,11 +153,11 @@ void *cdsc_doublylinkedlist_getindexfromtail(struct cdsc_doublylinkedlist
 
 
 // Completely wipe a doubly linked list
-void cdsc_doublylinkedlist_nuke(struct cdsc_doublylinkedlist *list) {
+int cdsc_doublylinkedlist_nuke(struct cdsc_doublylinkedlist *list) {
     struct cdsc_doublylinkedlist_node *cur;
     cur = list->head;
-    if (list->size == 0) {
-	return NULL;
+    if (LIST_EMPTY) {
+	return -1;
     }
     if (list->head == list->tail) {
 	free(list->head);
@@ -154,25 +177,27 @@ void cdsc_doublylinkedlist_nuke(struct cdsc_doublylinkedlist *list) {
 
     }
     cdsc_doublylinkedlist_zero(list);
+    return 1;
 }
 
 // Sets the data of a DoublyLinkedList's certain index, starting from the head.
-void cdsc_doublylinkedlist_setdata(struct cdsc_doublylinkedlist *list,
+int cdsc_doublylinkedlist_setdata(struct cdsc_doublylinkedlist *list,
 				   void *data, int index) {
     int i;
     struct cdsc_doublylinkedlist_node *cur = list->head;
     for (i = 0; i < index; i++) {
 	cur = cur->next;
 	if (cur == NULL) {
-	    return NULL;
+	    return -1;
 	}
     }
     cur->data = data;
+    return 1;
 }
 
-void cdsc_doublylinkedlist_reverse(struct cdsc_doublylinkedlist *list) {
+int cdsc_doublylinkedlist_reverse(struct cdsc_doublylinkedlist *list) {
     if (list->size < 2) {
-	return NULL;
+	return -1;
     }
     struct cdsc_doublylinkedlist_node *prev = NULL;
     struct cdsc_doublylinkedlist_node *formerhead = list->head;
@@ -187,17 +212,19 @@ void cdsc_doublylinkedlist_reverse(struct cdsc_doublylinkedlist *list) {
 	current = next;
     }
     list->head = prev;
+    return 1;
 }
 
-void cdsc_doublylinkedlist_appendnode(struct cdsc_doublylinkedlist *list, struct cdsc_doublylinkedlist_node
+int cdsc_doublylinkedlist_appendnode(struct cdsc_doublylinkedlist *list, struct cdsc_doublylinkedlist_node
 				      *node) {
-    if (list->size == 0) {
+    if (LIST_EMPTY) {
 	list->head = node;
 	list->tail = node;
     } else {
 	list->tail->next = node;
 	list->tail = node;
     }
+    return 1;
 
 }
 
@@ -205,31 +232,34 @@ void cdsc_doublylinkedlist_merge(struct cdsc_doublylinkedlist *list1,
 				 struct cdsc_doublylinkedlist *list2) {
     list1->tail->next = list2->head;
     list2->head->previous = list1->tail;
-    list1->size += list2->size;
-}
+    list1->size += list2->size; 
+} // TODO: Apply fixes from linkedlist
 
-bool cdsc_doublylinkedlist_contains(struct cdsc_doublylinkedlist *list,
+int cdsc_doublylinkedlist_contains(struct cdsc_doublylinkedlist *list,
 				    void *data) {
+	if (LIST_EMPTY){
+		return -1;
+	}
     int i;
     struct cdsc_doublylinkedlist_node *cur = list->head;
     for (i = 0; i < list->size; i++) {
 	if (cur->data == data) {
-	    return true;
+	    return 1;
 	} else {;
 	    cur = cur->next;
 	}
 
     }
-    return false;
+    return 0;
 }
 
 struct cdsc_doublylinkedlist_node *cdsc_doublylinkedlist_find(struct
 							      cdsc_doublylinkedlist
 							      *list,
 							      void *key) {
-    if (list->head == NULL) {
-	return NULL;
-    }
+	if (LIST_EMPTY){
+		return NULL;
+	}
     struct cdsc_doublylinkedlist_node *current = list->head;
     while (current->data != key) {
 	if (current->next == NULL) {
@@ -243,14 +273,14 @@ struct cdsc_doublylinkedlist_node *cdsc_doublylinkedlist_find(struct
 
 int cdsc_doublylinkedlist_findindex(struct cdsc_doublylinkedlist *list,
 				    void *key) {
-    if (list->head == NULL) {
-	return NULL;
-    }
+	if (LIST_EMPTY){
+		return -1;
+	}
     struct cdsc_doublylinkedlist_node *current = list->head;
     int i = 0;
     while (current->data != key) {
 	if (current->next == NULL) {
-	    return NULL;
+	    return -1;
 	} else {
 	    current = current->next;
 	    i++;
@@ -260,11 +290,15 @@ int cdsc_doublylinkedlist_findindex(struct cdsc_doublylinkedlist *list,
 }
 
 // Run a function for each member of a doublylinkedlist.
-void cdsc_doublylinkedlist_foreach(struct cdsc_doublylinkedlist *list,
+int cdsc_doublylinkedlist_foreach(struct cdsc_doublylinkedlist *list,
 				   void (*action)(), void *param) {
+	if (LIST_EMPTY){
+		return -1;
+	}
     struct cdsc_doublylinkedlist_node *cur = list->head;
     while (cur != NULL) {
 	action(cur, param);
 	cur = cur->next;
     }
+    return 1;
 }
