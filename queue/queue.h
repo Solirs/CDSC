@@ -12,7 +12,7 @@ struct cdsc_queue{
     int size;
 };
 
-struct cdsc_queue *make_queue();
+struct cdsc_queue *cdsc_queue_make_queue();
 int cdsc_queue_enqueue(struct cdsc_queue *queue, void* data);
 void* cdsc_queue_dequeue(struct cdsc_queue *queue);
 
