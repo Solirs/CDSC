@@ -56,7 +56,7 @@ void *cdsc_deque_pop_back(struct cdsc_deque *queue) {
 // Free a deque's contents and zero it
 int cdsc_deque_nuke(struct cdsc_deque *queue) {
     if (QUEUE_EMPTY) {
-	return 0;
+	return -1;
     }
     cdsc_doublylinkedlist_nuke(queue->list);
     free(queue->list);
