@@ -13,7 +13,7 @@ struct cdsc_deque *cdsc_deque_make_deque() {
 // Push to the rear of a deque
 int cdsc_deque_push_back(struct cdsc_deque *queue, void *data) {
     if (queue->size == queue->capacity && queue->capacity != 0) {
-	return 0;
+	return -1;
     } else {
 	cdsc_doublylinkedlist_inserttail(queue->list, data);
 	queue->size++;
@@ -25,7 +25,7 @@ int cdsc_deque_push_back(struct cdsc_deque *queue, void *data) {
 int cdsc_deque_push_front(struct cdsc_deque *queue, void *data) {
     if (queue->size == queue->capacity && queue->capacity != 0) {
 
-	return 0;
+	return -1;
     } else {
 	cdsc_doublylinkedlist_inserthead(queue->list, data);
 	queue->size++;
@@ -36,7 +36,7 @@ int cdsc_deque_push_front(struct cdsc_deque *queue, void *data) {
 // Pop the front of a deque, returns popped data
 void *cdsc_deque_pop_front(struct cdsc_deque *queue) {
     if (QUEUE_EMPTY) {
-	return 0;
+	return NULL;
     } else {
 	return cdsc_doublylinkedlist_pophead(queue->list);;
     }
@@ -46,7 +46,7 @@ void *cdsc_deque_pop_front(struct cdsc_deque *queue) {
 // Pop the head of a deque, returns popped data
 void *cdsc_deque_pop_back(struct cdsc_deque *queue) {
     if (QUEUE_EMPTY) {
-	return 0;
+	return NULL;
     } else {
 	return cdsc_doublylinkedlist_poptail(queue->list);;
     }
@@ -68,7 +68,7 @@ int cdsc_deque_nuke(struct cdsc_deque *queue) {
 // Look at the front of a deque without changing anything
 void *cdsc_deque_peek_front(struct cdsc_deque *queue) {
     if (QUEUE_EMPTY) {
-	return 0;
+	return NULL;
     }
     void *data = cdsc_doublylinkedlist_getindexfromhead(queue->list, 0);
     return data;
@@ -77,7 +77,7 @@ void *cdsc_deque_peek_front(struct cdsc_deque *queue) {
 // Look at the read of a deque without changing anything
 void *cdsc_deque_peek_rear(struct cdsc_deque *queue) {
     if (QUEUE_EMPTY) {
-	return 0;
+	return NULL;
     }
     void *data = cdsc_doublylinkedlist_getindexfromtail(queue->list, 0);
     return data;
