@@ -4,9 +4,9 @@
 
 struct cdsc_queue *cdsc_queue_make_queue() {
     struct cdsc_queue *ret = malloc(sizeof(struct cdsc_queue));
-    if (ret == NULL){
-		return NULL;
-	}
+    if (ret == NULL) {
+	return NULL;
+    }
     ret->capacity = 0;		// Capacity to 0 = infinite
     ret->size = 0;
     ret->list = cdsc_doublylinkedlist_make_dll();

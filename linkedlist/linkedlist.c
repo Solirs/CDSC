@@ -4,9 +4,9 @@
 int cdsc_linkedlist_inserthead(struct cdsc_linkedlist *list, void *data) {
     struct cdsc_linkedlist_node *ins =
 	malloc(sizeof(struct cdsc_linkedlist_node));
-	if (ins == NULL){
-		return -1;
-	}
+    if (ins == NULL) {
+	return -1;
+    }
     ins->data = data;
     if (list->size == 0) {
 	ins->next = NULL;
@@ -24,9 +24,9 @@ int cdsc_linkedlist_inserthead(struct cdsc_linkedlist *list, void *data) {
 int cdsc_linkedlist_inserttail(struct cdsc_linkedlist *list, void *data) {
     struct cdsc_linkedlist_node *ins =
 	malloc(sizeof(struct cdsc_linkedlist_node));
-	if (ins == NULL){
-		return -1;
-	}
+    if (ins == NULL) {
+	return -1;
+    }
     ins->data = data;
     ins->next = NULL;
     if (list->size == 0) {
@@ -136,7 +136,7 @@ struct cdsc_linkedlist *cdsc_linkedlist_make_ll() {
 int cdsc_linkedlist_nuke(struct cdsc_linkedlist *list) {
     struct cdsc_linkedlist_node *cur;
     if (list->size == 0) {
-	return 1; // Nothing to do!
+	return 1;		// Nothing to do!
     }
     if (list->head == list->tail) {
 	free(list->head);
@@ -238,7 +238,7 @@ int cdsc_linkedlist_reverse(struct cdsc_linkedlist *list) {
 // Remove a node if it contains a specific piece of data
 // Removes every node with that piece of data
 int cdsc_linkedlist_remove_node_if_contains(struct cdsc_linkedlist *list,
-					     void *key) {
+					    void *key) {
     int i;
     struct cdsc_linkedlist_node *cur = list->head;
     struct cdsc_linkedlist_node *prev = NULL;
@@ -262,7 +262,7 @@ int cdsc_linkedlist_remove_node_if_contains(struct cdsc_linkedlist *list,
 
 // Appends a premade node struct to a linked list.
 int cdsc_linkedlist_appendnode(struct cdsc_linkedlist *list, struct cdsc_linkedlist_node
-				*cdsc_linkedlist_node) {
+			       *cdsc_linkedlist_node) {
     if (list->size == 0) {
 	list->head = cdsc_linkedlist_node;
 	list->tail = cdsc_linkedlist_node;
@@ -276,7 +276,7 @@ int cdsc_linkedlist_appendnode(struct cdsc_linkedlist *list, struct cdsc_linkedl
 
 // Merge two linked lists at the first linked list's tail by changing the destination list's tail pointer  and zeroing the input list
 int cdsc_linkedlist_fastconcat(struct cdsc_linkedlist *list1,
-				struct cdsc_linkedlist *list2) {
+			       struct cdsc_linkedlist *list2) {
     list1->tail->next = list2->head;
     list1->size += list2->size;
     list2->tail = list2->tail;
@@ -288,7 +288,7 @@ int cdsc_linkedlist_fastconcat(struct cdsc_linkedlist *list1,
 
 // Concat two lists by copying and appending the data of list2 to list1.
 int cdsc_linkedlist_concat(struct cdsc_linkedlist *list1,
-			    struct cdsc_linkedlist *list2) {
+			   struct cdsc_linkedlist *list2) {
     struct cdsc_linkedlist_node *cur = list2->head;
     while (cur != NULL) {
 	cdsc_linkedlist_append(list1, cur->data);
@@ -337,7 +337,7 @@ int cdsc_linkedlist_contains(struct cdsc_linkedlist *list, void *data) {
 
 // Run a function for each member of a linkedlist.
 int cdsc_linkedlist_foreach(struct cdsc_linkedlist *list,
-			     void (*action)(), void *param) {
+			    void (*action)(), void *param) {
     struct cdsc_linkedlist_node *cur = list->head;
     while (cur != NULL) {
 	action(cur, param);

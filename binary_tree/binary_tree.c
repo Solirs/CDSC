@@ -4,9 +4,9 @@
 struct cdsc_btree_node *cdsc_btree_makenode(struct cdsc_btree_node *parent) {
     struct cdsc_btree_node *newnode =
 	malloc(sizeof(struct cdsc_btree_node));
-	if (newnode == NULL){
-		return NULL;
-	}
+    if (newnode == NULL) {
+	return NULL;
+    }
     newnode->parent = parent;
     newnode->data = NULL;
     newnode->rchild = NULL;
@@ -132,7 +132,7 @@ int cdsc_btree_prune_node(struct cdsc_btree_node *nod) {
 
 // Iterative post order binary tree traversal algorithm, implements https://en.wikipedia.org/wiki/Tree_traversal#Post-order_implementation
 int cdsc_btree_foreach_post_order(struct cdsc_btree_node *nod,
-				   void (*action)(), void *param) {
+				  void (*action)(), void *param) {
     struct cdsc_stack *stack = cdsc_stack_make_stack();
     struct cdsc_btree_node *node = nod;
     struct cdsc_btree_node *lastnodevisited = NULL;
@@ -159,8 +159,8 @@ int cdsc_btree_foreach_post_order(struct cdsc_btree_node *nod,
 }
 
 int cdsc_btree_foreach_post_order_recursive(struct cdsc_btree_node *nod,
-					     void (*action)(),
-					     void *param) {
+					    void (*action)(),
+					    void *param) {
     _cdsc_btree_foreach_post_order_recursive(nod, action, param);
     action(nod, param);
     return 1;
@@ -169,7 +169,7 @@ int cdsc_btree_foreach_post_order_recursive(struct cdsc_btree_node *nod,
 void _cdsc_btree_foreach_post_order_recursive(struct cdsc_btree_node *nod,
 					      void (*action)(),
 					      void *param) {
-    if (nod->rchild != NULL) {
+    if(nod->rchild != NULL) {
 	_cdsc_btree_foreach_post_order_recursive(nod->rchild, action,
 						 param);
 	action(nod->rchild, param);
@@ -185,9 +185,9 @@ void _cdsc_btree_foreach_post_order_recursive(struct cdsc_btree_node *nod,
 // Convinces a node's parent to ruthlessly sell its own child to be eaten by faroese leprechauns.
 // Really though it just separates a node from its parent
 int cdsc_btree_orphan(struct cdsc_btree_node *nod) {
-	if (nod->parent == NULL){
-		return -1;
-	}
+    if (nod->parent == NULL) {
+	return -1;
+    }
     if (nod->parent->rchild == nod) {
 	nod->parent->rchild = NULL;
     } else if (nod->parent->lchild == nod) {
@@ -201,7 +201,7 @@ int cdsc_btree_orphan(struct cdsc_btree_node *nod) {
 
 // Implements https://en.wikipedia.org/wiki/Binary_tree#Internal_nodes
 int cdsc_btree_graft_lchild(struct cdsc_btree_node *nod,
-			     struct cdsc_btree_node *parent) {
+			    struct cdsc_btree_node *parent) {
     cdsc_btree_orphan(nod);
     if (parent->lchild) {
 	cdsc_btree_prune_node(parent->lchild);
@@ -214,7 +214,7 @@ int cdsc_btree_graft_lchild(struct cdsc_btree_node *nod,
 
 // Implements https://en.wikipedia.org/wiki/Binary_tree#Internal_nodes
 int cdsc_btree_graft_rchild(struct cdsc_btree_node *nod,
-			     struct cdsc_btree_node *parent) {
+			    struct cdsc_btree_node *parent) {
     cdsc_btree_orphan(nod);
     if (parent->rchild) {
 	cdsc_btree_prune_node(parent->rchild);
@@ -293,7 +293,7 @@ struct cdsc_btree *cdsc_btree_make_btree() {
 
 // Implements https://en.wikipedia.org/wiki/Tree_traversal#Pre-order_implementation
 int cdsc_btree_foreach_pre_order(struct cdsc_btree_node *nod,
-				  void (*action)(), void *param) {
+				 void (*action)(), void *param) {
     struct cdsc_stack *stack = cdsc_stack_make_stack();
     cdsc_stack_push(stack, nod);
     while (stack->size != 0) {
@@ -311,8 +311,7 @@ int cdsc_btree_foreach_pre_order(struct cdsc_btree_node *nod,
     return 1;
 }
 int cdsc_btree_foreach_pre_order_recursive(struct cdsc_btree_node *nod,
-					    void (*action)(),
-					    void *param) {
+					   void (*action)(), void *param) {
     action(nod, param);
     _cdsc_btree_foreach_pre_order_recursive(nod, action, param);
     return 1;
@@ -323,7 +322,7 @@ int cdsc_btree_foreach_pre_order_recursive(struct cdsc_btree_node *nod,
 void _cdsc_btree_foreach_pre_order_recursive(struct cdsc_btree_node *nod,
 					     void (*action)(),
 					     void *param) {
-    if (nod->rchild != NULL) {
+    if(nod->rchild != NULL) {
 	action(nod->rchild, param);
 	_cdsc_btree_foreach_pre_order_recursive(nod->rchild, action,
 						param);
