@@ -24,7 +24,7 @@ graph *cdsc_graph_init(size_t nodes) {
 }
 
 // Adds and undirected edge between two nodes
-void cdsc_graph_insert(graph *g, int source, int target) {
+int cdsc_graph_insert(graph *g, int source, int target) {
     // Create a new node and connect it to the graph
     node *new_node = cdcsc_node_init(target);
     new_node->next = g->adj_list[source];
@@ -34,10 +34,11 @@ void cdsc_graph_insert(graph *g, int source, int target) {
     new_node = cdcsc_node_init(source);
     new_node->next = g->adj_list[target];
     g->adj_list[target] = new_node;
+    return 1;
 }
 
 // Free all nodes of the graph and the graph itself
-void cdsc_graph_nuke(graph *g) {
+int cdsc_graph_nuke(graph *g) {
     for (int i = 0; i < g->nodes; i++) {
 	node *current = g->adj_list[i];
 	while (current != NULL) {
@@ -48,10 +49,11 @@ void cdsc_graph_nuke(graph *g) {
     }
     free(g->adj_list);
     free(g);
+    return 1;
 }
 
 // Remove a single edge between two nodes of the graph
-void cdsc_graph_delete(graph *g, int source, int target) {
+int cdsc_graph_delete(graph *g, int source, int target) {
     node *current = g->adj_list[source];
     node *prev = NULL;
     while (current != NULL && current->dest != target) {
@@ -89,6 +91,7 @@ void cdsc_graph_delete(graph *g, int source, int target) {
 	}
 	free(current);
     }
+    return 1;
 }
 
 bool cdsc_graph_search(graph * g, void *node1, void *node2);

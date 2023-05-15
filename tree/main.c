@@ -44,7 +44,7 @@ int main() {
     ///printf("%d\n", get_depth(child));
 
     //prune_node(child2);
-    //cdsc_tree_foreach_post_order(rootnode, printnode, NULL);
+    cdsc_tree_foreach_post_order(rootnode, printnode, NULL);
 
     cdsc_tree_nuke(tree);
     printf("BREAK\n");

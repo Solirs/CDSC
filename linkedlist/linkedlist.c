@@ -1,9 +1,12 @@
 #include "linkedlist.h"
 
 // Add new cdsc_linkedlist_node at the head containing the data in the "data" parameter, replacing it.
-void cdsc_linkedlist_inserthead(struct cdsc_linkedlist *list, void *data) {
+int cdsc_linkedlist_inserthead(struct cdsc_linkedlist *list, void *data) {
     struct cdsc_linkedlist_node *ins =
 	malloc(sizeof(struct cdsc_linkedlist_node));
+    if (ins == NULL) {
+	return -1;
+    }
     ins->data = data;
     if (list->size == 0) {
 	ins->next = NULL;
@@ -14,12 +17,16 @@ void cdsc_linkedlist_inserthead(struct cdsc_linkedlist *list, void *data) {
     }
     list->head = ins;
     list->size++;
+    return 1;
 }
 
 // Add new cdsc_linkedlist_node at the tail containing the data in the "data" parameter, replacing it.
-void cdsc_linkedlist_inserttail(struct cdsc_linkedlist *list, void *data) {
+int cdsc_linkedlist_inserttail(struct cdsc_linkedlist *list, void *data) {
     struct cdsc_linkedlist_node *ins =
 	malloc(sizeof(struct cdsc_linkedlist_node));
+    if (ins == NULL) {
+	return -1;
+    }
     ins->data = data;
     ins->next = NULL;
     if (list->size == 0) {
@@ -30,6 +37,7 @@ void cdsc_linkedlist_inserttail(struct cdsc_linkedlist *list, void *data) {
     }
     list->tail = ins;
     list->size++;
+    return 1;
 
 
 }
@@ -128,7 +136,7 @@ struct cdsc_linkedlist *cdsc_linkedlist_make_ll() {
 int cdsc_linkedlist_nuke(struct cdsc_linkedlist *list) {
     struct cdsc_linkedlist_node *cur;
     if (list->size == 0) {
-	return 1;
+	return 1;		// Nothing to do!
     }
     if (list->head == list->tail) {
 	free(list->head);
@@ -149,7 +157,7 @@ int cdsc_linkedlist_nuke(struct cdsc_linkedlist *list) {
 	}
     }
     list->size = 0;
-    return 0;
+    return 1;
 
 }
 
@@ -161,11 +169,11 @@ int cdsc_linkedlist_setdata(struct cdsc_linkedlist *list, void *data,
     for (i = 0; i < index; i++) {
 	cur = cur->next;
 	if (cur == NULL) {
-	    return 1;
+	    return -1;
 	}
     }
     cur->data = data;
-    return 0;
+    return 1;
 
 }
 
@@ -192,11 +200,11 @@ int cdsc_linkedlist_findindex(struct cdsc_linkedlist *list, void *key) {
     struct cdsc_linkedlist_node *current = list->head;
     int i = 0;
     if (list->head == NULL) {
-	return 1;
+	return -1;
     }
     while (current->data != key) {
 	if (current->next == NULL) {
-	    return 1;
+	    return -1;
 	} else {
 	    current = current->next;
 	    i++;
@@ -205,12 +213,12 @@ int cdsc_linkedlist_findindex(struct cdsc_linkedlist *list, void *key) {
     return i;
 }
 
-bool is_empty(struct cdsc_linkedlist *list) {
+int is_empty(struct cdsc_linkedlist *list) {
     return list->head == NULL;
 }
 
 // Reverse a linked list
-void cdsc_linkedlist_reverse(struct cdsc_linkedlist *list) {
+int cdsc_linkedlist_reverse(struct cdsc_linkedlist *list) {
     struct cdsc_linkedlist_node *prev = NULL;
     struct cdsc_linkedlist_node *formerhead = list->head;
     list->tail = formerhead;
@@ -224,12 +232,13 @@ void cdsc_linkedlist_reverse(struct cdsc_linkedlist *list) {
 	current = next;
     }
     list->head = prev;
+    return 1;
 }
 
 // Remove a node if it contains a specific piece of data
 // Removes every node with that piece of data
-void cdsc_linkedlist_remove_node_if_contains(struct cdsc_linkedlist *list,
-					     void *key) {
+int cdsc_linkedlist_remove_node_if_contains(struct cdsc_linkedlist *list,
+					    void *key) {
     int i;
     struct cdsc_linkedlist_node *cur = list->head;
     struct cdsc_linkedlist_node *prev = NULL;
@@ -248,11 +257,12 @@ void cdsc_linkedlist_remove_node_if_contains(struct cdsc_linkedlist *list,
 
     }
     cur = NULL;
+    return 1;
 }
 
 // Appends a premade node struct to a linked list.
-void cdsc_linkedlist_appendnode(struct cdsc_linkedlist *list, struct cdsc_linkedlist_node
-				*cdsc_linkedlist_node) {
+int cdsc_linkedlist_appendnode(struct cdsc_linkedlist *list, struct cdsc_linkedlist_node
+			       *cdsc_linkedlist_node) {
     if (list->size == 0) {
 	list->head = cdsc_linkedlist_node;
 	list->tail = cdsc_linkedlist_node;
@@ -260,28 +270,31 @@ void cdsc_linkedlist_appendnode(struct cdsc_linkedlist *list, struct cdsc_linked
 	list->tail->next = cdsc_linkedlist_node;
 	list->tail = cdsc_linkedlist_node;
     }
+    return 1;
 
 }
 
-// Merge two linked lists at the first linked list's tail by changing the des
-void cdsc_linkedlist_fastconcat(struct cdsc_linkedlist *list1,
-				struct cdsc_linkedlist *list2) {
+// Merge two linked lists at the first linked list's tail by changing the destination list's tail pointer  and zeroing the input list
+int cdsc_linkedlist_fastconcat(struct cdsc_linkedlist *list1,
+			       struct cdsc_linkedlist *list2) {
     list1->tail->next = list2->head;
     list1->size += list2->size;
     list2->tail = list2->tail;
     list2->head = NULL;
     list2->tail = NULL;
     list2->size = 0;
+    return 1;
 }
 
 // Concat two lists by copying and appending the data of list2 to list1.
-void cdsc_linkedlist_concat(struct cdsc_linkedlist *list1,
-			    struct cdsc_linkedlist *list2) {
+int cdsc_linkedlist_concat(struct cdsc_linkedlist *list1,
+			   struct cdsc_linkedlist *list2) {
     struct cdsc_linkedlist_node *cur = list2->head;
     while (cur != NULL) {
 	cdsc_linkedlist_append(list1, cur->data);
 	cur = cur->next;
     }
+    return 1;
 }
 
 // Merge two lists by copying and appending the data of list2 and list1 to a new one.
@@ -308,26 +321,27 @@ struct cdsc_linkedlist *cdsc_linkedlist_merge(struct cdsc_linkedlist
 
 
 // Check if a linked list contains a piece of data, returns true if so, otherwise false.
-bool cdsc_linkedlist_contains(struct cdsc_linkedlist *list, void *data) {
+int cdsc_linkedlist_contains(struct cdsc_linkedlist *list, void *data) {
     int i;
     struct cdsc_linkedlist_node *cur = list->head;
     for (i = 0; i < list->size; i++) {
 	if (cur->data == data) {
-	    return true;
+	    return 1;
 	} else {;
 	    cur = cur->next;
 	}
 
     }
-    return false;
+    return 0;
 }
 
 // Run a function for each member of a linkedlist.
-void cdsc_linkedlist_foreach(struct cdsc_linkedlist *list,
-			     void (*action)(), void *param) {
+int cdsc_linkedlist_foreach(struct cdsc_linkedlist *list,
+			    void (*action)(), void *param) {
     struct cdsc_linkedlist_node *cur = list->head;
     while (cur != NULL) {
 	action(cur, param);
 	cur = cur->next;
     }
+    return 1;
 }

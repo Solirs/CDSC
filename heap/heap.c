@@ -63,7 +63,7 @@ void cdsc_heap_bubble_down(struct heap *h, int x) {
 }
 
 // Insert new element and bubble it upwards if needed
-void cdsc_heap_insert(struct heap *h, int value) {
+int cdsc_heap_insert(struct heap *h, int value) {
     assert(h);
     // Inserting one element at a time
     if (h->len == h->max_len)
@@ -71,23 +71,25 @@ void cdsc_heap_insert(struct heap *h, int value) {
 
     h->list[++h->len] = value;
     cdsc_heap_bubble_up(h, h->len);
+    return 1;
 }
 
 // Return the root element
 int cdsc_heap_find_min(struct heap *h) {
     if (cdsc_heap_is_empty(h))
-	abort();
+	return -1;
     return h->list[1];
 }
 
 // Delete the smallest element (root) and replace it with next one
-void cdsc_heap_delete_min(struct heap *h) {
+int cdsc_heap_delete_min(struct heap *h) {
     if (cdsc_heap_is_empty(h))
-	abort();
+	return -1;
 
     cdsc_heap_swap(h, 1, h->len);
     h->len--;
     cdsc_heap_bubble_down(h, 1);
+    return 1;
 }
 
 // See if heap contains any elements
@@ -103,7 +105,8 @@ int cdsc_heap_len(struct heap *h) {
 }
 
 // Destroy the passed structure
-void cdsc_heap_nuke(struct heap *h) {
+int cdsc_heap_nuke(struct heap *h) {
     free(h->list);
     free(h);
+    return 1;
 }

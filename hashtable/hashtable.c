@@ -34,9 +34,9 @@ hash_table *cdsc_ht_init(size_t len, hash_fn *hf) {
 }
 
 // Insert a new key:value pair element into the table
-bool cdsc_ht_insert(hash_table *table, const char *key, void *val) {
+int cdsc_ht_insert(hash_table *table, const char *key, void *val) {
     if (key == NULL || val == NULL)
-	return false;
+	return -1;
 
     size_t index = cdsc_ht_index(table, key);
     if (cdsc_ht_lookup(table, key) != NULL)
@@ -49,7 +49,7 @@ bool cdsc_ht_insert(hash_table *table, const char *key, void *val) {
 
     entry->next = table->entries[index];
     table->entries[index] = entry;
-    return true;
+    return 1;
 }
 
 // Return value at a given key in the struct if it exists
@@ -91,7 +91,8 @@ void *cdsc_ht_delete(hash_table *table, const char *key) {
 }
 
 // Free all the memory allocated for the data structure
-void cdsc_ht_nuke(hash_table *table) {
+int cdsc_ht_nuke(hash_table *table) {
     free(table->entries);
     free(table);
+    return 1;
 }
