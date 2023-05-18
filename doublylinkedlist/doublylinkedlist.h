@@ -3,8 +3,8 @@
 
 #include <stdlib.h>
 
-#define cdsc_doublylinkedlist_prepend(list, data) inserthead(list, data)
-#define cdsc_doublylinkedlist_append(list, data) inserttail(list, data)
+#define cdsc_doublylinkedlist_prepend(list, data) cdsc_doublylinkedlist_inserthead(list, data)
+#define cdsc_doublylinkedlist_append(list, data) cdsc_doublylinkedlist_inserttail(list, data)
 
 struct cdsc_doublylinkedlist_node{
     struct cdsc_doublylinkedlist_node* previous;
@@ -20,6 +20,14 @@ struct cdsc_doublylinkedlist{
 
 };
 
+
+// Used in cdsc_doublylinkedlist_partition
+// To return two values (see doublylinkedlist.c)
+struct qs_ret{
+	int ptr;
+	struct cdsc_doublylinkedlist_node* nod;
+	
+};
 int cdsc_doublylinkedlist_inserthead(struct cdsc_doublylinkedlist *list, void* data);
 int cdsc_doublylinkedlist_inserttail(struct cdsc_doublylinkedlist *list, void* data);
 
@@ -41,5 +49,5 @@ int cdsc_doublylinkedlist_contains(struct cdsc_doublylinkedlist* list, void* dat
 struct cdsc_doublylinkedlist_node* cdsc_doublylinkedlist_find(struct cdsc_doublylinkedlist *list, void* key);
 int cdsc_doublylinkedlist_findindex(struct cdsc_doublylinkedlist *list, void* key);
 int cdsc_doublylinkedlist_foreach(struct cdsc_doublylinkedlist *list, void (*action)(), void* param);
-
+int cdsc_doublylinkedlist_qsort(struct cdsc_doublylinkedlist *list, int (*action)());
 #endif

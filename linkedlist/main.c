@@ -5,8 +5,29 @@
 
 int main() {
     // Test driver code
-    struct cdsc_linkedlist *Nodelist = cdsc_linkedlist_make_ll();
-    struct cdsc_linkedlist *Nodelist2 = cdsc_linkedlist_make_ll();
+    struct cdsc_linkedlist *list = cdsc_linkedlist_make_ll();
+    cdsc_linkedlist_append(list, 9);
+    cdsc_linkedlist_append(list, 5);
+    cdsc_linkedlist_append(list, 10);
+    cdsc_linkedlist_append(list, 5);
+    cdsc_linkedlist_append(list, 7);
+    cdsc_linkedlist_append(list, 5);
+    cdsc_linkedlist_append(list, 2);
+    cdsc_linkedlist_append(list, 4);
+    cdsc_linkedlist_append(list, 5);
+    cdsc_linkedlist_append(list, 1);
+    cdsc_linkedlist_append(list, 5);
+
+
+
+
+
+	cdsc_linkedlist_qsort(list, 0, list->size-1);
+
+	cdsc_linkedlist_foreach(list, printlist, NULL);
+
+
+    /*struct cdsc_linkedlist *Nodelist2 = cdsc_linkedlist_make_ll();
 
     //struct LinkedList Nodelist2 = *make_ll();
     char *c = malloc(6 * sizeof(char));
@@ -37,9 +58,10 @@ int main() {
     cdsc_linkedlist_nuke(Nodelist3);
 
 
-    free(Nodelist);
     free(Nodelist2);
-    free(Nodelist3);
+    free(Nodelist3);*/
+    free(list);
+
 
     return 0;
 }
