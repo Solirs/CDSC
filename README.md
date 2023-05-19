@@ -13,6 +13,7 @@ CDSC contains implementations of the following data structures:
 - Graph
 - Hashtable
 - Heap  
+  
 Each one of them can be built and used individually (though some of them depend on other ones).
 None of them require any external dependencies.
 
