@@ -2,9 +2,16 @@
 #include<stdlib.h>
 #include"unionfind.h"
 
-int cdsc_union_find_find(union_find *set, int a);
+int cdsc_union_find_find(union_find *set, int a) {
+	return a == set->par[a] ? a : cdsc_union_find_find(set, a);
+}
+
+
 void cdsc_union_find_uni(union_find *set, int a, int b);
-bool cdsc_union_find_same(union_find *set, int a, int b);
+
+bool cdsc_union_find_same(union_find *set, int a, int b) {
+	return cdsc_union_find_find(set, a) == cdsc_union_find_find(set, b);
+}
 
 // initialize new set with parent list and element ranking for merging sets
 union_find *cdsc_union_find_init(int a) {
