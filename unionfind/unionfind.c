@@ -2,13 +2,25 @@
 #include<stdlib.h>
 #include"unionfind.h"
 
+// find operation on a disjoint set
 int cdsc_union_find_find(union_find *set, int a) {
 	return a == set->par[a] ? a : cdsc_union_find_find(set, a);
 }
 
+void cdsc_union_find_uni(union_find *set, int a, int b) {
+	a = cdsc_union_find_find(set, a);
+	b = cdsc_union_find_find(set, b);
 
-void cdsc_union_find_uni(union_find *set, int a, int b);
+	if (set->rank[b] > set->rank[a]) {
+		int tmp = a;
+		a = b;
+		b = tmp;
+	}
+	set->par[b] = a;
+	set->rank[a] += set->rank[b];
+}
 
+// check whether two elements belong to the same set
 bool cdsc_union_find_same(union_find *set, int a, int b) {
 	return cdsc_union_find_find(set, a) == cdsc_union_find_find(set, b);
 }
