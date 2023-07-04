@@ -4,7 +4,10 @@
 
 // find operation on a disjoint set
 int cdsc_union_find_find(union_find *set, int a) {
-	return a == set->par[a] ? a : cdsc_union_find_find(set, a);
+    if (a == set->par[a])
+        return a;
+    
+    return cdsc_union_find_find(set, set->par[a]);
 }
 
 void cdsc_union_find_uni(union_find *set, int a, int b) {
