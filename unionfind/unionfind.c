@@ -4,10 +4,10 @@
 
 // find operation on a disjoint set
 int cdsc_union_find_find(union_find *set, int a) {
-    if (a == set->par[a])
-        return a;
+    if (a != set->par[a])
+        set->par[a] = cdsc_union_find_find(set, set->par[a]); // Path compression
     
-    return cdsc_union_find_find(set, set->par[a]);
+    return set->par[a];
 }
 
 void cdsc_union_find_uni(union_find *set, int a, int b) {

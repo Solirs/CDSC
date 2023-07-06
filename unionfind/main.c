@@ -10,9 +10,11 @@ int main() {
     cdsc_union_find_uni(set, 3, 4);
     cdsc_union_find_uni(set, 2, 4);
 
-    bool same = cdsc_union_find_same(set, 2, 3);  // true
+    bool cmp1 = cdsc_union_find_same(set, 1, 4);  // false
+    bool cmp2 = cdsc_union_find_same(set, 2, 3);  // true
 
-    printf("2 and 3 in the same set: %s\n", same ? "Yes" : "No");
+    printf("1 and 4 in the same set: %s\n", cmp1 ? "Yes" : "No");
+    printf("2 and 3 in the same set: %s\n", cmp2 ? "Yes" : "No");
 
     nuke(set);
 
