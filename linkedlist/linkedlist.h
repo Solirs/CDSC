@@ -38,5 +38,7 @@ int cdsc_linkedlist_appendnode(struct cdsc_linkedlist *list, struct cdsc_linkedl
 int cdsc_linkedlist_remove_node_if_contains(struct cdsc_linkedlist *list, void* key);
 int cdsc_linkedlist_contains(struct cdsc_linkedlist* list, void* data);
 int cdsc_linkedlist_foreach(struct cdsc_linkedlist *list, void (*action)(), void* param);
-
+void printlist(struct cdsc_linkedlist_node *nd);
+int cdsc_linkedlist_qsort(struct cdsc_linkedlist *list, int low, int high);
+int _qsort_partition(struct cdsc_linkedlist *list, int low, int high);
 #endif
