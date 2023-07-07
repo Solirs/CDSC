@@ -3,4 +3,4 @@
 #include"rope.h"
 
 rope *cdsc_rope_init(int a);
-void nuke(rope *cord);
+void nuke(rope * cord);

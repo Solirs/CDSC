@@ -346,48 +346,52 @@ int cdsc_linkedlist_foreach(struct cdsc_linkedlist *list,
     return 1;
 }
 
-int cdsc_linkedlist_qsort(struct cdsc_linkedlist *list, int low, int high){
-	if (low >= 0 && high >= 0 && low < high){
-		int p = _qsort_partition(list, low, high);
-		cdsc_linkedlist_qsort(list, low, p);
-		cdsc_linkedlist_qsort(list, p+1, high);
-	}
-	
-	
+int cdsc_linkedlist_qsort(struct cdsc_linkedlist *list, int low, int high) {
+    if (low >= 0 && high >= 0 && low < high) {
+	int p = _qsort_partition(list, low, high);
+	cdsc_linkedlist_qsort(list, low, p);
+	cdsc_linkedlist_qsort(list, p + 1, high);
+    }
+
+
 }
-void printlist(struct cdsc_linkedlist_node *nd){
-	printf("L: %d\n", (int)nd->data);
+void printlist(struct cdsc_linkedlist_node *nd) {
+    printf("L: %d\n", (int) nd->data);
 }
 
 // This implements Tony Hoare's partition scheme for quicksort
-int _qsort_partition(struct cdsc_linkedlist *list, int low, int high){
-	int pointer1 = low - 1;
-	int pointer2 = high + 1;
-	int pivot = (int)cdsc_linkedlist_getindexfromhead(list,high);
-	
-	while (1){
+int _qsort_partition(struct cdsc_linkedlist *list, int low, int high) {
+    int pointer1 = low - 1;
+    int pointer2 = high + 1;
+    int pivot = (int) cdsc_linkedlist_getindexfromhead(list, high);
 
-		pointer1++;
+    while (1) {
 
-		while ((int)cdsc_linkedlist_getindexfromhead(list, pointer1) < pivot){
-			pointer1++;
-		}
-		pointer2--;
+	pointer1++;
 
-		while ((int)cdsc_linkedlist_getindexfromhead(list, pointer2) > pivot){
-			pointer2--;
+	while ((int) cdsc_linkedlist_getindexfromhead(list, pointer1) <
+	       pivot) {
+	    pointer1++;
+	}
+	pointer2--;
 
-		}
-		int value1 = (int)cdsc_linkedlist_getindexfromhead(list, pointer1);
-		int value2 = (int)cdsc_linkedlist_getindexfromhead(list, pointer2);
-		if (pointer1 >= pointer2 || pointer2 <= pointer1){
-			return pointer2;
-		}else if(value1 > pivot || value2 < pivot){
-			cdsc_linkedlist_setdata(list, value1, pointer2);
-			cdsc_linkedlist_setdata(list, value2, pointer1);
-
-		}
+	while ((int) cdsc_linkedlist_getindexfromhead(list, pointer2) >
+	       pivot) {
+	    pointer2--;
 
 	}
-	
+	int value1 =
+	    (int) cdsc_linkedlist_getindexfromhead(list, pointer1);
+	int value2 =
+	    (int) cdsc_linkedlist_getindexfromhead(list, pointer2);
+	if (pointer1 >= pointer2 || pointer2 <= pointer1) {
+	    return pointer2;
+	} else if (value1 > pivot || value2 < pivot) {
+	    cdsc_linkedlist_setdata(list, value1, pointer2);
+	    cdsc_linkedlist_setdata(list, value2, pointer1);
+
+	}
+
+    }
+
 }

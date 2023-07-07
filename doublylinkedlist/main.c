@@ -3,27 +3,27 @@
 #include "doublylinkedlist.h"
 
 
-typedef struct canditate{
+typedef struct canditate {
     int age;
     float average;
-    char* name;
+    char *name;
 } candidate;
 
 void printlist(struct cdsc_doublylinkedlist_node *nd) {
     printf("L: %d\n", (int) nd->data);
 }
 
-int compaverage(candidate* cd1, candidate* cd2){
+int compaverage(candidate *cd1, candidate *cd2) {
     // Negative if second element is bigger
     // Positive if first is bigger
     // Otherwise 0
-    if (cd1->average > cd2->average){
-        return 1;
-    }else if (cd1->average < cd2->average){
-        return -1;
+    if (cd1->average > cd2->average) {
+	return 1;
+    } else if (cd1->average < cd2->average) {
+	return -1;
     }
     return 0;
-   
+
 }
 
 
@@ -48,10 +48,10 @@ int main() {
     struct cdsc_doublylinkedlist *list = cdsc_doublylinkedlist_make_dll();
     int i = 0;
     for (i = 0; i < 1; i++) {
-        cdsc_doublylinkedlist_append(list, 2);
-        cdsc_doublylinkedlist_append(list, 19);
-        cdsc_doublylinkedlist_append(list, 19);
-        cdsc_doublylinkedlist_append(list, 15);
+	cdsc_doublylinkedlist_append(list, 2);
+	cdsc_doublylinkedlist_append(list, 19);
+	cdsc_doublylinkedlist_append(list, 19);
+	cdsc_doublylinkedlist_append(list, 15);
     }
 
 

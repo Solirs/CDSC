@@ -292,7 +292,7 @@ int cdsc_doublylinkedlist_findindex(struct cdsc_doublylinkedlist *list,
 // Run a function for each member of a doublylinkedlist.
 int cdsc_doublylinkedlist_foreach(struct cdsc_doublylinkedlist *list,
 				  void (*action)(), void *param) {
-    if(LIST_EMPTY) {
+    if (LIST_EMPTY) {
 	return -1;
     }
     struct cdsc_doublylinkedlist_node *cur = list->head;
@@ -327,26 +327,28 @@ struct cdsc_doublylinkedlist_node *cdsc_doublylinkedlist_node_at(struct
     return cur;
 }
 
-int echo(int num, int num2){
-	return num - num2;
+int echo(int num, int num2) {
+    return num - num2;
 }
+
 // This implements Tony Hoare's partition scheme for quicksort
 struct qs_ret _qsort_partition(struct cdsc_doublylinkedlist *list, int low,
 			       int high,
 			       struct cdsc_doublylinkedlist_node *hptr,
-			       struct cdsc_doublylinkedlist_node *lptr, int (*comparator)()) {
-	
-	// If no comparator is set we fallback to a default one that 
-	// Compares the two numbers normally
-	if (comparator == NULL){
-		comparator = echo;
-	}
+			       struct cdsc_doublylinkedlist_node *lptr,
+			       int (*comparator)()) {
+
+    // If no comparator is set we fallback to a default one that 
+    // Compares the two numbers normally
+    if(comparator == NULL) {
+	comparator = echo;
+    }
     struct qs_ret qsr;
     int count = 0;
     struct cdsc_doublylinkedlist_node *pointer1 = lptr;
     struct cdsc_doublylinkedlist_node *pointer2 = hptr;
     //int pivot = (int)cdsc_doublylinkedlist_getindexfromhead(list,floor((low+high)/2)); // Choose middle element of list or sublist as pivot
-    void* pivot = lptr->data;	// This is not great, but this is the best way to choose a pivot i can come up with right now to minimize linked list operations
+    void *pivot = lptr->data;	// This is not great, but this is the best way to choose a pivot i can come up with right now to minimize linked list operations
 
     while (1) {
 
@@ -354,7 +356,6 @@ struct qs_ret _qsort_partition(struct cdsc_doublylinkedlist *list, int low,
 	    pointer1 = pointer1->next;
 	    low++;
 	}
-
 	// Comparators return a negative value if the second passed value is superior
 	// A positive one if the second passed value is inferior
 	// And Zero if both are equal
@@ -375,17 +376,18 @@ struct qs_ret _qsort_partition(struct cdsc_doublylinkedlist *list, int low,
 	}
 
 
-	void* value1 = pointer1->data;
-	void* value2 = pointer2->data;
+	void *value1 = pointer1->data;
+	void *value2 = pointer2->data;
 	if (low >= high || high <= low) {
-		// We return both the second pointer as well as a pointer to the node it 
-		// is at.
+	    // We return both the second pointer as well as a pointer to the node it 
+	    // is at.
 	    qsr.ptr = high;
 	    qsr.nod = pointer2;
 	    return qsr;
-	} else if (comparator(value1, pivot) > 0 || comparator(value2, pivot) < 0) {
-		// We swap if the value at the first pointer is higher than the pivot
-		// Or if the value at the second pointer is lower
+	} else if (comparator(value1, pivot) > 0
+		   || comparator(value2, pivot) < 0) {
+	    // We swap if the value at the first pointer is higher than the pivot
+	    // Or if the value at the second pointer is lower
 	    pointer1->data = value2;
 	    pointer2->data = value1;
 	}
@@ -396,26 +398,30 @@ struct qs_ret _qsort_partition(struct cdsc_doublylinkedlist *list, int low,
 }
 
 
-int cdsc_doublylinkedlist_qsort(struct cdsc_doublylinkedlist *list, int (*comparator)()) {
-    if (list->size < 2) {
+int cdsc_doublylinkedlist_qsort(struct cdsc_doublylinkedlist *list,
+				int (*comparator)()) {
+    if(list->size < 2) {
 	return 0;
     }
     _cdsc_doublylinkedlist_qsort(list, 0, list->size - 1,
 				 cdsc_doublylinkedlist_node_at(list,
 							       list->size -
 							       1),
-				 cdsc_doublylinkedlist_node_at(list, 0), comparator);
+				 cdsc_doublylinkedlist_node_at(list, 0),
+				 comparator);
     return 1;
 }
 void _cdsc_doublylinkedlist_qsort(struct cdsc_doublylinkedlist *list,
 				  int low, int high,
 				  struct cdsc_doublylinkedlist_node *hptr,
-				  struct cdsc_doublylinkedlist_node *lptr, int (*comparator)()) 
-{
-    if (low >= 0 && high >= 0 && low < high) {
-	struct qs_ret p = _qsort_partition(list, low, high, hptr, lptr, comparator);
+				  struct cdsc_doublylinkedlist_node *lptr,
+				  int (*comparator)()) {
+    if(low >= 0 && high >= 0 && low < high) {
+	struct qs_ret p =
+	    _qsort_partition(list, low, high, hptr, lptr, comparator);
 
-	_cdsc_doublylinkedlist_qsort(list, low, p.ptr, p.nod, lptr, comparator);
+	_cdsc_doublylinkedlist_qsort(list, low, p.ptr, p.nod, lptr,
+				     comparator);
 	_cdsc_doublylinkedlist_qsort(list, p.ptr + 1, high, hptr,
 				     p.nod->next, comparator);
     }
