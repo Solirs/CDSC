@@ -3,7 +3,6 @@ CDSC is a pure C library that contains implementations for 10 data structures wi
 it aims at being simple and safe, all while being complete and well documented and covering common data structure needs.
 
 CDSC contains implementations of the following data structures:
-- Linked List
 - Doubly Linked List
 - Deque
 - Queue
