@@ -36,6 +36,7 @@ void* cdsc_doublylinkedlist_pophead(struct cdsc_doublylinkedlist *list);
 
 void* cdsc_doublylinkedlist_getindexfromhead(struct cdsc_doublylinkedlist *list, int index);
 void* cdsc_doublylinkedlist_getindexfromtail(struct cdsc_doublylinkedlist *list, int index);
+void* cdsc_doublylinkedlist_at(struct cdsc_doublylinkedlist *list, int index);
 
 struct cdsc_doublylinkedlist *cdsc_doublylinkedlist_make_dll();
 int cdsc_doublylinkedlist_nuke(struct cdsc_doublylinkedlist *list);

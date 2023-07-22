@@ -13,6 +13,19 @@ struct cdsc_doublylinkedlist *cdsc_doublylinkedlist_make_dll() {
 }
 
 
+// Function to get the data at a certain index.
+// This function determines whether the index is closer to the head or the tail and uses the fastest option.
+// Recommended for library usage.
+void* cdsc_doublylinkedlist_at(struct cdsc_doublylinkedlist *list, int index){
+	if (index < list->size/2){
+		return cdsc_doublylinkedlist_getindexfromhead(list, index);
+	}else{
+		return cdsc_doublylinkedlist_getindexfromtail(list, list->size - index);
+	}
+}
+
+
+
 // Zeroes a cdsc_doublylinkedlist, mainly used internally.
 int cdsc_doublylinkedlist_zero(struct cdsc_doublylinkedlist *ll) {
     ll->head = NULL;
@@ -349,6 +362,7 @@ struct qs_ret _qsort_partition(struct cdsc_doublylinkedlist *list, int low,
     struct cdsc_doublylinkedlist_node *pointer2 = hptr;
     //int pivot = (int)cdsc_doublylinkedlist_getindexfromhead(list,floor((low+high)/2)); // Choose middle element of list or sublist as pivot
     void *pivot = lptr->data;	// This is not great, but this is the best way to choose a pivot i can come up with right now to minimize linked list operations
+
 
     while (1) {
 
