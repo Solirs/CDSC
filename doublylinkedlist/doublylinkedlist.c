@@ -20,7 +20,7 @@ void* cdsc_doublylinkedlist_at(struct cdsc_doublylinkedlist *list, int index){
 	if (index < list->size/2){
 		return cdsc_doublylinkedlist_getindexfromhead(list, index);
 	}else{
-		return cdsc_doublylinkedlist_getindexfromtail(list, list->size - index);
+		return cdsc_doublylinkedlist_getindexfromtail(list, list->size - 1 - index);
 	}
 }
 
