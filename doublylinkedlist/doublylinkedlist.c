@@ -125,7 +125,7 @@ void *cdsc_doublylinkedlist_pophead(struct cdsc_doublylinkedlist *list) {
 
 }
 
-// Get data by index starting at the heazd
+// Get data by index starting at the head
 void *cdsc_doublylinkedlist_getindexfromhead(struct cdsc_doublylinkedlist
 					     *list, int index) {
     if (LIST_EMPTY) {
