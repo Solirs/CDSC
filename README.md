@@ -21,6 +21,12 @@ None of them require any external dependencies.
   
 Complete and intuitive documentation for each CDSC data structure is currently being worked on.  
 
+## Contributing
+
+Maintaining the implementation of 10 data structures while implementing more and more is a colossal amount of work.
+Any form of help is greatly appreciated and welcome.
+See the TODO issue if you don't know what you can help on.
+
 ## BEWARE!!!!!!!!!!!!!!
 This project is still in early development and not released yet, it's mostly usable, but not polished, still missing many features, and the codebase could use many optimizations, cleanup, and fixes. All the data structures are memory leak-free but no further security auditing has been done. This will change in the future.
 See the "TODO" issue for progress.
