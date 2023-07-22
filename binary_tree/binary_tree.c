@@ -169,7 +169,7 @@ int cdsc_btree_foreach_post_order_recursive(struct cdsc_btree_node *nod,
 void _cdsc_btree_foreach_post_order_recursive(struct cdsc_btree_node *nod,
 					      void (*action)(),
 					      void *param) {
-    if (nod->rchild != NULL) {
+    if(nod->rchild != NULL) {
 	_cdsc_btree_foreach_post_order_recursive(nod->rchild, action,
 						 param);
 	action(nod->rchild, param);
@@ -322,7 +322,7 @@ int cdsc_btree_foreach_pre_order_recursive(struct cdsc_btree_node *nod,
 void _cdsc_btree_foreach_pre_order_recursive(struct cdsc_btree_node *nod,
 					     void (*action)(),
 					     void *param) {
-    if (nod->rchild != NULL) {
+    if(nod->rchild != NULL) {
 	action(nod->rchild, param);
 	_cdsc_btree_foreach_pre_order_recursive(nod->rchild, action,
 						param);

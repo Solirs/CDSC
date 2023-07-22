@@ -16,12 +16,15 @@ struct cdsc_doublylinkedlist *cdsc_doublylinkedlist_make_dll() {
 // Function to get the data at a certain index.
 // This function determines whether the index is closer to the head or the tail and uses the fastest option.
 // Recommended for library usage.
-void* cdsc_doublylinkedlist_at(struct cdsc_doublylinkedlist *list, int index){
-	if (index < list->size/2){
-		return cdsc_doublylinkedlist_getindexfromhead(list, index);
-	}else{
-		return cdsc_doublylinkedlist_getindexfromtail(list, list->size - 1 - index);
-	}
+void *cdsc_doublylinkedlist_at(struct cdsc_doublylinkedlist *list,
+			       int index) {
+    if (index < list->size / 2) {
+	return cdsc_doublylinkedlist_getindexfromhead(list, index);
+    } else {
+	return cdsc_doublylinkedlist_getindexfromtail(list,
+						      list->size - 1 -
+						      index);
+    }
 }
 
 
@@ -305,7 +308,7 @@ int cdsc_doublylinkedlist_findindex(struct cdsc_doublylinkedlist *list,
 // Run a function for each member of a doublylinkedlist.
 int cdsc_doublylinkedlist_foreach(struct cdsc_doublylinkedlist *list,
 				  void (*action)(), void *param) {
-    if (LIST_EMPTY) {
+    if(LIST_EMPTY) {
 	return -1;
     }
     struct cdsc_doublylinkedlist_node *cur = list->head;
@@ -353,7 +356,7 @@ struct qs_ret _qsort_partition(struct cdsc_doublylinkedlist *list, int low,
 
     // If no comparator is set we fallback to a default one that 
     // Compares the two numbers normally
-    if(comparator == NULL) {
+    if (comparator == NULL) {
 	comparator = echo;
     }
     struct qs_ret qsr;
@@ -414,7 +417,7 @@ struct qs_ret _qsort_partition(struct cdsc_doublylinkedlist *list, int low,
 
 int cdsc_doublylinkedlist_qsort(struct cdsc_doublylinkedlist *list,
 				int (*comparator)()) {
-    if(list->size < 2) {
+    if (list->size < 2) {
 	return 0;
     }
     _cdsc_doublylinkedlist_qsort(list, 0, list->size - 1,
@@ -430,7 +433,7 @@ void _cdsc_doublylinkedlist_qsort(struct cdsc_doublylinkedlist *list,
 				  struct cdsc_doublylinkedlist_node *hptr,
 				  struct cdsc_doublylinkedlist_node *lptr,
 				  int (*comparator)()) {
-    if(low >= 0 && high >= 0 && low < high) {
+    if (low >= 0 && high >= 0 && low < high) {
 	struct qs_ret p =
 	    _qsort_partition(list, low, high, hptr, lptr, comparator);
 
