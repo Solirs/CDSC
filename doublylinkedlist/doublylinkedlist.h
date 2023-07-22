@@ -5,6 +5,7 @@
 
 #define cdsc_doublylinkedlist_prepend(list, data) cdsc_doublylinkedlist_inserthead(list, data)
 #define cdsc_doublylinkedlist_append(list, data) cdsc_doublylinkedlist_inserttail(list, data)
+#define cdsc_doublylinkedlist_pop(list) cdsc_doublylinkedlist_poptail(list)
 
 struct cdsc_doublylinkedlist_node{
     struct cdsc_doublylinkedlist_node* previous;
