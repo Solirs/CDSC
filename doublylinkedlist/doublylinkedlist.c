@@ -196,17 +196,31 @@ int cdsc_doublylinkedlist_nuke(struct cdsc_doublylinkedlist *list) {
     return 1;
 }
 
-// Sets the data of a DoublyLinkedList's certain index, starting from the head.
+// Sets the data of a DoublyLinkedList's certain index.
+// Starting from head if the index is closer to it otherwise from tail
 int cdsc_doublylinkedlist_setdata(struct cdsc_doublylinkedlist *list,
 				  void *data, int index) {
     int i;
-    struct cdsc_doublylinkedlist_node *cur = list->head;
-    for (i = 0; i < index; i++) {
-	cur = cur->next;
-	if (cur == NULL) {
-	    return -1;
-	}
+    struct cdsc_doublylinkedlist_node *cur;
+
+    if (index < list->size / 2) {
+		cur = list->head;
+		for (i = 0; i < index; i++) {
+			cur = cur->next;
+			if (cur == NULL) {
+				return -1;
+			}
+		}
+    } else {
+		cur = list->tail;
+		for (i = 0; i < list->size - 1 - index; i++) {
+			cur = cur->previous;
+			if (cur == NULL) {
+				return -1;
+			}
+		}
     }
+
     cur->data = data;
     return 1;
 }
