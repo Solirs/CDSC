@@ -4,7 +4,7 @@
 #include<stdlib.h>
 #include "../bitarray/bitarray.h"
 
-typedef unsigned int (*func_type)(void*);
+typedef unsigned int (*func_type)();
 
 struct cdsc_bloomfilter{
 
