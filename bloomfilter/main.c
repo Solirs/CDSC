@@ -1,33 +1,38 @@
 #include <stdio.h>
 #include "bloomfilter.h"
-// Constants for the hash_fn
-#define CAPACITY 1000
-#define OFFSET 14695981039346656037UL
+
 #define PRIME 1099511628211UL
 
-// An example hashing function (FNV)
-unsigned long cdsc_bf_hash(const char *key) {
-    unsigned long hash = OFFSET;
-    for (const char *p = key; *p; p++) {
-	hash ^= (unsigned long) (*p);
-	hash *= PRIME;
-    }
-    return hash;
-}
-unsigned long hash(const char *str)
+uint32_t x17(const void * key, int len, uint32_t h)
 {
+    // Source: https://github.com/aappleby/smhasher/blob/master/src/Hashes.cpp
+    const uint8_t * data = (const uint8_t*)key;
+    for (int i = 0; i < len; ++i)
+    {
+        h = 17 * h + (data[i] - ' ');
+    }
+    return h ^ (h >> 16);
+}
 
-    unsigned long hash = 5381;
-    int c;
-
-    while (c = *str++)
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-
-    return hash;
+uint32_t crc32b(const uint8_t *str) {
+    // Source: https://stackoverflow.com/a/21001712
+    unsigned int byte, crc, mask;
+    int i = 0, j;
+    crc = 0xFFFFFFFF;
+    while (str[i] != 0) {
+        byte = str[i];
+        crc = crc ^ byte;
+        for (j = 7; j >= 0; j--) {
+            mask = -(crc & 1);
+            crc = (crc >> 1) ^ (0xEDB88320 & mask);
+        }
+        i = i + 1;
+    }
+    return ~crc;
 }
 uint32_t MurmurOAAT_32(const char* str)
 {
-    int h = PRIME;
+    long int h = PRIME;
     // One-byte-at-a-time hash based on Murmur's mix
     // Source: https://github.com/aappleby/smhasher/blob/master/src/Hashes.cpp
     for (; *str; ++str) {
@@ -49,10 +54,10 @@ uint32_t KR_v2_hash(const char *s)
 
 int main(){
     struct cdsc_bloomfilter *filter = cdsc_bloomfilter_create(8900);
-    cdsc_bloomfilter_addhashfun(filter, hash);
+    cdsc_bloomfilter_addhashfun(filter, crc32b);
     cdsc_bloomfilter_addhashfun(filter, MurmurOAAT_32);
     cdsc_bloomfilter_addhashfun(filter, KR_v2_hash);
-    cdsc_bloomfilter_addhashfun(filter, cdsc_bf_hash);
+    cdsc_bloomfilter_addhashfun(filter, x17);
 
     char *str = "Hello";
     cdsc_bloomfilter_add(filter, str);
