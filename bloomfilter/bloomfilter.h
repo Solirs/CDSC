@@ -7,9 +7,17 @@
 typedef int (*func_type)(void*);
 
 struct cdsc_bloomfilter{
+
+    // Size of the bit array
     int size;
+
+    // Bit array
     int32_t *bitarray;
+
+    // The number of hash functions at our disposal
     int numhfuncs;
+
+    // List of all hashfunctions
     func_type hashfuncs[255];
 };
 
