@@ -28,6 +28,10 @@ struct cdsc_tree_node *cdsc_tree_get_root_node(struct cdsc_tree_node *node) {
     }
 }
 
+
+void _setparent(struct cdsc_tree_node* node, struct cdsc_tree_node* parent){
+    node->parent = parent;
+}
 // Remove a node from the tree
 // Its children are adopted by the parent node
 int cdsc_tree_remove_node(struct cdsc_tree_node *node) {
@@ -36,12 +40,16 @@ int cdsc_tree_remove_node(struct cdsc_tree_node *node) {
     }
     int i;
 
-    for (i = 0; i < node->children->size; i++) {
-	struct cdsc_tree_node *child = (struct cdsc_tree_node *)
-	    cdsc_doublylinkedlist_getindexfromhead(node->children, i);
-	child->parent = node->parent;
-    }
-    cdsc_doublylinkedlist_merge(node->parent->children, node->children);
+    // Remove the node from its parent's children
+    cdsc_doublylinkedlist_remove_node_if_contains(node->parent->children, node);
+    // Set the parent of all of the node's children to the node's parent
+    cdsc_doublylinkedlist_foreach(node->children, _setparent, node->parent); 
+
+    // Merge the node's children with its parent's children.
+    cdsc_doublylinkedlist_concat(node->parent->children, node->children);
+
+
+    // Purge the node
     cdsc_tree_purge_node(node);
     return 1;
 }

@@ -28,9 +28,10 @@ int main() {
     //cdsc_tree_add_child(ch4, "ByeBB2");
     //cdsc_tree_add_child(child2, "Hello21");
     //cdsc_tree_add_child(child3, "Hello31");
+    cdsc_tree_remove_node(child4);
 
 
-    struct cdsc_tree_node *rootnode = cdsc_tree_get_root_node(child);
+    //struct cdsc_tree_node *rootnode = cdsc_tree_get_root_node(child);
     //struct cdsc_tree_node *child3 = cdsc_tree_add_child(child, "bye");
     //remove_node(child);
     //prune_node(child);
@@ -39,7 +40,7 @@ int main() {
 
     //prune_node(child2);
 
-    cdsc_tree_foreach_post_order(rootnode, printnode, NULL);
+    //cdsc_tree_foreach_post_order(rootnode, printnode, NULL);
 
     cdsc_tree_nuke(tree);
     //nuke(rootnode->children);
