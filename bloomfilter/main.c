@@ -12,17 +12,18 @@ unsigned long cdsc_bf_hash(const char *key) {
 	hash ^= (unsigned long) (*p);
 	hash *= PRIME;
     }
-    return hash % 320;
+    return hash;
 }
 unsigned long hash(const char *str)
 {
+
     unsigned long hash = 5381;
     int c;
 
     while (c = *str++)
         hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
 
-    return hash % 320;
+    return hash;
 }
 
 int main(){
