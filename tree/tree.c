@@ -245,7 +245,14 @@ void cdsc_tree_purge_node(struct cdsc_tree_node *nod) {
 }
 
 int cdsc_tree_prune_node(struct cdsc_tree_node *nod) {
+
+
+    // Remove the node from its parent's children
+    if (nod->parent){
+        cdsc_doublylinkedlist_remove_node_if_contains(nod->parent->children, nod);
+    }
     cdsc_tree_foreach_post_order(nod, cdsc_tree_purge_node, NULL);
+
     return 1;
 }
 
