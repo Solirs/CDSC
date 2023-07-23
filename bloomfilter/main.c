@@ -30,9 +30,21 @@ int main(){
     cdsc_bloomfilter_addhashfun(filter, cdsc_bf_hash);
     cdsc_bloomfilter_addhashfun(filter, hash);
 
-    cdsc_bloomfilter_add(filter, "HelloWorld");
-    printf("%d\n", cdsc_bloomfilter_check(filter, "HelloWorld"));
+    char str[255];
+    while (1){
+        printf("Input a string: ");
+        scanf("%s", &str);
+        cdsc_bloomfilter_add(filter, str);
 
+        printf("\n");
+        printf("Lookup bloom filter: ");
+        scanf("%s", &str);
+        if (cdsc_bloomfilter_check(filter, str)){
+            printf("The string is possibly in the set\n");
+        }else{
+            printf("The string is definitely not in the set\n");
+        }
+    }
     cdsc_bloomfilter_nuke(filter);
     return 0;
 }
