@@ -30,7 +30,7 @@ int cdsc_bloomfilter_check(struct cdsc_bloomfilter* bf, void* data){
     // We hash the data with every hash function, if one of the obtained indexes fall on a 0 then 
     // The data is definitely not in the filter (0), otherwise it possibly is (1).
     for (int i = 0;  i < bf->numhfuncs; i++){
-        if (!cdsc_bitarray_is1(bf->bitarray, bf->hashfuncs[i](data) % bf->size)){
+        if (cdsc_bitarray_is0(bf->bitarray, bf->hashfuncs[i](data) % bf->size)){
             return 0;
         }
     }    
