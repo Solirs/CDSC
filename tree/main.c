@@ -7,7 +7,7 @@ void printone(struct cdsc_tree_node *nod) {
 }
 void printnode(struct cdsc_tree_node *nod) {
     if (nod->data != NULL) {
-	printf("%s\n", nod->data);
+	printf("%s\n", (char*)nod->data);
     }
 }
 int main() {
@@ -38,7 +38,8 @@ int main() {
     ///printf("%d\n", get_depth(child));
 
     //prune_node(child2);
-    cdsc_tree_foreach_pre_order(rootnode, printnode, NULL);
+
+    cdsc_tree_foreach_post_order(rootnode, printnode, NULL);
 
     cdsc_tree_nuke(tree);
     //nuke(rootnode->children);

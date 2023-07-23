@@ -144,12 +144,13 @@ int cdsc_tree_foreach_pre_order(struct cdsc_tree_node *nod,
 				void (*action)(), void *param) {
     struct cdsc_stack *stack = cdsc_stack_make_stack();
     cdsc_stack_push(stack, nod);
+
     while (stack->size != 0) {
 	struct cdsc_tree_node *nn =
 	    (struct cdsc_tree_node *) cdsc_stack_pop(stack);
-	action(nod, param);
+	action(nn, param);
 	if (nn->children->size != 0) {
-	    cdsc_doublylinkedlist_foreach(nn->children, _stackpushnode, stack);
+	    cdsc_doublylinkedlist_foreach_reverse(nn->children, _stackpushnode, stack);
 
 	}
     }
@@ -169,7 +170,6 @@ int cdsc_tree_foreach_post_order(struct cdsc_tree_node *nod,
 				 void (*action)(), void *param) {
     // Our main stack
     struct cdsc_stack *stack = cdsc_stack_make_stack();
-    struct cdsc_stack *tempstack = cdsc_stack_make_stack();
     struct cdsc_tree_node *lastnode = NULL;
 
     // Current node to process
@@ -190,14 +190,8 @@ int cdsc_tree_foreach_post_order(struct cdsc_tree_node *nod,
 	    lastnode = nodde;	// Now this node is the last node visited
 	} else {		// If the node is'nt a leaf and the last node visited isn't a child of the node
 	    // Add its children to the stack in reverse order to be processed.
-	    // TODO: use a deque or doubly linked list for that
-	    cdsc_doublylinkedlist_foreach(nodde->children, _stackpushnode,
-				    tempstack);
-	    while (tempstack->size != 0) {
-		cdsc_stack_push(stack, cdsc_stack_pop(tempstack));
-	    }
-	    cdsc_doublylinkedlist_nuke(tempstack->content);
-
+	    cdsc_doublylinkedlist_foreach_reverse(nodde->children, _stackpushnode,
+				    stack);
 	}
 
     }
@@ -205,8 +199,7 @@ int cdsc_tree_foreach_post_order(struct cdsc_tree_node *nod,
     // Free all those data structures we allocated.
     cdsc_stack_nuke(stack);
     free(stack);
-    cdsc_stack_nuke(tempstack);
-    free(tempstack);
+
     return 1;
 
 }
