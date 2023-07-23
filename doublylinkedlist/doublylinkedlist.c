@@ -492,25 +492,46 @@ struct cdsc_doublylinkedlist *cdsc_doublylinkedlist_merge(struct cdsc_doublylink
     return dest;
 
 }
+
+// Concatenate two lists into the first.
+void cdsc_doublylinkedlist_concat(struct cdsc_doublylinkedlist
+					      *list1, struct cdsc_doublylinkedlist
+					      *list2) {
+    struct cdsc_doublylinkedlist_node *cur = cur = list2->head;
+    while (cur != NULL) {
+	cdsc_doublylinkedlist_append(list1, cur->data);
+	cur = cur->next;
+
+    }
+
+}
 int cdsc_doublylinkedlist_remove_node_if_contains(struct cdsc_doublylinkedlist *list,
 					    void *key) {
     int i;
     struct cdsc_doublylinkedlist_node *cur = list->head;
     struct cdsc_doublylinkedlist_node *prev = NULL;
-    for (i = 0; i < list->size; i++) {
-	if (cur->data == key) {
-	    if (cur == list->head) {
+	if (cur->data == key){
 		cdsc_doublylinkedlist_pophead(list);
+		return 1;
+	}else{
+		prev = cur;
+		cur = cur->next;
+	}
+
+    while (cur != NULL) {
+	if (cur->data == key) {
+	    if (cur == list->tail) {
+			cdsc_doublylinkedlist_poptail(list);
+
 	    } else {
 		prev->next = cur->next;
 		free(cur);
 	    }
-	} else {;
+	} else {
 	    prev = cur;
 	    cur = cur->next;
 	}
 
     }
-    cur = NULL;
     return 1;
 }

@@ -58,4 +58,7 @@ int cdsc_doublylinkedlist_remove_node_if_contains(struct cdsc_doublylinkedlist *
 					    void *key);
 int cdsc_doublylinkedlist_foreach_reverse(struct cdsc_doublylinkedlist *list,
 				  void (*action)(), void *param);
+void cdsc_doublylinkedlist_concat(struct cdsc_doublylinkedlist
+					      *list1, struct cdsc_doublylinkedlist
+					      *list2);
 #endif
