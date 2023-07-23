@@ -45,11 +45,15 @@ int cdsc_doublylinkedlist_setdata(struct cdsc_doublylinkedlist *list, void* data
 
 int doublelinkedlist_zero(struct cdsc_doublylinkedlist *ll);
 int cdsc_doublylinkedlist_reverse(struct cdsc_doublylinkedlist *list);
-void cdsc_doublylinkedlist_merge(struct cdsc_doublylinkedlist *list1, struct cdsc_doublylinkedlist *list2);
 int cdsc_doublylinkedlist_appendnode(struct cdsc_doublylinkedlist *list, struct cdsc_doublylinkedlist_node* node);
 int cdsc_doublylinkedlist_contains(struct cdsc_doublylinkedlist* list, void* data);
 struct cdsc_doublylinkedlist_node* cdsc_doublylinkedlist_find(struct cdsc_doublylinkedlist *list, void* key);
 int cdsc_doublylinkedlist_findindex(struct cdsc_doublylinkedlist *list, void* key);
 int cdsc_doublylinkedlist_foreach(struct cdsc_doublylinkedlist *list, void (*action)(), void* param);
 int cdsc_doublylinkedlist_qsort(struct cdsc_doublylinkedlist *list, int (*action)());
+struct cdsc_doublylinkedlist *cdsc_doublylinkedlist_merge(struct cdsc_doublylinkedlist
+					      *list1, struct cdsc_doublylinkedlist
+					      *list2);
+int cdsc_doublylinkedlist_remove_node_if_contains(struct cdsc_doublylinkedlist *list,
+					    void *key);
 #endif

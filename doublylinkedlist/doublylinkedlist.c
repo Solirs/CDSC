@@ -204,21 +204,21 @@ int cdsc_doublylinkedlist_setdata(struct cdsc_doublylinkedlist *list,
     struct cdsc_doublylinkedlist_node *cur;
 
     if (index < list->size / 2) {
-		cur = list->head;
-		for (i = 0; i < index; i++) {
-			cur = cur->next;
-			if (cur == NULL) {
-				return -1;
-			}
-		}
+	cur = list->head;
+	for (i = 0; i < index; i++) {
+	    cur = cur->next;
+	    if (cur == NULL) {
+		return -1;
+	    }
+	}
     } else {
-		cur = list->tail;
-		for (i = 0; i < list->size - 1 - index; i++) {
-			cur = cur->previous;
-			if (cur == NULL) {
-				return -1;
-			}
-		}
+	cur = list->tail;
+	for (i = 0; i < list->size - 1 - index; i++) {
+	    cur = cur->previous;
+	    if (cur == NULL) {
+		return -1;
+	    }
+	}
     }
 
     cur->data = data;
@@ -257,14 +257,14 @@ int cdsc_doublylinkedlist_appendnode(struct cdsc_doublylinkedlist *list, struct 
     return 1;
 
 }
-
+/*
 void cdsc_doublylinkedlist_merge(struct cdsc_doublylinkedlist *list1,
 				 struct cdsc_doublylinkedlist *list2) {
     list1->tail->next = list2->head;
     list2->head->previous = list1->tail;
     list1->size += list2->size;
 }				// TODO: Apply fixes from linkedlist
-
+*/
 int cdsc_doublylinkedlist_contains(struct cdsc_doublylinkedlist *list,
 				   void *data) {
     if (LIST_EMPTY) {
@@ -322,7 +322,7 @@ int cdsc_doublylinkedlist_findindex(struct cdsc_doublylinkedlist *list,
 // Run a function for each member of a doublylinkedlist.
 int cdsc_doublylinkedlist_foreach(struct cdsc_doublylinkedlist *list,
 				  void (*action)(), void *param) {
-    if(LIST_EMPTY) {
+    if (LIST_EMPTY) {
 	return -1;
     }
     struct cdsc_doublylinkedlist_node *cur = list->head;
@@ -370,7 +370,7 @@ struct qs_ret _qsort_partition(struct cdsc_doublylinkedlist *list, int low,
 
     // If no comparator is set we fallback to a default one that 
     // Compares the two numbers normally
-    if (comparator == NULL) {
+    if(comparator == NULL) {
 	comparator = echo;
     }
     struct qs_ret qsr;
@@ -431,7 +431,7 @@ struct qs_ret _qsort_partition(struct cdsc_doublylinkedlist *list, int low,
 
 int cdsc_doublylinkedlist_qsort(struct cdsc_doublylinkedlist *list,
 				int (*comparator)()) {
-    if (list->size < 2) {
+    if(list->size < 2) {
 	return 0;
     }
     _cdsc_doublylinkedlist_qsort(list, 0, list->size - 1,
@@ -447,7 +447,7 @@ void _cdsc_doublylinkedlist_qsort(struct cdsc_doublylinkedlist *list,
 				  struct cdsc_doublylinkedlist_node *hptr,
 				  struct cdsc_doublylinkedlist_node *lptr,
 				  int (*comparator)()) {
-    if (low >= 0 && high >= 0 && low < high) {
+    if(low >= 0 && high >= 0 && low < high) {
 	struct qs_ret p =
 	    _qsort_partition(list, low, high, hptr, lptr, comparator);
 
@@ -458,4 +458,46 @@ void _cdsc_doublylinkedlist_qsort(struct cdsc_doublylinkedlist *list,
     }
 
 
+}
+// Merge two lists by copying and appending the data of list2 and list1 to a new one.
+struct cdsc_doublylinkedlist *cdsc_doublylinkedlist_merge(struct cdsc_doublylinkedlist
+					      *list1, struct cdsc_doublylinkedlist
+					      *list2) {
+    struct cdsc_doublylinkedlist *dest = cdsc_doublylinkedlist_make_dll();
+    struct cdsc_doublylinkedlist_node *cur = list1->head;
+    while (cur != NULL) {
+		cdsc_doublylinkedlist_append(dest, cur->data);
+		cur = cur->next;
+    }
+    cur = list2->head;
+    while (cur != NULL) {
+	cdsc_doublylinkedlist_append(dest, cur->data);
+	cur = cur->next;
+
+    }
+
+    return dest;
+
+}
+int cdsc_doublylinkedlist_remove_node_if_contains(struct cdsc_doublylinkedlist *list,
+					    void *key) {
+    int i;
+    struct cdsc_doublylinkedlist_node *cur = list->head;
+    struct cdsc_doublylinkedlist_node *prev = NULL;
+    for (i = 0; i < list->size; i++) {
+	if (cur->data == key) {
+	    if (cur == list->head) {
+		cdsc_doublylinkedlist_pophead(list);
+	    } else {
+		prev->next = cur->next;
+		free(cur);
+	    }
+	} else {;
+	    prev = cur;
+	    cur = cur->next;
+	}
+
+    }
+    cur = NULL;
+    return 1;
 }
