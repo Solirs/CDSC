@@ -38,3 +38,15 @@ int cdsc_bloomfilter_check(struct cdsc_bloomfilter* bf, void* data){
         }
     }    
 }
+
+void cdsc_bloomfilter_addhashfun(struct cdsc_bloomfilter* bf, int (*hashfun)(void*)){
+    int i = 0;
+    while (1){
+        if (bf->hashfuncs[i] == 0){
+            bf->hashfuncs[i] = hashfun;
+            return;
+        }else{
+            i++;
+        }
+    }
+}

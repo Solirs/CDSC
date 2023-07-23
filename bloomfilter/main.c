@@ -14,10 +14,22 @@ unsigned long cdsc_bf_hash(const char *key) {
     }
     return hash % 320;
 }
+unsigned long hash(const char *str)
+{
+    unsigned long hash = 5381;
+    int c;
+
+    while (c = *str++)
+        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+
+    return hash % 320;
+}
 
 int main(){
     struct cdsc_bloomfilter *filter = cdsc_bloomfilter_create(320);
-    filter->hashfuncs[0] = cdsc_bf_hash;
+    cdsc_bloomfilter_addhashfun(filter, cdsc_bf_hash);
+    cdsc_bloomfilter_addhashfun(filter, hash);
+
     cdsc_bloomfilter_add(filter, "HelloWorld");
     printf("%d\n", cdsc_bloomfilter_check(filter, "HelloWorld"));
 
