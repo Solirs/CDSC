@@ -39,7 +39,7 @@ int cdsc_bloomfilter_check(struct cdsc_bloomfilter* bf, void* data){
 
 
 // Add a hash function to the bloomfilter
-void cdsc_bloomfilter_addhashfun(struct cdsc_bloomfilter* bf, int (*hashfun)(void*)){
+void cdsc_bloomfilter_addhashfun(struct cdsc_bloomfilter* bf, unsigned int (*hashfun)(void*)){
     bf->hashfuncs[bf->numhfuncs] = hashfun;
     bf->numhfuncs++;
 }
