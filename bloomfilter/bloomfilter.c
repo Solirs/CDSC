@@ -18,14 +18,9 @@ void cdsc_bloomfilter_nuke(struct cdsc_bloomfilter* bf){
 
 // Add data to the bloom filter
 void cdsc_bloomfilter_add(struct cdsc_bloomfilter* bf, void* data){
-
-    int i = 0;
-
     // We hash the data with every hash function and set the bit at that index to 1
-    while (1){
-        if (i == bf->numhfuncs){
-            break;
-        }
+    for (int i = 0;  i < bf->numhfuncs; i++){
+
         cdsc_bitarray_set1(bf->bitarray, bf->hashfuncs[i](data));
         i++;
     }
@@ -34,20 +29,16 @@ void cdsc_bloomfilter_add(struct cdsc_bloomfilter* bf, void* data){
 int cdsc_bloomfilter_check(struct cdsc_bloomfilter* bf, void* data){
 
     
-    int i = 0;
-
     // We hash the data with every hash function, if one of the obtained indexes fall on a 0 then 
     // The data is definitely not in the filter (0), otherwise it possibly is (1).
-    while (1){
-        if (i == bf->numhfuncs){
-            return 1;
-        }
+    for (int i = 0;  i < bf->numhfuncs; i++){
         if (cdsc_bitarray_is1(bf->bitarray, bf->hashfuncs[i](data))){
             i++;
         }else{
             return 0;
         }
     }    
+    return 1;
 }
 
 
