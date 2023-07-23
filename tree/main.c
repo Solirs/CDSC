@@ -35,19 +35,12 @@ int main() {
     //remove_node(child);
     //prune_node(child);
     //graft(child, child2);
-    struct cdsc_tree_node *tn = ((struct cdsc_tree_node *)
-				 cdsc_linkedlist_getindexfromhead
-				 (rootnode->children, 0));
-    printf("%s\n", (((struct cdsc_tree_node *)
-		     cdsc_linkedlist_getindexfromhead(tn->children,
-						      1))->data));
     ///printf("%d\n", get_depth(child));
 
     //prune_node(child2);
-    cdsc_tree_foreach_post_order(rootnode, printnode, NULL);
+    cdsc_tree_foreach_pre_order(rootnode, printnode, NULL);
 
     cdsc_tree_nuke(tree);
-    printf("BREAK\n");
     //nuke(rootnode->children);
     //free(rootnode->children);
 

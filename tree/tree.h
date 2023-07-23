@@ -2,7 +2,7 @@
 #define TREE_
 
 #include<stdlib.h>
-#include"../linkedlist/linkedlist.h"
+#include"../doublylinkedlist/doublylinkedlist.h"
 #include"../stack/stack.h"
 #include <stdbool.h>
 
@@ -10,7 +10,7 @@
 struct cdsc_tree_node{
     struct cdsc_tree_node* parent;
     void* data;
-    struct cdsc_linkedlist* children;
+    struct cdsc_doublylinkedlist* children;
 };
 
 struct cdsc_tree{

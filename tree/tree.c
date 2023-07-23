@@ -10,9 +10,9 @@ struct cdsc_tree_node *cdsc_tree_add_child(struct cdsc_tree_node *node,
     }
     newnode->parent = node;
     newnode->data = data;
-    newnode->children = cdsc_linkedlist_make_ll();
+    newnode->children = cdsc_doublylinkedlist_make_dll();
 
-    cdsc_linkedlist_inserttail(node->children, newnode);
+    cdsc_doublylinkedlist_inserttail(node->children, newnode);
 
     return newnode;
 }
@@ -38,10 +38,10 @@ int cdsc_tree_remove_node(struct cdsc_tree_node *node) {
 
     for (i = 0; i < node->children->size; i++) {
 	struct cdsc_tree_node *child = (struct cdsc_tree_node *)
-	    cdsc_linkedlist_getindexfromhead(node->children, i);
+	    cdsc_doublylinkedlist_getindexfromhead(node->children, i);
 	child->parent = node->parent;
     }
-    cdsc_linkedlist_merge(node->parent->children, node->children);
+    cdsc_doublylinkedlist_merge(node->parent->children, node->children);
     cdsc_tree_purge_node(node);
     return 1;
 }
@@ -50,8 +50,8 @@ int cdsc_tree_remove_node(struct cdsc_tree_node *node) {
 // This will make this node a child of the parent node.
 int cdsc_tree_graft(struct cdsc_tree_node *nod,
 		    struct cdsc_tree_node *parent) {
-    cdsc_linkedlist_remove_node_if_contains(nod->parent->children, nod);
-    cdsc_linkedlist_inserttail(parent->children, nod);
+    cdsc_doublylinkedlist_remove_node_if_contains(nod->parent->children, nod);
+    cdsc_doublylinkedlist_inserttail(parent->children, nod);
     nod->parent = parent;
     return 1;
 
@@ -122,7 +122,7 @@ struct cdsc_tree *cdsc_tree_make_tree() {
 	return NULL;
     }
     newnode->parent = NULL;
-    newnode->children = cdsc_linkedlist_make_ll();
+    newnode->children = cdsc_doublylinkedlist_make_dll();
     newnode->data = NULL;
 
     newtree->root = newnode;
@@ -130,7 +130,7 @@ struct cdsc_tree *cdsc_tree_make_tree() {
 }
 
 // Internal function used by the iterative post order traversal
-void _stackpushnode(struct cdsc_linkedlist_node *nod,
+void _stackpushnode(struct cdsc_doublylinkedlist_node *nod,
 		    struct cdsc_stack *stack) {
 
     if (nod->data != NULL) {
@@ -149,7 +149,7 @@ int cdsc_tree_foreach_pre_order(struct cdsc_tree_node *nod,
 	    (struct cdsc_tree_node *) cdsc_stack_pop(stack);
 	action(nod, param);
 	if (nn->children->size != 0) {
-	    cdsc_linkedlist_foreach(nn->children, _stackpushnode, stack);
+	    cdsc_doublylinkedlist_foreach(nn->children, _stackpushnode, stack);
 
 	}
     }
@@ -181,7 +181,7 @@ int cdsc_tree_foreach_post_order(struct cdsc_tree_node *nod,
 	nodde = (struct cdsc_tree_node *) cdsc_stack_peek(stack);	// Get the root node of our traversal
 	if (nodde->children->size == 0 || (lastnode != NULL
 					   &&
-					   (cdsc_linkedlist_find
+					   (cdsc_doublylinkedlist_find
 					    (nodde->children,
 					     lastnode) != NULL))) {
 	    // If node is a leaf or  last node is a child of the node
@@ -191,12 +191,12 @@ int cdsc_tree_foreach_post_order(struct cdsc_tree_node *nod,
 	} else {		// If the node is'nt a leaf and the last node visited isn't a child of the node
 	    // Add its children to the stack in reverse order to be processed.
 	    // TODO: use a deque or doubly linked list for that
-	    cdsc_linkedlist_foreach(nodde->children, _stackpushnode,
+	    cdsc_doublylinkedlist_foreach(nodde->children, _stackpushnode,
 				    tempstack);
 	    while (tempstack->size != 0) {
 		cdsc_stack_push(stack, cdsc_stack_pop(tempstack));
 	    }
-	    cdsc_linkedlist_nuke(tempstack->content);
+	    cdsc_doublylinkedlist_nuke(tempstack->content);
 
 	}
 
@@ -219,9 +219,9 @@ void cdsc_tree_foreach_post_order_recursive(struct cdsc_tree_node *nod,
     int i;
     for (i = 0; i < nod->children->size; i++) {
 	cdsc_tree_foreach_post_order_recursive
-	    (cdsc_linkedlist_getindexfromhead(nod->children, i), action,
+	    (cdsc_doublylinkedlist_getindexfromhead(nod->children, i), action,
 	     param);
-	action(cdsc_linkedlist_getindexfromhead(nod->children, i), param);
+	action(cdsc_doublylinkedlist_getindexfromhead(nod->children, i), param);
 
     }
 }
@@ -229,16 +229,16 @@ void cdsc_tree_foreach_pre_order_recursive(struct cdsc_tree_node *nod,
 					   void (*action)(), void *param) {
     int i;
     for (i = 0; i < nod->children->size; i++) {
-	action(cdsc_linkedlist_getindexfromhead(nod->children, i), param);
+	action(cdsc_doublylinkedlist_getindexfromhead(nod->children, i), param);
 	cdsc_tree_foreach_pre_order_recursive
-	    (cdsc_linkedlist_getindexfromhead(nod->children, i), action,
+	    (cdsc_doublylinkedlist_getindexfromhead(nod->children, i), action,
 	     param);
     }
 }
 
 //WARNING: Only used internally by the implementation, do NOT call unless you know what you're doing!
 void cdsc_tree_purge_node(struct cdsc_tree_node *nod) {
-    cdsc_linkedlist_nuke(nod->children);
+    cdsc_doublylinkedlist_nuke(nod->children);
     free(nod->children);
     free(nod);
 }

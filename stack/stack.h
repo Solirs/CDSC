@@ -2,12 +2,12 @@
 #define STACK_
 
 #include<stdlib.h>
-#include"../linkedlist/linkedlist.h"
+#include"../doublylinkedlist/doublylinkedlist.h"
 
 
 struct cdsc_stack{
     int size;
-    struct cdsc_linkedlist *content;
+    struct cdsc_doublylinkedlist *content;
 };
 
 struct cdsc_stack* cdsc_stack_make_stack();

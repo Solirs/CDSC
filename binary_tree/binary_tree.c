@@ -169,7 +169,7 @@ int cdsc_btree_foreach_post_order_recursive(struct cdsc_btree_node *nod,
 void _cdsc_btree_foreach_post_order_recursive(struct cdsc_btree_node *nod,
 					      void (*action)(),
 					      void *param) {
-    if(nod->rchild != NULL) {
+    if (nod->rchild != NULL) {
 	_cdsc_btree_foreach_post_order_recursive(nod->rchild, action,
 						 param);
 	action(nod->rchild, param);
@@ -322,7 +322,7 @@ int cdsc_btree_foreach_pre_order_recursive(struct cdsc_btree_node *nod,
 void _cdsc_btree_foreach_pre_order_recursive(struct cdsc_btree_node *nod,
 					     void (*action)(),
 					     void *param) {
-    if(nod->rchild != NULL) {
+    if (nod->rchild != NULL) {
 	action(nod->rchild, param);
 	_cdsc_btree_foreach_pre_order_recursive(nod->rchild, action,
 						param);
@@ -344,12 +344,12 @@ int cdsc_btree_nuke(struct cdsc_btree_node *nod) {
 }
 
 // Increment passed integer, used in cdsc_tree_count
-void _intplusplus(struct cdsc_btree_node *nod, int *in) {
+void _bintplusplus(struct cdsc_btree_node *nod, int *in) {
     *in = *in + 1;
 
 }
 int cdsc_btree_count(struct cdsc_btree *tree) {
     int num = 0;
-    cdsc_btree_foreach_pre_order(tree->root, _intplusplus, &num);	// Increment for each node in the tree
+    cdsc_btree_foreach_pre_order(tree->root, _bintplusplus, &num);	// Increment for each node in the tree
     return num;
 }

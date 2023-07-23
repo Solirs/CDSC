@@ -8,13 +8,13 @@ struct cdsc_stack *cdsc_stack_make_stack() {
 	return NULL;
     }
     st->size = 0;
-    st->content = cdsc_linkedlist_make_ll();
+    st->content = cdsc_doublylinkedlist_make_dll();
     return st;
 }
 
 // Push to the head of stack
 int cdsc_stack_push(struct cdsc_stack *stack, void *data) {
-    if (cdsc_linkedlist_inserthead(stack->content, data) < 0) {
+    if (cdsc_doublylinkedlist_inserthead(stack->content, data) < 0) {
 	return -1;
     }
     stack->size++;
@@ -25,14 +25,14 @@ int cdsc_stack_push(struct cdsc_stack *stack, void *data) {
 
 // Pop the head of the stack and return the popped value
 void *cdsc_stack_pop(struct cdsc_stack *stack) {
-    void *ret = cdsc_linkedlist_pophead(stack->content);
+    void *ret = cdsc_doublylinkedlist_pophead(stack->content);
     stack->size--;
     return ret;
 }
 
 // Return value at the head of the stack
 void *cdsc_stack_peek(struct cdsc_stack *stack) {
-    void *ret = cdsc_linkedlist_getindexfromhead(stack->content, 0);
+    void *ret = cdsc_doublylinkedlist_getindexfromhead(stack->content, 0);
     return ret;
 }
 
@@ -43,7 +43,7 @@ struct cdsc_stack *cdsc_stack_merge(struct cdsc_stack *stack1,
     if (st == NULL) {
 	return NULL;
     }
-    st->content = cdsc_linkedlist_merge(stack1->content, stack2->content);
+    st->content = cdsc_doublylinkedlist_merge(stack1->content, stack2->content);
     if (st->content == NULL) {
 	return NULL;
     }
