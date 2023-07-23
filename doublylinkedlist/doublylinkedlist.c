@@ -332,6 +332,19 @@ int cdsc_doublylinkedlist_foreach(struct cdsc_doublylinkedlist *list,
     }
     return 1;
 }
+// Run a function for each member of a doublylinkedlist.
+int cdsc_doublylinkedlist_foreach_reverse(struct cdsc_doublylinkedlist *list,
+				  void (*action)(), void *param) {
+    if (LIST_EMPTY) {
+	return -1;
+    }
+    struct cdsc_doublylinkedlist_node *cur = list->tail;
+    while (cur != NULL) {
+	action(cur, param);
+	cur = cur->previous;
+    }
+    return 1;
+}
 
 struct cdsc_doublylinkedlist_node *cdsc_doublylinkedlist_node_at(struct
 								 cdsc_doublylinkedlist
