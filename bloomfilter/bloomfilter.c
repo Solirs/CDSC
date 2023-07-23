@@ -4,7 +4,7 @@ struct cdsc_bloomfilter* cdsc_bloomfilter_create(int size){
     struct cdsc_bloomfilter* ret = malloc(sizeof(struct cdsc_bloomfilter));
     ret->size = size;
     ret->bitarray = malloc(size/8 + 1);
-
+    ret->numhfuncs = 0;
     return ret;
 }
 
@@ -17,7 +17,7 @@ void cdsc_bloomfilter_add(struct cdsc_bloomfilter* bf, void* data){
 
     int i = 0;
     while (1){
-        if (bf->hashfuncs[i] == 0){
+        if (i == bf->numhfuncs){
             break;
         }
         cdsc_bitarray_set1(bf->bitarray, bf->hashfuncs[i](data));
@@ -28,7 +28,7 @@ void cdsc_bloomfilter_add(struct cdsc_bloomfilter* bf, void* data){
 int cdsc_bloomfilter_check(struct cdsc_bloomfilter* bf, void* data){
     int i = 0;
     while (1){
-        if (bf->hashfuncs[i] == 0){
+        if (i == bf->numhfuncs){
             return 1;
         }
         if (cdsc_bitarray_is1(bf->bitarray, bf->hashfuncs[i](data))){
@@ -42,8 +42,9 @@ int cdsc_bloomfilter_check(struct cdsc_bloomfilter* bf, void* data){
 void cdsc_bloomfilter_addhashfun(struct cdsc_bloomfilter* bf, int (*hashfun)(void*)){
     int i = 0;
     while (1){
-        if (bf->hashfuncs[i] == 0){
+        if (i == bf->numhfuncs){
             bf->hashfuncs[i] = hashfun;
+            bf->numhfuncs++;
             return;
         }else{
             i++;

@@ -4,11 +4,13 @@
 #include<stdlib.h>
 #include "../bitarray/bitarray.h"
 
+typedef int (*func_type)(void*);
+
 struct cdsc_bloomfilter{
     int size;
     int32_t *bitarray;
-    int (*hashfuncs[255])(void*);
-
+    int numhfuncs;
+    func_type hashfuncs[255];
 };
 
 struct cdsc_bloomfilter* cdsc_bloomfilter_create(int size);
