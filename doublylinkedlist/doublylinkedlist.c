@@ -525,6 +525,7 @@ int cdsc_doublylinkedlist_remove_node_if_contains(struct cdsc_doublylinkedlist *
 
 	    } else {
 		prev->next = cur->next;
+		cur->next->previous = prev;
 		free(cur);
 	    }
 	} else {
