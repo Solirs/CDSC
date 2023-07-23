@@ -7,9 +7,16 @@ run:
 	./bloomfilter
 	make clean
 	
+
+objectbitarray:
+	$(MAKE) -C ../bitarray object
+	mv ../bitarray/libbitarray.o .
+
+
 object:
+	make objectbitarray
 	$(CC) $(CFLAGS) -c bloomfilter.c -Wall -Wextra -o libbloomfilter.o
-	ar rcs libbloomfilter.a libbloomfilter.o
+	ar rcs libbloomfilter.a libbloomfilter.o libbitarray.o
 
 clean:
 	-rm libbloomfilter.a
