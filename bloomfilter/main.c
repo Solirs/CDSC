@@ -67,7 +67,16 @@ int main(){
     printf("%d\n", cdsc_bloomfilter_check(filter, str));
     printf("%d\n", cdsc_bloomfilter_check(filter, "Lorem ipsum dolor sit amet, consectetur adipiscing"));
     printf("%d\n", cdsc_bloomfilter_check(filter, "I am not in the bloom filter"));
+    printf("%d\n", cdsc_bloomfilter_check(filter, "heyy :33"));
+    printf("%d\n", cdsc_bloomfilter_check(filter, "This is not in the bloom filter"));
 
+    // Expected output: 
+    // 1
+    // 1
+    // 0
+    // 1
+    // 0
+    
     /*while (1){  
         printf("Input a string: ");
         fgets(str, sizeof(str), stdin); 
