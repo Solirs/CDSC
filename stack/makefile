@@ -3,13 +3,13 @@ build:
 	$(CC) $(CFLAGS) main.c libstack.a  -o stack
 
 objectlist:
-	$(MAKE) -C ../linkedlist object
-	mv ../linkedlist/liblinkedlist.o .
+	$(MAKE) -C ../doublylinkedlist object
+	mv ../doublylinkedlist/libdoublylinkedlist.o .
 
 object:
 	make objectlist
 	$(CC) $(CFLAGS) -c stack.c -Wall -Wextra -o libstack.o  
-	ar rcs libstack.a libstack.o liblinkedlist.o
+	ar rcs libstack.a libstack.o libdoublylinkedlist.o
 
 clean:
 	-rm *.a
