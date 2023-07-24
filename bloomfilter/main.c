@@ -3,15 +3,14 @@
 
 #define PRIME 1099511628211UL
 
-uint32_t x17(const void * key, int len, uint32_t h)
+
+uint32_t DJB2_hash(const uint8_t *str)
 {
-    // Source: https://github.com/aappleby/smhasher/blob/master/src/Hashes.cpp
-    const uint8_t * data = (const uint8_t*)key;
-    for (int i = 0; i < len; ++i)
-    {
-        h = 17 * h + (data[i] - ' ');
-    }
-    return h ^ (h >> 16);
+    uint32_t hash = 5381;
+    uint8_t c;
+    while ((c = *str++))
+        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+    return hash;
 }
 
 uint32_t crc32b(const uint8_t *str) {
@@ -57,8 +56,7 @@ int main(){
     cdsc_bloomfilter_addhashfun(filter, crc32b);
     cdsc_bloomfilter_addhashfun(filter, MurmurOAAT_32);
     cdsc_bloomfilter_addhashfun(filter, KR_v2_hash);
-    cdsc_bloomfilter_addhashfun(filter, x17);
-
+    cdsc_bloomfilter_addhashfun(filter, DJB2_hash);
     char *str = "Hello";
     cdsc_bloomfilter_add(filter, str);
     cdsc_bloomfilter_add(filter, "Lorem ipsum dolor sit amet, consectetur adipiscing");
@@ -76,7 +74,7 @@ int main(){
     // 0
     // 1
     // 0
-    
+
     /*while (1){  
         printf("Input a string: ");
         fgets(str, sizeof(str), stdin); 
