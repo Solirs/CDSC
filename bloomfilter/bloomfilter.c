@@ -5,7 +5,7 @@
 struct cdsc_bloomfilter* cdsc_bloomfilter_create(int size){
     struct cdsc_bloomfilter* ret = malloc(sizeof(struct cdsc_bloomfilter));
     ret->size = size;
-    ret->bitarray = calloc(size/32,size/8 + 1);
+    ret->bitarray = calloc(size/32, sizeof(int32_t));
     ret->numhfuncs = 0;
     return ret;
 }
