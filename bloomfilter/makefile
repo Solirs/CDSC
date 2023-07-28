@@ -15,7 +15,7 @@ objectbitarray:
 
 object:
 	make objectbitarray
-	$(CC) $(CFLAGS) -c bloomfilter.c -Wall -Wextra -o libbloomfilter.o
+	$(CC) $(CFLAGS) -c bloomfilter.c -Wall -Wextra -lm -o libbloomfilter.o
 	ar rcs libbloomfilter.a libbloomfilter.o libbitarray.o
 
 clean:

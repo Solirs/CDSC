@@ -1,99 +1,55 @@
 #include <stdio.h>
 #include "bloomfilter.h"
+#include <string.h>
+#include <time.h>
+#define ASCII_START 32
+#define ASCII_END 126
 
-#define PRIME 1099511628211UL
-
-
-uint32_t DJB2_hash(const uint8_t *str)
-{
-    uint32_t hash = 5381;
-    uint8_t c;
-    while ((c = *str++))
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-    return hash;
-}
-
-uint32_t crc32b(const uint8_t *str) {
-    // Source: https://stackoverflow.com/a/21001712
-    unsigned int byte, crc, mask;
-    int i = 0, j;
-    crc = 0xFFFFFFFF;
-    while (str[i] != 0) {
-        byte = str[i];
-        crc = crc ^ byte;
-        for (j = 7; j >= 0; j--) {
-            mask = -(crc & 1);
-            crc = (crc >> 1) ^ (0xEDB88320 & mask);
-        }
-        i = i + 1;
+char* randstring(int size) {
+    int i;
+    char *res = malloc(size + 1);
+    for(i = 0; i < size; i++) {
+        res[i] = (char) (rand()%(ASCII_END-ASCII_START))+ASCII_START;
     }
-    return ~crc;
-}
-uint32_t MurmurOAAT_32(const char* str)
-{
-    long int h = PRIME;
-    // One-byte-at-a-time hash based on Murmur's mix
-    // Source: https://github.com/aappleby/smhasher/blob/master/src/Hashes.cpp
-    for (; *str; ++str) {
-        h ^= *str;
-        h *= 0x5bd1e995;
-        h ^= h >> 15;
-    }
-    return h;
-}
-uint32_t KR_v2_hash(const char *s)
-{
-    // Source: https://stackoverflow.com/a/45641002/5407270
-    // a.k.a. Java String hashCode()
-    uint32_t hashval = 0;
-    for (hashval = 0; *s != '\0'; s++)
-        hashval = *s + 31*hashval;
-    return hashval;
+    res[i] = '\0';
+    return res;
 }
 
 int main(){
-    struct cdsc_bloomfilter *filter = cdsc_bloomfilter_create(8900);
-    cdsc_bloomfilter_addhashfun(filter, crc32b);
-    cdsc_bloomfilter_addhashfun(filter, MurmurOAAT_32);
-    cdsc_bloomfilter_addhashfun(filter, KR_v2_hash);
-    cdsc_bloomfilter_addhashfun(filter, DJB2_hash);
-    char *str = "Hello";
-    cdsc_bloomfilter_add(filter, str);
-    cdsc_bloomfilter_add(filter, "Lorem ipsum dolor sit amet, consectetur adipiscing");
-    cdsc_bloomfilter_add(filter, "heyy :33");
+    srand(time(0));
+    struct cdsc_bloomfilter *filter = cdsc_bloomfilter_create(200, 0.01);
+    printf("HASH FUNCTIONS: %d\n", filter->numhfuncs);
+    printf("SIZE (bits): %d\n", filter->size);
 
-    printf("%d\n", cdsc_bloomfilter_check(filter, str));
-    printf("%d\n", cdsc_bloomfilter_check(filter, "Lorem ipsum dolor sit amet, consectetur adipiscing"));
-    printf("%d\n", cdsc_bloomfilter_check(filter, "I am not in the bloom filter"));
-    printf("%d\n", cdsc_bloomfilter_check(filter, "heyy :33"));
-    printf("%d\n", cdsc_bloomfilter_check(filter, "This is not in the bloom filter"));
+    //cdsc_bloomfilter_add(filter, str, strlen(str));
+    for (int i = 0; i < 200; i++){
+        char* s = randstring(10);
+        cdsc_bloomfilter_add(filter, s, strlen(s));
+        free(s);
+    }
 
-    // Expected output: 
-    // 1
-    // 1
-    // 0
-    // 1
-    // 0
 
-    /*while (1){  
-        printf("Input a string: ");
-        fgets(str, sizeof(str), stdin); 
-        cdsc_bloomfilter_add(filter, trim(str));
-        printf("\n");
-        printf("Lookup bloom filter: ");
-        fgets(str, sizeof(str), stdin); 
-        if (cdsc_bloomfilter_check(filter, trim(str))){
-            printf("The string is possibly in the set\n");
+    int ones = 0;
+    int zeroes = 0;
+
+    for (int i = 0; i < 200; i++){
+        char* s = randstring(24);
+        int res = cdsc_bloomfilter_check(filter, s, strlen(s));
+        free(s);
+        //printf("%s: %d\n", s, res);
+
+        if (res){
+            ones++;
         }else{
-            printf("The string is definitely not in the set\n");
+            zeroes++;
         }
-        printf("Exit?: ");
-        fgets(str, sizeof(str), stdin); 
-        printf("%s", str);
-        if (trim(str) != "n"){
-            break;
-        }
-    }*/
+
+    }
+
+    printf("FALSE POSITIVES: %d\n", ones);
+    printf("CORRECT: %d\n", zeroes);
+    double p = (double)ones/(ones + zeroes);
+    printf("FALSE POSITIVE RATIO: %f\%\n",p*100);
     cdsc_bloomfilter_nuke(filter);
     return 0;
 }
