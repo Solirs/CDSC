@@ -9,7 +9,7 @@
 
 int main() {
 	char a[] = "bob";
-	char b[] = "lore";
+	char b[] = "lor";
 
 	int size_a = sizeof(a)/sizeof(a[0]) - 1;
 	int size_b = sizeof(b)/sizeof(b[0]) - 1;

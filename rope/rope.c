@@ -20,8 +20,8 @@ rope* cdsc_rope_init(rope *node, char c[], int left, int right, int leaf_chars) 
         r->count = (right - left);
         int j = 0;
         r->string = (char*) malloc(sizeof(char)*leaf_chars);
-        for (int i = left; i <= right; i++)
-            r->string[j++] = c[i];
+        for (int i = left; i < right; i++)
+        r->string[j++] = c[i];
     }
     return r;
 }
@@ -63,7 +63,7 @@ char *cdsc_rope_concat(rope *first, rope *second, int n) {
     r->count = n;
     r->string = NULL;
 
-    int buff_size = first->count + second->count + 1;
+    int buff_size = first->count + second->count + 3;
     char *buff = (char *) malloc(sizeof(char) * buff_size);
     int ind = 0;
     append(r, buff, &ind);
