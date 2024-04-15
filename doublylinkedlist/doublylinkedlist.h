@@ -30,6 +30,7 @@ struct qs_ret{
 	
 };
 int cdsc_doublylinkedlist_inserthead(struct cdsc_doublylinkedlist *list, void* data);
+int cdsc_doublylinkedlist_insert(struct cdsc_doublylinkedlist *list, void* data, int at);
 int cdsc_doublylinkedlist_inserttail(struct cdsc_doublylinkedlist *list, void* data);
 
 void* cdsc_doublylinkedlist_poptail(struct cdsc_doublylinkedlist *list);

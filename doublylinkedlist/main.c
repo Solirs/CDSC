@@ -48,25 +48,21 @@ int main() {
     // Test driver code
     struct cdsc_doublylinkedlist *list = cdsc_doublylinkedlist_make_dll();
     int i = 0;
-    for (i = 0; i < 1000000; i++) {
+    for (i = 0; i < 10; i++) {
 	cdsc_doublylinkedlist_append(list, 16);
 
     }
 
+    
+    cdsc_doublylinkedlist_insert(list, 10, 10);
+
     printf("%d\n", list->size);
-
-    for (i = 0; i < 10; i++) {
-	cdsc_doublylinkedlist_at(list, 700000);
-    }
-
-
 
 
 
     //cdsc_doublylinkedlist_qsort(list, NULL);
 
-    printf("Sorted\n");
-    //cdsc_doublylinkedlist_foreach(list, printlist, NULL);
+    cdsc_doublylinkedlist_foreach(list, printlist, NULL);
     cdsc_doublylinkedlist_nuke(list);
     free(list);
 

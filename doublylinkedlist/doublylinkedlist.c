@@ -536,3 +536,39 @@ int cdsc_doublylinkedlist_remove_node_if_contains(struct cdsc_doublylinkedlist *
     }
     return 1;
 }
+
+
+// Insert data at a specific index, inserting at an index i will insert the new element right before the element that was present there.
+// For example, inserting at 0 is the same as cdsc_doublylinkedlist_inserthead.
+// Inserting at index 1 will insert the element between node 0 and 1
+// TODO: Handle edge cases
+int cdsc_doublylinkedlist_insert(struct cdsc_doublylinkedlist *list, void* data, int at){
+		struct cdsc_doublylinkedlist_node *ins =
+		malloc(sizeof(struct cdsc_doublylinkedlist_node));
+		ins->data = data;
+		struct cdsc_doublylinkedlist_node* nod = cdsc_doublylinkedlist_node_at(list, at);
+		if (at > list->size){
+			return -1;
+		} else if (at == list->size){
+			cdsc_doublylinkedlist_appendnode(list, ins);
+			list->size++;
+			return 1;
+		}
+		
+		struct cdsc_doublylinkedlist_node* node_before = nod->previous;
+		
+		if (node_before != NULL){
+			node_before->next = ins;
+			ins->previous = node_before;
+		}else{
+			list->head = ins;
+		}
+		
+		nod->previous = ins;
+		ins->next = nod;
+		
+		list->size++;
+		
+		return 1;
+		
+}
