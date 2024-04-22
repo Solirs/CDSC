@@ -22,25 +22,20 @@ int main() {
 	struct cdsc_doublylinkedlist* ls = ((struct cdsc_doublylinkedlist*)(list->layers->head->next->data));
 	printf("SIZE %d\n", ls->size);
 	
-	struct cdsc_sl_data *dd = malloc(sizeof(struct cdsc_sl_data));
 
-
-	cdsc_sl_insert(list, 0);
 
 	cdsc_sl_insert(list, 1);
-	cdsc_sl_insert(list, 2);
-	cdsc_sl_insert(list, 4);
 	cdsc_sl_insert(list, 6);
-	cdsc_sl_insert(list, 10);
-	cdsc_sl_insert(list, 12);
-	cdsc_sl_insert(list, 14);
+	
+	cdsc_sl_insert(list, 4);
 
-	cdsc_sl_insert(list, 11);
+	
+	cdsc_sl_insert(list, 0);
+
 	cdsc_sl_insert(list, -1);
-	
+	cdsc_sl_insert(list, 12);
+	cdsc_sl_insert(list, 7);
 
-
-	
 	printf("LIST 1:\n");
 	printf("SIZE %d\n", list->layers->size);
 		
@@ -53,5 +48,6 @@ int main() {
 			printf("\n");
 	}
 	
+	cdsc_sl_nuke(list);
     return 0;
 }

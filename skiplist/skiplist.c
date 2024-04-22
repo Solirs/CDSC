@@ -31,11 +31,9 @@ struct cdsc_sl* cdsc_sl_init(int layers, double layer_up_chance){
 			// We are inserting a null element at the top of each layer that will be smaller than all elements.
 			// It's not supposed to be accessible and is mainly here as a starting point for operations.
 			struct cdsc_sl_data* null_element = malloc(sizeof(struct cdsc_sl_data));
-			float nn = NAN;
 			null_element->data = NULL;
 			null_element->above = NULL;
 			null_element->below = NULL;
-			null_element->invis = true;
 			cdsc_doublylinkedlist_append(app, null_element);
 			
 			
@@ -52,6 +50,29 @@ struct cdsc_sl* cdsc_sl_init(int layers, double layer_up_chance){
 }
 
 
+void _cdsc_sl_nuke_node(struct cdsc_doublylinkedlist_node* nd){
+		struct cdsc_sl_data* data = ((struct cdsc_sl_data*)nd->data);
+		
+		free(data);
+		free(nd);
+}
+void _cdsc_sl_nuke_list(struct cdsc_doublylinkedlist_node* list_node){
+		struct cdsc_doublylinkedlist* list = ((struct cdsc_doublylinkedlist*)list_node->data);
+		cdsc_doublylinkedlist_foreach(list, _cdsc_sl_nuke_node, NULL);
+		free(list);
+		
+}
+int cdsc_sl_nuke(cdsc_sl* skiplist){
+		struct cdsc_doublylinkedlist_node* head = skiplist->layers->head;
+		while(head != NULL){
+			_cdsc_sl_nuke_list(head);
+			head = head->next;
+		}
+		cdsc_doublylinkedlist_nuke(skiplist->layers);
+		free(skiplist->layers);
+		free(skiplist);
+		return 1;
+}
 
 int cdsc_sl_insert(struct cdsc_sl* skiplist, int data){
 
@@ -66,26 +87,30 @@ int cdsc_sl_insert(struct cdsc_sl* skiplist, int data){
 	new_data->data = data;
 	new_data->below = NULL;
 	new_data->above = NULL;
-	new_data->invis = false;
-
 
 
 	
 	
 	while (curr_node != NULL){
 			int val = cdsc_sl_data_from_node(curr_node);
-			bool invis = ((struct cdsc_sl_data*)(curr_node->data))->invis;
-			
+			int invis = 0;
+			if (curr_node->previous == NULL){
+				invis = 1;
+			}			
 			// We move until the value to be inserted is superior to the current pointer.
-			while ((invis == true || data > val) && curr_node->next != NULL){
+			while ((invis == 1 || data > val) && curr_node->next != NULL){
+
+				
 				curr_node = curr_node->next;
-				val = cdsc_sl_data_from_node(curr_node);				
+				val = cdsc_sl_data_from_node(curr_node);	
+				invis = 0;			
 				
 			}
 			
+			
 			if (((struct cdsc_sl_data*)(curr_node->data))->below == NULL){
 				// If we are at layer 1 and there is no node after we append.
-				if (curr_node->next == NULL){
+				if ((curr_node->next == NULL && data > val) || invis == 1){
 					cdsc_doublylinkedlist_append(level_1, new_data);	
 					new_node = level_1->tail;					
 				}else{
@@ -94,7 +119,7 @@ int cdsc_sl_insert(struct cdsc_sl* skiplist, int data){
 				}
 				break;
 			}else{
-				if (invis == false){
+				if (invis == 0){
 					curr_node = ((struct cdsc_sl_data*)curr_node->previous->data)->below;
 				}else{
 					curr_node = ((struct cdsc_sl_data*)curr_node->data)->below;					
