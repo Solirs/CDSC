@@ -3,8 +3,8 @@ build:
 	$(CC) $(CFLAGS) main.c libtree.a -o tree
 
 objectlist:
-	$(MAKE) -C ../linkedlist object
-	mv ../linkedlist/liblinkedlist.o .
+	$(MAKE) -C ../doublylinkedlist object
+	mv ../doublylinkedlist/libdoublylinkedlist.o .
 objectstack:
 	$(MAKE) -C ../stack object
 	mv ../stack/libstack.o .
@@ -12,7 +12,7 @@ object:
 	make objectstack
 	make objectlist
 	$(CC) $(CFLAGS) -c tree.c -Wall -Wextra -o libtree.o  
-	ar ruv libtree.a libtree.o libstack.o liblinkedlist.o
+	ar ruv libtree.a libtree.o libstack.o libdoublylinkedlist.o
 
 clean:
 	-rm *.a

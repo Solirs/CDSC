@@ -30,7 +30,7 @@ struct qs_ret{
 	
 };
 int cdsc_doublylinkedlist_inserthead(struct cdsc_doublylinkedlist *list, void* data);
-int cdsc_doublylinkedlist_insert(struct cdsc_doublylinkedlist *list, void* data, int at);
+struct cdsc_doublylinkedlist_node* cdsc_doublylinkedlist_insert(struct cdsc_doublylinkedlist *list, void* data, int at);
 int cdsc_doublylinkedlist_inserttail(struct cdsc_doublylinkedlist *list, void* data);
 
 void* cdsc_doublylinkedlist_poptail(struct cdsc_doublylinkedlist *list);
@@ -62,4 +62,6 @@ int cdsc_doublylinkedlist_foreach_reverse(struct cdsc_doublylinkedlist *list,
 void cdsc_doublylinkedlist_concat(struct cdsc_doublylinkedlist
 					      *list1, struct cdsc_doublylinkedlist
 					      *list2);
+int cdsc_doublylinkedlist_insertnode(struct cdsc_doublylinkedlist *list, struct cdsc_doublylinkedlist_node* ins, int at);
+					      
 #endif

@@ -542,10 +542,41 @@ int cdsc_doublylinkedlist_remove_node_if_contains(struct cdsc_doublylinkedlist *
 // For example, inserting at 0 is the same as cdsc_doublylinkedlist_inserthead.
 // Inserting at index 1 will insert the element between node 0 and 1
 // TODO: Handle edge cases
-int cdsc_doublylinkedlist_insert(struct cdsc_doublylinkedlist *list, void* data, int at){
+struct cdsc_doublylinkedlist_node* cdsc_doublylinkedlist_insert(struct cdsc_doublylinkedlist *list, void* data, int at){
 		struct cdsc_doublylinkedlist_node *ins =
 		malloc(sizeof(struct cdsc_doublylinkedlist_node));
 		ins->data = data;
+		struct cdsc_doublylinkedlist_node* nod = cdsc_doublylinkedlist_node_at(list, at);
+		if (at > list->size){
+			return NULL;
+		} else if (at == list->size){
+			cdsc_doublylinkedlist_appendnode(list, ins);
+			list->size++;
+			return ins;
+		}
+		
+		struct cdsc_doublylinkedlist_node* node_before = nod->previous;
+		
+		if (node_before != NULL){
+			node_before->next = ins;
+			ins->previous = node_before;
+		}else{
+			list->head = ins;
+		}
+		
+		nod->previous = ins;
+		ins->next = nod;
+		
+		list->size++;
+		
+		return ins;
+		
+}
+
+// Same as cdsc_doublylinkedlist_insert but to directly insert a node
+// TODO: Handle edge cases
+int cdsc_doublylinkedlist_insertnode(struct cdsc_doublylinkedlist *list, struct cdsc_doublylinkedlist_node* ins, int at){
+
 		struct cdsc_doublylinkedlist_node* nod = cdsc_doublylinkedlist_node_at(list, at);
 		if (at > list->size){
 			return -1;
@@ -572,3 +603,54 @@ int cdsc_doublylinkedlist_insert(struct cdsc_doublylinkedlist *list, void* data,
 		return 1;
 		
 }
+
+
+// Insert a new node containing data right after a given node.
+// TODO: Handle edge cases
+struct cdsc_doublylinkedlist_node* cdsc_doublylinkedlist_insert_after(struct cdsc_doublylinkedlist *list, struct cdsc_doublylinkedlist_node* at, void* data){
+		struct cdsc_doublylinkedlist_node *ins =
+		malloc(sizeof(struct cdsc_doublylinkedlist_node));
+		ins->data = data;
+
+		struct cdsc_doublylinkedlist_node* node_after = at->next;
+		at->next = ins;
+		ins->previous = at;
+		if (node_after != NULL){
+				node_after->previous = ins;
+				ins->next = node_after;
+				
+		}else{	
+			list->tail = ins;
+		}
+		
+		
+		list->size++;
+		
+		return ins;
+		
+}
+
+// Insert a new node containing data right before a given node.
+// TODO: Handle edge cases
+struct cdsc_doublylinkedlist_node* cdsc_doublylinkedlist_insert_before(struct cdsc_doublylinkedlist *list, struct cdsc_doublylinkedlist_node* at, void* data){
+		struct cdsc_doublylinkedlist_node *ins =
+		malloc(sizeof(struct cdsc_doublylinkedlist_node));
+		ins->data = data;
+
+		struct cdsc_doublylinkedlist_node* node_before = at->previous;
+		at->previous = ins;
+		ins->next = at;
+		if (node_before != NULL){
+				node_before->next = ins;
+				ins->previous = node_before;
+		}else{	
+			list->head = ins;
+		}
+		
+		
+		list->size++;
+		
+		return ins;
+		
+}
+
