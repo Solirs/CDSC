@@ -506,6 +506,23 @@ void cdsc_doublylinkedlist_concat(struct cdsc_doublylinkedlist
     }
 
 }
+
+int cdsc_doublylinkedlist_remove_node(struct cdsc_doublylinkedlist* list, struct cdsc_doublylinkedlist_node* nod){
+	
+		list->size--;
+		
+		if (nod == list->head){
+			cdsc_doublylinkedlist_pophead(list);
+		} else if (nod == list->tail){
+			cdsc_doublylinkedlist_poptail(list);
+		}else{
+			nod->next->previous = nod->previous;
+			nod->previous->next = nod->next;
+			free(nod);
+		}
+		return 1;
+		
+}
 int cdsc_doublylinkedlist_remove_node_if_contains(struct cdsc_doublylinkedlist *list,
 					    void *key) {
     int i;

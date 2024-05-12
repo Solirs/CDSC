@@ -55,6 +55,7 @@ int cdsc_doublylinkedlist_qsort(struct cdsc_doublylinkedlist *list, int (*action
 struct cdsc_doublylinkedlist *cdsc_doublylinkedlist_merge(struct cdsc_doublylinkedlist
 					      *list1, struct cdsc_doublylinkedlist
 					      *list2);
+int cdsc_doublylinkedlist_remove_node(struct cdsc_doublylinkedlist* list, struct cdsc_doublylinkedlist_node* nod);					      
 int cdsc_doublylinkedlist_remove_node_if_contains(struct cdsc_doublylinkedlist *list,
 					    void *key);
 int cdsc_doublylinkedlist_foreach_reverse(struct cdsc_doublylinkedlist *list,
