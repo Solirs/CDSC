@@ -254,6 +254,7 @@ int cdsc_doublylinkedlist_appendnode(struct cdsc_doublylinkedlist *list, struct 
 	list->tail->next = node;
 	list->tail = node;
     }
+    list->size++;
     return 1;
 
 }
