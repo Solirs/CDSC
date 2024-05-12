@@ -24,17 +24,20 @@ int main() {
 	
 
 
-	cdsc_sl_insert(list, 1);
-	cdsc_sl_insert(list, 6);
+	cdsc_sl_insert(list, 1,NULL);
+	cdsc_sl_insert(list, 6,NULL);
 	
-	cdsc_sl_insert(list, 4);
+	cdsc_sl_insert(list, 4,NULL);
 
 	
-	cdsc_sl_insert(list, 0);
+	cdsc_sl_insert(list, 0,NULL);
 
-	cdsc_sl_insert(list, -1);
-	cdsc_sl_insert(list, 12);
-	cdsc_sl_insert(list, 7);
+	cdsc_sl_insert(list, -1,NULL);
+	cdsc_sl_insert(list, 12,NULL);
+	cdsc_sl_insert(list, 7,NULL);
+	
+	struct cdsc_sl_data* sevn = cdsc_sl_search(list, 7,NULL);
+ 	
 
 	printf("LIST 1:\n");
 	printf("SIZE %d\n", list->layers->size);

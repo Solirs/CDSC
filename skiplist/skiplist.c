@@ -1,5 +1,49 @@
 #include "skiplist.h"
 
+// Search a skiplist for a specific key and return the node that contains it
+// By default it will look for the key in the node's data, however you can supply it a custom key function
+struct cdsc_sl_data* cdsc_sl_search(cdsc_sl* skiplist, int key, int (*keyfn)()){
+
+		struct cdsc_doublylinkedlist_node* curr_node = ((struct cdsc_doublylinkedlist*)(skiplist->layers->tail->data))->head;
+		if (keyfn == NULL){
+				keyfn = cdsc_sl_data_from_node;
+		}
+		while (curr_node != NULL){
+			int val = keyfn(curr_node);
+			int invis = 0;
+			if (curr_node->previous == NULL){
+				invis = 1;
+			}			
+			
+			// We move until the value to be inserted is superior to the current pointer.
+			while ((invis == 1 || key > val) && curr_node->next != NULL){
+
+				
+				curr_node = curr_node->next;
+				val = keyfn(curr_node);
+				invis = 0;			
+				
+			}
+			
+			
+			if (((struct cdsc_sl_data*)(curr_node->data))->below == NULL){
+				if (key == val){
+					// We found the corresponding node
+					return curr_node->data;
+				}else if (curr_node->next == NULL){
+					// We did NOT find the corresponding node
+					return NULL;
+				}
+			}else{
+				if (invis == 0){
+					curr_node = ((struct cdsc_sl_data*)curr_node->previous->data)->below;
+				}else{
+					curr_node = ((struct cdsc_sl_data*)curr_node->data)->below;					
+				}
+			}
+				
+	}
+}
 
 int cdsc_sl_at(cdsc_sl* skiplist, int layer, int at){
 		struct cdsc_doublylinkedlist* layer_list = (struct cdsc_doublylinkedlist*)(cdsc_doublylinkedlist_at(skiplist->layers, layer));
@@ -74,7 +118,7 @@ int cdsc_sl_nuke(cdsc_sl* skiplist){
 		return 1;
 }
 
-int cdsc_sl_insert(struct cdsc_sl* skiplist, int data){
+int cdsc_sl_insert(struct cdsc_sl* skiplist, int data, int (*keyfn)()){
 
 
 	struct cdsc_doublylinkedlist_node* curr_node = ((struct cdsc_doublylinkedlist*)(skiplist->layers->tail->data))->head;
@@ -88,11 +132,13 @@ int cdsc_sl_insert(struct cdsc_sl* skiplist, int data){
 	new_data->below = NULL;
 	new_data->above = NULL;
 
-
+	if (keyfn == NULL){
+			keyfn = cdsc_sl_data_from_node;
+	}
 	
 	
 	while (curr_node != NULL){
-			int val = cdsc_sl_data_from_node(curr_node);
+			int val = keyfn(curr_node);
 			int invis = 0;
 			if (curr_node->previous == NULL){
 				invis = 1;
@@ -102,7 +148,7 @@ int cdsc_sl_insert(struct cdsc_sl* skiplist, int data){
 
 				
 				curr_node = curr_node->next;
-				val = cdsc_sl_data_from_node(curr_node);	
+				val = keyfn(curr_node);	
 				invis = 0;			
 				
 			}
@@ -163,7 +209,6 @@ int cdsc_sl_insert(struct cdsc_sl* skiplist, int data){
 				nd->below = new_node;
 				nd->above = NULL;
 				nd->data = data;
-				nd->invis = false;
 
 				// We insert the new node after curr_node
 				struct cdsc_doublylinkedlist_node* nn = cdsc_doublylinkedlist_insert_after(list, curr_node, nd);
