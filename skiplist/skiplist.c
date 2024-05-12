@@ -1,5 +1,37 @@
 #include "skiplist.h"
 
+int cdsc_sl_delete_one(cdsc_sl* skiplist, int key, int (*keyfn)()){
+		struct cdsc_doublylinkedlist_node* nod = _cdsc_sl_search_one_node(skiplist, key, keyfn);
+		cdsc_doublylinkedlist_remove_node(skiplist->layers->head, nod);
+		return 1;
+}
+
+
+int cdsc_sl_delete(cdsc_sl* skiplist, int key, int (*keyfn)()){
+		if (keyfn == NULL){
+				keyfn = cdsc_sl_data_from_node;
+		}
+		
+			
+		struct cdsc_doublylinkedlist_node* nod = _cdsc_sl_search_one_node(skiplist, key, keyfn);
+		int ref = keyfn(nod);
+		while (nod != NULL && keyfn(nod) == ref){
+			struct cdsc_doublylinkedlist_node* del = nod;
+			nod = nod->next;
+			
+			struct cdsc_doublylinkedlist_node* curr_layer = skiplist->layers->head;
+			struct cdsc_doublylinkedlist_node* curr_node = del;
+			while(curr_layer != NULL && curr_node != NULL){
+				struct cdsc_doublylinkedlist_node* above = ((cdsc_sl_data*)(curr_node->data))->above;
+				
+				cdsc_doublylinkedlist_remove_node((struct cdsc_doublylinkedlist*)(curr_layer->data), curr_node);
+				curr_layer = curr_layer->next;
+				curr_node = above;
+			}
+		}
+		
+		return 1;
+}
 
 struct cdsc_doublylinkedlist_node* _cdsc_sl_search_one_node(cdsc_sl* skiplist, int key, int (*keyfn)()){
 

@@ -11,7 +11,7 @@ void printlist(struct cdsc_doublylinkedlist_node *nd) {
 
 int main() {
 
-	cdsc_sl* list = cdsc_sl_init(4, 0.5);
+	cdsc_sl* list = cdsc_sl_init(5, 0.75);
 	struct cdsc_doublylinkedlist* last_lv = ((struct cdsc_doublylinkedlist*)(list->layers->tail->data));
 	struct cdsc_doublylinkedlist* level_1 = (struct cdsc_doublylinkedlist*)(list->layers->head->data);
 	
@@ -43,6 +43,8 @@ int main() {
 
 	printf("LIST 1:\n");
 	printf("SIZE %d\n", list->layers->size);
+	
+	cdsc_sl_delete(list, 6, NULL);
 		
 
 	printf("CONTENTS: \n");
