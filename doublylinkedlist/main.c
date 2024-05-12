@@ -55,9 +55,12 @@ int main() {
 
     
     cdsc_doublylinkedlist_insert(list, 10, 10);
+    cdsc_doublylinkedlist_insert(list, 10, 10);
+    cdsc_doublylinkedlist_insert(list, 10, 10);
 
     printf("%d\n", list->size);
 
+	cdsc_doublylinkedlist_remove(list, 10);
 
 
     //cdsc_doublylinkedlist_qsort(list, NULL);

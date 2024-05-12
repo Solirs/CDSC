@@ -252,6 +252,7 @@ int cdsc_doublylinkedlist_appendnode(struct cdsc_doublylinkedlist *list, struct 
 	list->tail = node;
     } else {
 	list->tail->next = node;
+	node->previous = list->tail;
 	list->tail = node;
     }
     list->size++;
@@ -523,37 +524,28 @@ int cdsc_doublylinkedlist_remove_node(struct cdsc_doublylinkedlist* list, struct
 		return 1;
 		
 }
-int cdsc_doublylinkedlist_remove_node_if_contains(struct cdsc_doublylinkedlist *list,
+
+
+// Like python's list.remove(), remove all nodes in the list containing a piece of data.
+int cdsc_doublylinkedlist_remove(struct cdsc_doublylinkedlist *list,
 					    void *key) {
-    int i;
-    struct cdsc_doublylinkedlist_node *cur = list->head;
-    struct cdsc_doublylinkedlist_node *prev = NULL;
-	if (cur->data == key){
-		cdsc_doublylinkedlist_pophead(list);
-		return 1;
-	}else{
-		prev = cur;
-		cur = cur->next;
-	}
-
-    while (cur != NULL) {
-	if (cur->data == key) {
-	    if (cur == list->tail) {
-			cdsc_doublylinkedlist_poptail(list);
-
-	    } else {
-		prev->next = cur->next;
-		cur->next->previous = prev;
-		free(cur);
-	    }
-	} else {
-	    prev = cur;
-	    cur = cur->next;
-	}
-
+    if (LIST_EMPTY) {
+	return -1;
     }
-    return 1;
+    struct cdsc_doublylinkedlist_node *cur = list->head;
+    while (cur != NULL) {
+	
+	struct cdsc_doublylinkedlist_node* nxt = cur->next;
+	if (cur->data == key){
+		cdsc_doublylinkedlist_remove_node(list, cur);
+	}
+	cur = nxt;
+    }
+    return 1;							
+	
 }
+
+
 
 
 // Insert data at a specific index, inserting at an index i will insert the new element right before the element that was present there.
@@ -569,7 +561,6 @@ struct cdsc_doublylinkedlist_node* cdsc_doublylinkedlist_insert(struct cdsc_doub
 			return NULL;
 		} else if (at == list->size){
 			cdsc_doublylinkedlist_appendnode(list, ins);
-			list->size++;
 			return ins;
 		}
 		
