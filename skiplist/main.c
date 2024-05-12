@@ -26,6 +26,8 @@ int main() {
 
 	cdsc_sl_insert(list, 1,NULL);
 	cdsc_sl_insert(list, 6,NULL);
+	cdsc_sl_insert(list, 6,NULL);
+
 	
 	cdsc_sl_insert(list, 4,NULL);
 
@@ -36,8 +38,8 @@ int main() {
 	cdsc_sl_insert(list, 12,NULL);
 	cdsc_sl_insert(list, 7,NULL);
 	
-	struct cdsc_sl_data* sevn = cdsc_sl_search(list, 7,NULL);
- 	
+	struct cdsc_doublylinkedlist* sevn = cdsc_sl_search(list, 6,NULL);
+ 	printf("RESULT: %d\n", sevn->size);
 
 	printf("LIST 1:\n");
 	printf("SIZE %d\n", list->layers->size);

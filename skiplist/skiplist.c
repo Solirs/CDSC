@@ -1,8 +1,7 @@
 #include "skiplist.h"
 
-// Search a skiplist for a specific key and return the node that contains it
-// By default it will look for the key in the node's data, however you can supply it a custom key function
-struct cdsc_sl_data* cdsc_sl_search(cdsc_sl* skiplist, int key, int (*keyfn)()){
+
+struct cdsc_doublylinkedlist_node* _cdsc_sl_search_one_node(cdsc_sl* skiplist, int key, int (*keyfn)()){
 
 		struct cdsc_doublylinkedlist_node* curr_node = ((struct cdsc_doublylinkedlist*)(skiplist->layers->tail->data))->head;
 		if (keyfn == NULL){
@@ -29,7 +28,7 @@ struct cdsc_sl_data* cdsc_sl_search(cdsc_sl* skiplist, int key, int (*keyfn)()){
 			if (((struct cdsc_sl_data*)(curr_node->data))->below == NULL){
 				if (key == val){
 					// We found the corresponding node
-					return curr_node->data;
+					return curr_node;
 				}else if (curr_node->next == NULL){
 					// We did NOT find the corresponding node
 					return NULL;
@@ -42,6 +41,41 @@ struct cdsc_sl_data* cdsc_sl_search(cdsc_sl* skiplist, int key, int (*keyfn)()){
 				}
 			}
 				
+	}
+}
+
+// Search a skiplist for a specific key and return the node that contains it
+// By default it will look for the key in the node's data, however you can supply it a custom key function
+struct cdsc_sl_data* cdsc_sl_search_one(cdsc_sl* skiplist, int key, int (*keyfn)()){
+	if (keyfn == NULL){
+			keyfn = cdsc_sl_data_from_node;
+	}	
+	return (struct cdsc_sl_data*)(_cdsc_sl_search_one_node(skiplist, key, keyfn)->data);
+	
+}
+
+// Search a skiplist for a specific key and return ALL the nodes that contain it
+// By default it will look for the key in the node's data, however you can supply it a custom key function
+struct cdsc_doublylinkedlist* cdsc_sl_search(cdsc_sl* skiplist, int key, int (*keyfn)()){
+	if (keyfn == NULL){
+			keyfn = cdsc_sl_data_from_node;
+	}	
+	struct cdsc_doublylinkedlist* ret = cdsc_doublylinkedlist_make_dll();
+	
+	// We get the first node containing the searched key using _cdsc_sl_search_one_node and we look for any possible other nodes right after it
+	struct cdsc_doublylinkedlist_node* nod = _cdsc_sl_search_one_node(skiplist, key, keyfn);
+	
+	if (nod != NULL){
+		cdsc_doublylinkedlist_appendnode(ret, nod);
+		int ref = keyfn(nod);
+		while (nod->next != NULL && keyfn(nod->next) == ref){
+			cdsc_doublylinkedlist_appendnode(ret, nod->next);
+			nod = nod->next;
+		}
+		
+		return ret;
+	}else{
+		return NULL;
 	}
 }
 

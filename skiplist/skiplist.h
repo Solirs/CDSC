@@ -24,7 +24,8 @@ struct cdsc_sl_data{
 struct cdsc_sl* cdsc_sl_init(int layers, double layer_up_chance);
 int cdsc_sl_insert(struct cdsc_sl* skiplist, int data, int (*keyfn)());
 int cdsc_sl_at(cdsc_sl* skiplist, int layer, int at);
-struct cdsc_sl_data* cdsc_sl_search(cdsc_sl* skiplist, int key, int (*keyfn)()); 
+struct cdsc_sl_data* cdsc_sl_search_one(cdsc_sl* skiplist, int key, int (*keyfn)()); 
+struct cdsc_doublylinkedlist* cdsc_sl_search(cdsc_sl* skiplist, int key, int (*keyfn)()); 
 int cdsc_sl_data_from_node(struct cdsc_doublylinkedlist_node* nd);
 int cdsc_sl_nuke(cdsc_sl* skiplist);
 
