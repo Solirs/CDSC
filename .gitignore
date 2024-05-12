@@ -1,3 +1,7 @@
+# ides
+.vscode
+*.kdev4
+
 # Prerequisites
 *.d
 
